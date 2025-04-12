@@ -11,9 +11,10 @@ import ProjectIcon from "../icon/project";
 import Link from "next/link";
 
 type HeaderProps = {
-  type: string;
+  type?: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function Header({ type }: HeaderProps) {
   const[isDarkmode,setisDarkMode] = useState(false);
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function Header({ type }: HeaderProps) {
         <div className="transition duration-300">
           {/* In next js we use folder name */}
           <Link href="/picshow">
-            <PhotoIcon className="h-6 w-6 text-gray-500" />
+            <PhotoIcon />
           </Link>
         </div>
         <div className="transition duration-300">
