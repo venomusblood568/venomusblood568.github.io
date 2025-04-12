@@ -10,31 +10,32 @@ import BlogIcon from "../icon/blog";
 import ProjectIcon from "../icon/project";
 import Link from "next/link";
 
-type HeaderProps = {
-  type?: string;
-};
+export default function Header() {
+  const [isDarkmode, setisDarkMode] = useState(false);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function Header({ type }: HeaderProps) {
-  const[isDarkmode,setisDarkMode] = useState(false);
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme")
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const initialTheme = savedTheme ? savedTheme === 'dark' : systemTheme;
-    setisDarkMode(initialTheme)
-  },[])
-  
-  useEffect(() =>{
-    const html = document.documentElement;
-    if(isDarkmode){
-      html.classList.add('dark-theme');
-      localStorage.setItem('theme','dark');
-    }else{
-      html.classList.remove("dark-theme");
-      localStorage.setItem("theme", "light");
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme");
+      const systemTheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      const initialTheme = savedTheme ? savedTheme === "dark" : systemTheme;
+      setisDarkMode(initialTheme);
     }
-  },[isDarkmode])
+  }, []);
 
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const html = document.documentElement;
+      if (isDarkmode) {
+        html.classList.add("dark-theme");
+        localStorage.setItem("theme", "dark");
+      } else {
+        html.classList.remove("dark-theme");
+        localStorage.setItem("theme", "light");
+      }
+    }
+  }, [isDarkmode]);
 
   return (
     <header className="fixed top-4 left-1/2 -translate-x-1/2 flex justify-between items-center p-4 bg-black backdrop-blur-lg rounded-full shadow-xl z-50 w-[90%] max-w-4xl border border-tertiary animate-fade-in-up">
@@ -47,6 +48,7 @@ export default function Header({ type }: HeaderProps) {
             rel="noopener noreferrer"
             target="_blank"
             href="https://www.linkedin.com/in/gourav-anand-jha/"
+            aria-label="LinkedIn Profile"
           >
             <Linkedin />
           </a>
@@ -56,6 +58,7 @@ export default function Header({ type }: HeaderProps) {
             href="https://github.com/venomusblood568"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="GitHub Profile"
           >
             <GithubIcon />
           </a>
@@ -65,6 +68,7 @@ export default function Header({ type }: HeaderProps) {
             rel="noopener noreferrer"
             target="_blank"
             href="mailto:gouravanand0354@gamil.com"
+            aria-label="Email"
           >
             <Gmail />
           </a>
@@ -75,7 +79,6 @@ export default function Header({ type }: HeaderProps) {
           </a>
         </div>
         <div className="transition duration-300">
-          {/* In next js we use folder name */}
           <Link href="/picshow">
             <PhotoIcon />
           </Link>

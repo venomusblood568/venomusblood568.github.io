@@ -61,7 +61,7 @@ export default function Photo() {
 
   return (
     <>
-      <Header type={""} />
+      <Header/>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pt-25">
         {images.map((src, index) => (
           <img
