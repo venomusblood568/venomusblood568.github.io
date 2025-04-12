@@ -6,6 +6,7 @@
   --tertiary: #edf2f4;
   --background: #8d99ae;
   --foreground: #000000;
+  --dot-color: white; /* New dot color variable */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: 'Geist Sans', Arial, Helvetica, sans-serif;
@@ -13,13 +14,16 @@
 }
 
 .dark-theme {
-  --background: #1e1e24;
-  --foreground: #000000;
+  --background: black;
+  --foreground: gray;
+  --dot-color: gray; /* Dark mode dots */
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  background-image: radial-gradient(var(--dot-color) 1px, transparent 0.8px); /* Updated */
+  background-size: 50px 50px;
+  color: var(--color-white);
   font-family: var(--font-sans);
   transition: background-color 0.3s ease, color 0.3s ease;
 }

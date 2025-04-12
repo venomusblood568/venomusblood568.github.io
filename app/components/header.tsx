@@ -5,6 +5,8 @@ import Linkedin from "../icon/linkedin";
 import Gmail from "../icon/gmail";
 import Dark from "../icon/dark";
 import Light from "../icon/light";
+import PhotoIcon from "../icon/photo";
+import BlogIcon from "../icon/blog";
 
 type HeaderProps = {
   type: string;
@@ -38,6 +40,15 @@ export default function Header({ type }: HeaderProps) {
       <div className="flex gap-4">
         <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
           <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://www.linkedin.com/in/gourav-anand-jha/"
+          >
+            <Linkedin />
+          </a>
+        </div>
+        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+          <a
             href="https://github.com/venomusblood568"
             target="_blank"
             rel="noopener noreferrer"
@@ -49,18 +60,19 @@ export default function Header({ type }: HeaderProps) {
           <a
             rel="noopener noreferrer"
             target="_blank"
-            href="https://www.linkedin.com/in/gourav-anand-jha/"
-          >
-            <Linkedin />
-          </a>
-        </div>
-        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
             href="mailto:gouravanand0354@gamil.com"
           >
             <Gmail />
+          </a>
+        </div>
+        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+          <a>
+            <PhotoIcon />
+          </a>
+        </div>
+        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+          <a>
+            <BlogIcon />
           </a>
         </div>
         <div
