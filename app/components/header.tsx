@@ -8,6 +8,7 @@ import Light from "../icon/light";
 import PhotoIcon from "../icon/photo";
 import BlogIcon from "../icon/blog";
 import ProjectIcon from "../icon/project";
+import Link from "next/link";
 
 type HeaderProps = {
   type: string;
@@ -33,10 +34,11 @@ export default function Header({ type }: HeaderProps) {
     }
   },[isDarkmode])
 
+
   return (
     <header className="fixed top-4 left-1/2 -translate-x-1/2 flex justify-between items-center p-4 bg-black backdrop-blur-lg rounded-full shadow-xl z-50 w-[90%] max-w-4xl border border-tertiary animate-fade-in-up">
       <div className="flex items-center text-gray-400 text-lightPurple text-xl tracking-widest font-sans">
-        Ꮐ〇ᑌᖇᗩᐯ
+        <Link href="/">GOURAV</Link>
       </div>
       <div className="flex gap-3">
         <div className="transition duration-300">
@@ -68,13 +70,14 @@ export default function Header({ type }: HeaderProps) {
         </div>
         <div className="transition duration-300">
           <a>
-            <ProjectIcon/>
+            <ProjectIcon />
           </a>
         </div>
         <div className="transition duration-300">
-          <a>
-            <PhotoIcon />
-          </a>
+          {/* In next js we use folder name */}
+          <Link href="/picshow">
+            <PhotoIcon className="h-6 w-6 text-gray-500" />
+          </Link>
         </div>
         <div className="transition duration-300">
           <a>
