@@ -35,11 +35,11 @@ export default function Header({ type }: HeaderProps) {
 
   return (
     <header className="fixed top-4 left-1/2 -translate-x-1/2 flex justify-between items-center p-4 bg-black backdrop-blur-lg rounded-full shadow-xl z-50 w-[90%] max-w-4xl border border-tertiary animate-fade-in-up">
-      <div className="flex items-center text-white text-lightPurple text-xl tracking-widest font-sans">
+      <div className="flex items-center text-gray-400 text-lightPurple text-xl tracking-widest font-sans">
         Ꮐ〇ᑌᖇᗩᐯ
       </div>
       <div className="flex gap-3">
-        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+        <div className="transition duration-300">
           <a
             rel="noopener noreferrer"
             target="_blank"
@@ -48,7 +48,7 @@ export default function Header({ type }: HeaderProps) {
             <Linkedin />
           </a>
         </div>
-        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+        <div className="transition duration-300">
           <a
             href="https://github.com/venomusblood568"
             target="_blank"
@@ -57,7 +57,7 @@ export default function Header({ type }: HeaderProps) {
             <GithubIcon />
           </a>
         </div>
-        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+        <div className="transition duration-300">
           <a
             rel="noopener noreferrer"
             target="_blank"
@@ -66,23 +66,23 @@ export default function Header({ type }: HeaderProps) {
             <Gmail />
           </a>
         </div>
-        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+        <div className="transition duration-300">
           <a>
             <ProjectIcon/>
           </a>
         </div>
-        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+        <div className="transition duration-300">
           <a>
             <PhotoIcon />
           </a>
         </div>
-        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+        <div className="transition duration-300">
           <a>
             <BlogIcon />
           </a>
         </div>
         <div
-          className="transition duration-100 hover:scale-150 cursor-pointer"
+          className="transition duration-100 cursor-pointer"
           onClick={() => setisDarkMode(!isDarkmode)}
         >
           {isDarkmode ? <Light /> : <Dark />}
