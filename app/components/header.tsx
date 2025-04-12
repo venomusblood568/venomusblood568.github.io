@@ -7,6 +7,7 @@ import Dark from "../icon/dark";
 import Light from "../icon/light";
 import PhotoIcon from "../icon/photo";
 import BlogIcon from "../icon/blog";
+import ProjectIcon from "../icon/project";
 
 type HeaderProps = {
   type: string;
@@ -33,11 +34,11 @@ export default function Header({ type }: HeaderProps) {
   },[isDarkmode])
 
   return (
-    <header className="fixed top-4 left-1/2 -translate-x-1/2 flex justify-between items-center p-4 bg-black backdrop-blur-lg rounded-full shadow-xl z-50 w-[95%] max-w-5xl border border-tertiary animate-fade-in-up">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 flex justify-between items-center p-4 bg-black backdrop-blur-lg rounded-full shadow-xl z-50 w-[90%] max-w-4xl border border-tertiary animate-fade-in-up">
       <div className="flex items-center text-white text-lightPurple text-xl tracking-widest font-sans">
         Ꮐ〇ᑌᖇᗩᐯ
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-3">
         <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
           <a
             rel="noopener noreferrer"
@@ -63,6 +64,11 @@ export default function Header({ type }: HeaderProps) {
             href="mailto:gouravanand0354@gamil.com"
           >
             <Gmail />
+          </a>
+        </div>
+        <div className="transition duration-300 hover:text-lightPurple hover:scale-150">
+          <a>
+            <ProjectIcon/>
           </a>
         </div>
         <div className="transition duration-300 hover:text-lightPurple hover:scale-150">

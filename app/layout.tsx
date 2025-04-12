@@ -13,9 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: " Gourav Jha ",
-  description: "Gourav Protfolio",
+  title: "Gourav Jha",
+  description: "Gourav's Portfolio",
+  icons: "/user.svg",
 };
+
 
 export default function RootLayout({
   children,
