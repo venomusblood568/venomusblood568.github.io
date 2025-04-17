@@ -38,7 +38,7 @@ export default function Header() {
   }, [isDarkmode]);
 
   return (
-    <header className="fixed top-4 left-1/2 -translate-x-1/2 flex justify-between items-center p-4 bg-black backdrop-blur-lg rounded-full shadow-xl z-50 w-[90%] max-w-4xl border border-tertiary animate-fade-in-up">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 flex justify-between items-center p-4 bg-black backdrop-blur-lg rounded-full shadow-xl z-50 w-[95%] max-w-6xl border border-tertiary animate-fade-in-up">
       <div className="flex items-center text-gray-400 text-lightPurple text-xl tracking-widest font-sans">
         <Link href="/">GOURAV</Link>
       </div>

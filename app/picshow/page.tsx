@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/header";
-
+import { UpperIcon } from "../icon/upper";
 const images = [
   "/photo_showcase/img1.jpg",
   "/photo_showcase/img2.jpg",
@@ -52,16 +52,27 @@ const images = [
   "/photo_showcase/img56.jpg",
   "/photo_showcase/img57.jpg",
   "/photo_showcase/img58.jpg",
-  
 ];
 
 export default function Photo() {
   const [selectedImg, setselectedImg] = useState<string | null>(null);
+  const [showScrollbtn, setScrollbtn] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollbtn(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <>
-      <Header/>
+      <Header />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pt-25">
         {images.map((src, index) => (
           <img
@@ -85,6 +96,14 @@ export default function Photo() {
             onClick={(e) => e.stopPropagation()}
           />
         </div>
+      )}
+      {showScrollbtn && (
+        <button
+          className="fixed bottom-6 right-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition z-50"
+          onClick={scrollToTop}
+        >
+          <UpperIcon />
+        </button>
       )}
     </>
   );
