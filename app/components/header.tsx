@@ -80,9 +80,10 @@ export default function Header() {
           </Link>
         </div>
         <div className="transition duration-300">
-          <a>
+          <Link href={"/project"}>
             <ProjectIcon />
-          </a>
+          </Link>
+          
         </div>
         <div className="transition duration-300">
           <Link href="/picshow">
@@ -90,8 +91,10 @@ export default function Header() {
           </Link>
         </div>
         <div className="transition duration-300">
-          <a>
+          <Link href={"/blog"}>
             <BlogIcon />
+          </Link>
+          <a>
           </a>
         </div>
         <div
