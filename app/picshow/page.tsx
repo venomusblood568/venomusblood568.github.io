@@ -57,6 +57,13 @@ const images = [
 export default function Photo() {
   const [selectedImg, setselectedImg] = useState<string | null>(null);
   const [showScrollbtn, setScrollbtn] = useState(false);
+  const [loading,setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false),1500)
+    return () => clearTimeout(timer)
+  })
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,16 +81,24 @@ export default function Photo() {
     <>
       <Header />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pt-25">
-        {images.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`img-${index}`}
-            className="cursor-pointer object-cover w-full h-60 rounded hover:opacity-80 transition"
-            onClick={() => setselectedImg(src)}
-          />
-        ))}
+        {loading
+          ? images.map((_, i) => (
+              <div
+                key={i}
+                className="w-full h-60 bg-gray-500 animate-pulse rounded-lg"
+              />
+            ))
+          : images.map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt={`image-${index}`}
+                onClick={() => setselectedImg(src)}
+                className="cursor-pointer object-cover w-full h-60 rounded hover:opacity-80 transition"
+              />
+            ))}
       </div>
+
       {selectedImg && (
         <div
           className="fixed inset-0 bg-opacity-5 flex items-center justify-center z-50 backdrop-blur-sm bg-black/10"
