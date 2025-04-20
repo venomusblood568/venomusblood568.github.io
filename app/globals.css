@@ -2,9 +2,9 @@
 
 :root {
   --primary: #2b2d42;
-  --secondary: #8d99ae;
+  --secondary: #41644A;
   --tertiary: #edf2f4;
-  --background: #8d99ae;
+  --background: #41644A;
   --foreground: #000000;
   --dot-color: white; /* New dot color variable */
   --color-background: var(--background);
