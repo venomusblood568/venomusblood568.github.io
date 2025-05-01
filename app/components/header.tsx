@@ -27,85 +27,80 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      const html = document.documentElement;
-      if (isDarkmode) {
-        html.classList.add("dark-theme");
-        localStorage.setItem("theme", "dark");
-      } else {
-        html.classList.remove("dark-theme");
-        localStorage.setItem("theme", "light");
-      }
+    const html = document.documentElement;
+    if (isDarkmode) {
+      html.classList.add("dark-theme");
+      localStorage.setItem("theme", "dark");
+    } else {
+      html.classList.remove("dark-theme");
+      localStorage.setItem("theme", "light");
     }
   }, [isDarkmode]);
 
   return (
-    <header className="fixed top-4 left-1/2 -translate-x-1/2 flex justify-between items-center p-4 bg-black backdrop-blur-lg rounded-full shadow-xl z-50 w-[95%] max-w-6xl border border-tertiary animate-fade-in-up">
-      <div className="flex items-center text-gray-400 text-lightPurple text-xl tracking-widest font-sans">
-        <Link href="/">GOURAV</Link>
-      </div>
-      <div className="flex gap-3">
-        <div className="transition duration-300">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl px-6 py-3 rounded-full shadow-xl backdrop-blur-lg bg-black border border-tertiary flex justify-between items-center animate-fade-in-up">
+      {/* Logo */}
+      <Link
+        href="/"
+        className="text-lightPurple text-xl font-semibold tracking-widest"
+      >
+        GOURAV
+      </Link>
+
+      {/* Icon Group */}
+      <div className="flex items-center gap-4">
+        {/* Social Icons */}
+        <div className="flex items-center gap-3">
           <a
-            rel="noopener noreferrer"
-            target="_blank"
             href="https://www.linkedin.com/in/gourav-anand-jha/"
-            aria-label="LinkedIn Profile"
+            target="_blank"
+            aria-label="LinkedIn"
+            rel="noopener noreferrer"
           >
             <Linkedin />
           </a>
-        </div>
-        <div className="transition duration-300">
           <a
             href="https://github.com/venomusblood568"
             target="_blank"
+            aria-label="GitHub"
             rel="noopener noreferrer"
-            aria-label="GitHub Profile"
           >
             <GithubIcon />
           </a>
-        </div>
-        <div className="transition duration-300">
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            href="mailto:gouravanand0354@gamil.com"
-            aria-label="Email"
-          >
+          <a href="mailto:gouravanand0354@gamil.com" aria-label="Email">
             <Gmail />
           </a>
         </div>
-        <div className="transition duration-300">
-          <Link href={"/resume"}>
+
+        {/* Divider */}
+        <div className="w-[2px] h-6 bg-gray-500 mx-2" />
+
+        {/* Navigation Icons */}
+        <div className="flex items-center gap-3">
+          <Link href="/resume" aria-label="Resume">
             <ResumeIcon />
           </Link>
-        </div>
-        <div className="transition duration-300">
-          <Link href={"/project"}>
+          <Link href="/project" aria-label="Projects">
             <ProjectIcon />
           </Link>
-          
-        </div>
-        <div className="transition duration-300">
-          <Link href="/picshow">
+          <Link href="/design" aria-label="Designs">
+            <DesignIcon />
+          </Link>
+          <Link href="/picshow" aria-label="Photos">
             <PhotoIcon />
           </Link>
-        </div>
-        <div className="transition duration-300">
-          <Link href="/design">
-            <DesignIcon/>
-          </Link>
-        </div>
-        <div className="transition duration-300">
-          <Link href={"/blog"}>
+          <Link href="/blog" aria-label="Blog">
             <BlogIcon />
           </Link>
-          <a>
-          </a>
         </div>
+
+        {/* Divider */}
+        <div className="w-[2px] h-6 bg-gray-500 mx-2" />
+
+        {/* Theme Toggle */}
         <div
-          className="transition duration-100 cursor-pointer"
           onClick={() => setisDarkMode(!isDarkmode)}
+          className="cursor-pointer"
         >
           {isDarkmode ? <Light /> : <Dark />}
         </div>
