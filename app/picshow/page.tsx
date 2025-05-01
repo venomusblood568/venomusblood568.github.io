@@ -54,6 +54,21 @@ const images = [
   "/photo_showcase/img56.jpg",
   "/photo_showcase/img57.jpg",
   "/photo_showcase/img58.jpg",
+  "/photo_showcase/may_update1.jpeg",
+  "/photo_showcase/may_update2.jpeg",
+  "/photo_showcase/may_update3.jpeg",
+  "/photo_showcase/may_update4.jpeg",
+  "/photo_showcase/may_update5.jpeg",
+  "/photo_showcase/may_update6.jpeg",
+  "/photo_showcase/may_update7.jpeg",
+  "/photo_showcase/may_update8.jpeg",
+  "/photo_showcase/may_update9.jpeg",
+  "/photo_showcase/may_update10.jpeg",
+  "/photo_showcase/may_update11.jpeg",
+  "/photo_showcase/may_update12.jpeg",
+  "/photo_showcase/may_update13.jpeg",
+  "/photo_showcase/may_update16.jpeg",
+  "/photo_showcase/may_update19.jpeg",
 ];
 
 export default function Photo() {
