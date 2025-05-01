@@ -83,7 +83,7 @@ export default function Design() {
       {/* Centered Heading Section */}
       <div className="flex flex-col items-center text-center max-w-2xl mx-auto px-4 pt-24 gap-4">
         <h1 className="text-6xl font-bold tracking-tight py-10">Design Showcase</h1>
-        <p className="text-lg text-gray-300 gap-10">
+        <p className="text-xl text-gray-300">
           A collection of simple UI samples I built while learning and exploring
           different frontend techniques. Just experiments — no rules.
         </p>
