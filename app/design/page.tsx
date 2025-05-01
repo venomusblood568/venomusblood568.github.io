@@ -82,7 +82,9 @@ export default function Design() {
 
       {/* Centered Heading Section */}
       <div className="flex flex-col items-center text-center max-w-2xl mx-auto px-4 pt-24 gap-4">
-        <h1 className="text-6xl font-bold tracking-tight py-10">Design Showcase</h1>
+        <h1 className="text-6xl font-bold tracking-tight py-10">
+          Design Showcase
+        </h1>
         <p className="text-xl text-gray-300">
           A collection of simple UI samples I built while learning and exploring
           different frontend techniques. Just experiments — no rules.
@@ -125,7 +127,7 @@ export default function Design() {
       {/* Image Viewer Overlay */}
       {selectedImg && currentImgIndex !== null && (
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 backdrop-blur-sm"
+          className="fixed inset-0 bg-opacity-5 flex items-center justify-center z-50 backdrop-blur-sm bg-black/10"
           onClick={closeImage}
         >
           {/* Previous Button */}

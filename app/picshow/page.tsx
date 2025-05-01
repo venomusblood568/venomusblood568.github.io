@@ -111,7 +111,20 @@ export default function Photo() {
   return (
     <>
       <Header />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pt-25">
+
+      {/* Centered heading and description */}
+      <div className="flex flex-col items-center text-center max-w-2xl mx-auto px-4 pt-20 pb-10 gap-4">
+        <h1 className="text-6xl font-bold tracking-tight py-10">Picture Showcase</h1>
+        <p className="text-xl text-gray-300">
+          A personal gallery of my favorite captures — moments frozen in time
+          through my lens.
+          Photography is my creative escape and a way to see
+          beauty in the everyday.
+        </p>
+      </div>
+
+      {/* Image grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 pb-16">
         {loading
           ? images.map((_, i) => (
               <div
@@ -129,6 +142,8 @@ export default function Photo() {
               />
             ))}
       </div>
+
+      {/* Scroll to top button */}
       {showScrollbtn && (
         <button
           className="fixed bottom-6 right-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition z-50"
@@ -137,35 +152,39 @@ export default function Photo() {
           <UpperIcon />
         </button>
       )}
+
+      {/* Image lightbox */}
       {selectedImg && currentImgIndex !== null && (
         <div
-          className="fixed inset-0 bg-opacity-5 flex items-center justify-center z-50 backdrop-blur-sm bg-black/10"
+          className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center z-50"
           onClick={closeImage}
         >
-          <div
-            className="fixed left-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition z-50"
+          <button
+            className="absolute left-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition z-50"
             onClick={(e) => {
               e.stopPropagation();
               prevImg();
             }}
           >
             <LeftIcon />
-          </div>
+          </button>
+
           <img
             src={selectedImg}
             alt="enlarged"
             className="max-w-4xl max-h-[90vh] rounded shadow-lg"
             onClick={(e) => e.stopPropagation()}
           />
-          <div
-            className="fixed right-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition z-50"
+
+          <button
+            className="absolute right-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition z-50"
             onClick={(e) => {
               e.stopPropagation();
               nextImg();
             }}
           >
             <RightIcon />
-          </div>
+          </button>
         </div>
       )}
     </>
