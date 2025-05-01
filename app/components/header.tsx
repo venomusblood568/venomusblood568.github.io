@@ -10,6 +10,7 @@ import BlogIcon from "../icon/blog";
 import ProjectIcon from "../icon/project";
 import Link from "next/link";
 import { ResumeIcon } from "../icon/resume";
+import DesignIcon from "../icon/design";
 
 export default function Header() {
   const [isDarkmode, setisDarkMode] = useState(false);
@@ -88,6 +89,11 @@ export default function Header() {
         <div className="transition duration-300">
           <Link href="/picshow">
             <PhotoIcon />
+          </Link>
+        </div>
+        <div className="transition duration-300">
+          <Link href="/design">
+            <DesignIcon/>
           </Link>
         </div>
         <div className="transition duration-300">
