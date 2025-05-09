@@ -20,27 +20,28 @@ export default function Project() {
         Work in progress
       </h1>
       <div className="flex flex-wrap justify-center gap-2 px-12 py-6">
-        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-red transition duration-200">
+        {/* 1st card */}
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
           <div className="text-3xl m-2">
-            <NeuronIcon />
+            <HueIcon />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-white ">FINE</h2>
-            <p className="text-sm text-white">
-              Still cooking coming right up ....
+            <h2 className="text-xl font-semibold">Fine</h2>
+            <p className="text-sm">
+              Cooking something cool.....
             </p>
-            <div className="mt-2 flex gap-4 text-sm text-white">
+            <div className="mt-2 flex gap-4 text-sm">
               <a
-                href="your-gitlink-here"
-                className="hover:underline"
+                href="sss"
+                className="hover:underline hover:scale-105"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 &gt; GitHub
               </a>
               <a
-                href="your-link-here"
-                className="hover:underline"
+                href="sss"
+                className="hover:underline hover:scale-105"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -50,6 +51,7 @@ export default function Project() {
           </div>
         </div>
       </div>
+
       <h1 className="text-8xl font-bold tracking-tight py-4 px-10 opacity-20 text-outline">
         Websites
       </h1>
@@ -60,22 +62,22 @@ export default function Project() {
             <NeuronIcon />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-white">Neuron</h2>
-            <p className="text-sm text-white">
+            <h2 className="text-xl font-semibold">Neuron</h2>
+            <p className="text-sm">
               Space to store and organize thoughts, inspiration and knowledge.
             </p>
-            <div className="mt-2 flex gap-4 text-sm text-white">
+            <div className="mt-2 flex gap-4 text-sm">
               <a
-                href="your-gitlink-here"
-                className="hover:underline"
+                href="https://github.com/venomusblood568/Neuron-front-end"
+                className="hover:underline hover:scale-110"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 &gt; GitHub
               </a>
               <a
-                href="your-link-here"
-                className="hover:underline"
+                href="https://neuron-duck.vercel.app/"
+                className="hover:underline hover:scale-110"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -90,22 +92,22 @@ export default function Project() {
             <HueIcon />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-white">Hue</h2>
-            <p className="text-sm text-white">
+            <h2 className="text-xl font-semibold">Hue</h2>
+            <p className="text-sm">
               Mimicking Clone Ray to understand how Ray.so works under the hood.
             </p>
-            <div className="mt-2 flex gap-4 text-sm text-white">
+            <div className="mt-2 flex gap-4 text-sm">
               <a
-                href="your-gitlink-here"
-                className="hover:underline"
+                href="https://github.com/venomusblood568/hue"
+                className="hover:underline hover:scale-105"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 &gt; GitHub
               </a>
               <a
-                href="your-link-here"
-                className="hover:underline"
+                href="https://hue-duck.vercel.app/"
+                className="hover:underline hover:scale-105"
                 target="_blank"
                 rel="noopener noreferrer"
               >
