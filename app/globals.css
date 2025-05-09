@@ -29,6 +29,6 @@ body {
 }
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1px white; /* for WebKit browsers */
-  text-stroke: 1px white;         /* optional fallback */
+  -webkit-text-stroke: 1.5px white; /* for WebKit browsers */
+  text-stroke: 1.5px white;         /* optional fallback */
 }
