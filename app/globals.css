@@ -27,3 +27,8 @@ body {
   font-family: var(--font-sans);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px white; /* for WebKit browsers */
+  text-stroke: 1px white;         /* optional fallback */
+}
