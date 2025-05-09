@@ -20,15 +20,33 @@ export default function Project() {
         Work in progress
       </h1>
       <div className="flex flex-wrap justify-center gap-2 px-12 py-6">
-        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-red transition duration-200">
           <div className="text-3xl m-2">
             <NeuronIcon />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-white">FINE</h2>
+            <h2 className="text-xl font-semibold text-white ">FINE</h2>
             <p className="text-sm text-white">
-              One-liner description goes here.
+              Still cooking coming right up ....
             </p>
+            <div className="mt-2 flex gap-4 text-sm text-white">
+              <a
+                href="your-gitlink-here"
+                className="hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; GitHub
+              </a>
+              <a
+                href="your-link-here"
+                className="hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; Live Demo
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -44,8 +62,26 @@ export default function Project() {
           <div>
             <h2 className="text-xl font-semibold text-white">Neuron</h2>
             <p className="text-sm text-white">
-              One-liner description goes here.
+              Space to store and organize thoughts, inspiration and knowledge.
             </p>
+            <div className="mt-2 flex gap-4 text-sm text-white">
+              <a
+                href="your-gitlink-here"
+                className="hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; GitHub
+              </a>
+              <a
+                href="your-link-here"
+                className="hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; Live Demo
+              </a>
+            </div>
           </div>
         </div>
         {/* card 2 */}
@@ -56,8 +92,26 @@ export default function Project() {
           <div>
             <h2 className="text-xl font-semibold text-white">Hue</h2>
             <p className="text-sm text-white">
-              One-liner description goes here.
+              Mimicking Clone Ray to understand how Ray.so works under the hood.
             </p>
+            <div className="mt-2 flex gap-4 text-sm text-white">
+              <a
+                href="your-gitlink-here"
+                className="hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; GitHub
+              </a>
+              <a
+                href="your-link-here"
+                className="hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; Live Demo
+              </a>
+            </div>
           </div>
         </div>
       </div>
