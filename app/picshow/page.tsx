@@ -54,21 +54,75 @@ const images = [
   "/photo_showcase/img56.jpg",
   "/photo_showcase/img57.jpg",
   "/photo_showcase/img58.jpg",
-  "/photo_showcase/may_update1.jpeg",
-  "/photo_showcase/may_update2.jpeg",
-  "/photo_showcase/may_update3.jpeg",
-  "/photo_showcase/may_update4.jpeg",
-  "/photo_showcase/may_update5.jpeg",
-  "/photo_showcase/may_update6.jpeg",
-  "/photo_showcase/may_update7.jpeg",
-  "/photo_showcase/may_update8.jpeg",
-  "/photo_showcase/may_update9.jpeg",
-  "/photo_showcase/may_update10.jpeg",
-  "/photo_showcase/may_update11.jpeg",
-  "/photo_showcase/may_update12.jpeg",
-  "/photo_showcase/may_update13.jpeg",
-  "/photo_showcase/may_update16.jpeg",
-  "/photo_showcase/may_update19.jpeg",
+  "/photo_showcase/may_update1.jpg",
+  "/photo_showcase/may_update2.jpg",
+  "/photo_showcase/may_update3.jpg",
+  "/photo_showcase/may_update4.jpg",
+  "/photo_showcase/may_update5.jpg",
+  "/photo_showcase/may_update6.jpg",
+  "/photo_showcase/may_update7.jpg",
+  "/photo_showcase/may_update8.jpg",
+  "/photo_showcase/may_update9.jpg",
+  "/photo_showcase/may_update10.jpg",
+  "/photo_showcase/may_update11.jpg",
+  "/photo_showcase/may_update12.jpg",
+  "/photo_showcase/may_update13.jpg",
+  "/photo_showcase/may_update16.jpg",
+  "/photo_showcase/may_update19.jpg",
+  "/photo_showcase/may_delhi1.jpg",
+  "/photo_showcase/may_delhi2.jpg",
+  "/photo_showcase/may_delhi3.jpg",
+  "/photo_showcase/may_delhi4.jpg",
+  "/photo_showcase/may_delhi5.jpg",
+  "/photo_showcase/may_delhi6.jpg",
+  "/photo_showcase/may_delhi7.jpg",
+  "/photo_showcase/may_delhi8.jpg",
+  "/photo_showcase/may_delhi9.jpg",
+  "/photo_showcase/may_delhi10.jpg",
+  "/photo_showcase/may_delhi11.jpg",
+  "/photo_showcase/may_delhi12.jpg",
+  "/photo_showcase/may_delhi13.jpg",
+  "/photo_showcase/may_delhi14.jpg",
+  "/photo_showcase/may_delhi15.jpg",
+  "/photo_showcase/may_delhi16.jpg",
+  "/photo_showcase/may_delhi17.jpg",
+  "/photo_showcase/may_delhi18.jpg",
+  "/photo_showcase/may_delhi19.jpg",
+  "/photo_showcase/may_delhi20.jpg",
+  "/photo_showcase/may_delhi21.jpg",
+  "/photo_showcase/may_delhi22.jpg",
+  "/photo_showcase/may_delhi23.jpg",
+  "/photo_showcase/may_delhi24.jpg",
+  "/photo_showcase/may_delhi25.jpg",
+  "/photo_showcase/may_delhi26.jpg",
+  "/photo_showcase/may_delhi27.jpg",
+  "/photo_showcase/may_delhi28.jpg",
+  "/photo_showcase/may_delhi29.jpg",
+  "/photo_showcase/may_delhi30.jpg",
+  "/photo_showcase/may_delhi31.jpg",
+  "/photo_showcase/may_delhi32.jpg",
+  "/photo_showcase/may_delhi33.jpg",
+  "/photo_showcase/may_delhi34.jpg",
+  "/photo_showcase/may_delhi35.jpg",
+  "/photo_showcase/may_delhi36.jpg",
+  "/photo_showcase/may_delhi37.jpg",
+  "/photo_showcase/may_delhi38.jpg",
+  "/photo_showcase/may_delhi39.jpg",
+  "/photo_showcase/may_delhi40.jpg",
+  "/photo_showcase/may_delhi41.jpg",
+  "/photo_showcase/may_delhi42.jpg",
+  "/photo_showcase/may_delhi43.jpg",
+  "/photo_showcase/may_delhi44.jpg",
+  "/photo_showcase/may_delhi45.jpg",
+  "/photo_showcase/may_delhi46.jpg",
+  "/photo_showcase/may_delhi47.jpg",
+  "/photo_showcase/may_delhi48.jpg",
+  "/photo_showcase/may_delhi49.jpg",
+  "/photo_showcase/may_delhi50.jpg",
+  "/photo_showcase/may_delhi51.jpg",
+  "/photo_showcase/may_delhi52.jpg",
+  "/photo_showcase/may_delhi53.jpg",
+  "/photo_showcase/may_delhi54.jpg",
 ];
 
 export default function Photo() {
@@ -76,8 +130,19 @@ export default function Photo() {
   const [showScrollbtn, setScrollbtn] = useState(false);
   const [loading,setLoading] = useState(true)
   const [currentImgIndex, setCurrentImgIndex] = useState<number | null>(null);
-
+  const [shuffledImages,setShuffledImages] = useState<string[]>([]);
   
+  function shuffleArray(array:string[]): string[] {
+    return array
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+  }
+
+  useEffect(() => {
+    const shuffled  = shuffleArray(images);
+    setShuffledImages(shuffled)
+  },[])
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false),1500)
@@ -99,7 +164,7 @@ export default function Photo() {
 
   const openImage = (index:number) => {
     setCurrentImgIndex(index);
-    setselectedImg(images[index]);
+    setselectedImg(shuffledImages[index]);
   }
 
   const closeImage = () => {
@@ -108,21 +173,23 @@ export default function Photo() {
   }
 
   const nextImg = () => {
-    if(currentImgIndex !== null){
-      const newIndex = (currentImgIndex + 1) % images.length;
+    if(currentImgIndex !== null && shuffledImages.length > 0){
+      const newIndex = (currentImgIndex + 1) % shuffledImages.length;
       setCurrentImgIndex(newIndex);
-      setselectedImg(images[newIndex]) 
+      setselectedImg(shuffledImages[newIndex]) 
     } 
   }
   const prevImg = () => {
-    if(currentImgIndex !== null){
-      const newIndex = (currentImgIndex - 1 + images.length) % images.length;
+    if (currentImgIndex !== null && shuffledImages.length > 0) {
+      const newIndex = (currentImgIndex - 1 + shuffledImages.length) % shuffledImages.length;
       setCurrentImgIndex(newIndex);
-      setselectedImg(images[newIndex]) 
+      setselectedImg(shuffledImages[newIndex]);
     } 
   }
 
   
+  
+
   return (
     <>
       <Header />
@@ -147,7 +214,7 @@ export default function Photo() {
                 className="w-full h-60 bg-gray-500 animate-pulse rounded-lg"
               />
             ))
-          : images.map((src, index) => (
+          : shuffledImages.map((src, index) => (
               <img
                 key={index}
                 src={src}
