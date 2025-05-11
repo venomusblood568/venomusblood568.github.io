@@ -9,7 +9,7 @@ export default function Project() {
           Projects
         </h1>
         <p className="text-xl text-gray-500">
-          A collection of projects I've created or currently maintain.
+          A collection of projects I&apos;sve created or currently maintain.
         </p>
         <hr className="w-24 border-t-2 border-gray-600" />
       </div>
