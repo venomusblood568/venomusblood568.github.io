@@ -192,8 +192,8 @@ export default function Photo() {
 
   const FrozenCount = ({ length }: { length: number }) => {
     const [count, setCount] = useState(0);
-    const animationRef = useRef<number>();
-    const startTime = useRef<number>();
+    const animationRef = useRef<number>(0);
+    const startTime = useRef<number>(0);
     const duration = 10000;
 
     useEffect(() => {
