@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "../components/header";
 import { UpperIcon } from "../icon/upper";
 import { LeftIcon } from "../icon/left";
@@ -77,7 +77,7 @@ const images = [
   "/photo_showcase/may_delhi5.jpg",
   "/photo_showcase/may_delhi6.jpg",
   "/photo_showcase/may_delhi7.jpg",
-  "/photo_showcase/may_delhi8.jpg",
+  "/photo_showcase/may_delhi8.jpeg",
   "/photo_showcase/may_delhi9.jpg",
   "/photo_showcase/may_delhi10.jpg",
   "/photo_showcase/may_delhi11.png",
@@ -127,33 +127,38 @@ const images = [
 ];
 
 export default function Photo() {
-  const [selectedImg, setselectedImg] = useState<string | null>(null);
-  const [showScrollbtn, setScrollbtn] = useState(false);
-  const [loading,setLoading] = useState(true)
+  const [selectedImg, setSelectedImg] = useState<string | null>(null);
+  const [showScrollBtn, setScrollBtn] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentImgIndex, setCurrentImgIndex] = useState<number | null>(null);
-  const [shuffledImages,setShuffledImages] = useState<string[]>([]);
-  
-  function shuffleArray(array:string[]): string[] {
-    return array
-      .map((value) => ({ value, sort: Math.random() }))
-      .sort((a, b) => a.sort - b.sort)
-      .map(({ value }) => value);
-  }
+  const [shuffledImages, setShuffledImages] = useState<string[]>([]);
+  const initialized = useRef(false);
+
+  // Improved shuffle function
+  const shuffleArray = (array: string[]) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
 
   useEffect(() => {
-    const shuffled  = shuffleArray(images);
-    setShuffledImages(shuffled)
-  },[])
+    if (!initialized.current) {
+      setShuffledImages(shuffleArray(images));
+      initialized.current = true;
+    }
+  }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false),1500)
-    return () => clearTimeout(timer)
-  })
-
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollbtn(window.scrollY > 300);
+      setScrollBtn(window.scrollY > 300);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -163,113 +168,144 @@ export default function Photo() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const openImage = (index:number) => {
+  const openImage = (index: number) => {
     setCurrentImgIndex(index);
-    setselectedImg(shuffledImages[index]);
-  }
+    setSelectedImg(shuffledImages[index]);
+  };
 
   const closeImage = () => {
     setCurrentImgIndex(null);
-    setselectedImg(null);
-  }
+    setSelectedImg(null);
+  };
 
-  const nextImg = () => {
-    if(currentImgIndex !== null && shuffledImages.length > 0){
-      const newIndex = (currentImgIndex + 1) % shuffledImages.length;
-      setCurrentImgIndex(newIndex);
-      setselectedImg(shuffledImages[newIndex]) 
-    } 
-  }
-  const prevImg = () => {
-    if (currentImgIndex !== null && shuffledImages.length > 0) {
-      const newIndex = (currentImgIndex - 1 + shuffledImages.length) % shuffledImages.length;
-      setCurrentImgIndex(newIndex);
-      setselectedImg(shuffledImages[newIndex]);
-    } 
-  }
+  const navigateImage = (direction: "next" | "prev") => {
+    if (currentImgIndex === null) return;
 
-  
-  
+    const newIndex =
+      direction === "next"
+        ? (currentImgIndex + 1) % shuffledImages.length
+        : (currentImgIndex - 1 + shuffledImages.length) % shuffledImages.length;
+
+    setCurrentImgIndex(newIndex);
+    setSelectedImg(shuffledImages[newIndex]);
+  };
+
+  const FrozenCount = ({ length }: { length: number }) => {
+    const [count, setCount] = useState(0);
+    const animationRef = useRef<number>();
+    const startTime = useRef<number>();
+    const duration = 10000;
+
+    useEffect(() => {
+      const animate = (timestamp: number) => {
+        if (!startTime.current) startTime.current = timestamp;
+
+        const progress = timestamp - startTime.current;
+        const percentage = Math.min(progress / duration, 1);
+        const currentCount = Math.floor(percentage * length);
+
+        setCount(currentCount);
+
+        if (percentage < 1) {
+          animationRef.current = requestAnimationFrame(animate);
+        }
+      };
+
+      // Reset animation when length changes
+      setCount(0);
+      startTime.current = undefined;
+      animationRef.current = requestAnimationFrame(animate);
+
+      return () => {
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+      };
+    }, [length]);
+
+    return (
+      <h1 className="text-5xl font-bold tracking-tight py-2 px-5 opacity-15 text-outline">
+        Frozen Moments: {count.toString().padStart(2, "0")}
+      </h1>
+    );
+  };
 
   return (
     <>
       <Header />
-
-      {/* Centered heading and description */}
-      <div className="flex flex-col items-center text-center max-w-2xl mx-auto px-4 pt-20 pb-10 gap-4">
-        <h1 className="text-6xl font-bold tracking-tight py-10">
-          Picture Showcase
+      <div className="">
+        <h1 className="text-8xl font-bold tracking-tight py-20 px-5 opacity-20 text-outline">
+          Favorite Frozen Moments
         </h1>
-        <p className="text-xl text-gray-300">
-          A personal gallery of my favorite captures — moments frozen in time
-          through my lens. Photography is my creative escape and a way to see
-          beauty in the everyday.
-        </p>
+        {!loading && shuffledImages.length > 0 && (
+          <FrozenCount length={shuffledImages.length} />
+        )}
       </div>
 
       {/* Image grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 pb-16">
         {loading
-          ? images.map((_, i) => (
+          ? Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={i}
-                className="w-full h-60 bg-gray-500 animate-pulse rounded-lg"
+                className="w-full h-60 bg-gray-200 animate-pulse rounded-lg"
               />
             ))
           : shuffledImages.map((src, index) => (
               <Image
-                key={index}
+                key={src}
                 src={src}
-                alt={`image-${index}`}
-                width={400}
-                height={240}
+                alt={`Frozen moment ${index + 1}`}
+                width={600}
+                height={400}
                 onClick={() => openImage(index)}
-                className="cursor-pointer object-cover w-full h-60 rounded hover:opacity-80 transition"
+                className="cursor-pointer object-cover w-full h-60 rounded-lg hover:scale-95 transition-transform duration-300"
+                priority={index < 8}
               />
             ))}
       </div>
 
       {/* Scroll to top button */}
-      {showScrollbtn && (
+      {showScrollBtn && (
         <button
-          className="fixed bottom-6 right-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition z-50"
+          className="fixed bottom-6 right-6 bg-black/80 text-white p-3 rounded-full shadow-xl hover:bg-black transition-all"
           onClick={scrollToTop}
         >
-          <UpperIcon />
+          <UpperIcon className="w-6 h-6" />
         </button>
       )}
 
-      {/* Image lightbox */}
+      {/* Lightbox overlay */}
       {selectedImg && currentImgIndex !== null && (
         <div
-          className="fixed inset-0 bg-black/10 backdrop-blur-sm flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50"
           onClick={closeImage}
         >
           <button
-            className="absolute left-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition z-50"
+            className="absolute left-6 bg-black/50 text-white p-3 rounded-full hover:bg-black/80 transition-all"
             onClick={(e) => {
               e.stopPropagation();
-              prevImg();
+              navigateImage("prev");
             }}
           >
-            <LeftIcon />
+            <LeftIcon className="w-6 h-6" />
           </button>
 
           <img
             src={selectedImg}
-            alt="enlarged"
-            className="max-w-4xl max-h-[90vh] rounded shadow-lg"
+            alt="Enlarged view"
+            className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg"
             onClick={(e) => e.stopPropagation()}
           />
 
           <button
-            className="absolute right-6 bg-black text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition z-50"
+            className="absolute right-6 bg-black/50 text-white p-3 rounded-full hover:bg-black/80 transition-all"
             onClick={(e) => {
               e.stopPropagation();
-              nextImg();
+              navigateImage("next");
             }}
           >
-            <RightIcon />
+            <RightIcon className="w-6 h-6" />
           </button>
         </div>
       )}
