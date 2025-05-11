@@ -4,6 +4,7 @@ import Header from "../components/header";
 import { UpperIcon } from "../icon/upper";
 import { LeftIcon } from "../icon/left";
 import { RightIcon } from "../icon/right";
+import Image from "next/image";
 const images = [
   "/photo_showcase/img1.jpg",
   "/photo_showcase/img2.jpg",
@@ -54,21 +55,21 @@ const images = [
   "/photo_showcase/img56.jpg",
   "/photo_showcase/img57.jpg",
   "/photo_showcase/img58.jpg",
-  "/photo_showcase/may_update1.jpg",
-  "/photo_showcase/may_update2.jpg",
-  "/photo_showcase/may_update3.jpg",
-  "/photo_showcase/may_update4.jpg",
-  "/photo_showcase/may_update5.jpg",
-  "/photo_showcase/may_update6.jpg",
-  "/photo_showcase/may_update7.jpg",
-  "/photo_showcase/may_update8.jpg",
-  "/photo_showcase/may_update9.jpg",
-  "/photo_showcase/may_update10.jpg",
-  "/photo_showcase/may_update11.jpg",
-  "/photo_showcase/may_update12.jpg",
-  "/photo_showcase/may_update13.jpg",
-  "/photo_showcase/may_update16.jpg",
-  "/photo_showcase/may_update19.jpg",
+  "/photo_showcase/may_update1.jpeg",
+  "/photo_showcase/may_update2.jpeg",
+  "/photo_showcase/may_update3.jpeg",
+  "/photo_showcase/may_update4.jpeg",
+  "/photo_showcase/may_update5.jpeg",
+  "/photo_showcase/may_update6.jpeg",
+  "/photo_showcase/may_update7.jpeg",
+  "/photo_showcase/may_update8.jpeg",
+  "/photo_showcase/may_update9.jpeg",
+  "/photo_showcase/may_update10.jpeg",
+  "/photo_showcase/may_update11.jpeg",
+  "/photo_showcase/may_update12.jpeg",
+  "/photo_showcase/may_update13.jpeg",
+  "/photo_showcase/may_update16.jpeg",
+  "/photo_showcase/may_update19.jpeg",
   "/photo_showcase/may_delhi1.jpg",
   "/photo_showcase/may_delhi2.jpg",
   "/photo_showcase/may_delhi3.jpg",
@@ -79,7 +80,7 @@ const images = [
   "/photo_showcase/may_delhi8.jpg",
   "/photo_showcase/may_delhi9.jpg",
   "/photo_showcase/may_delhi10.jpg",
-  "/photo_showcase/may_delhi11.jpg",
+  "/photo_showcase/may_delhi11.png",
   "/photo_showcase/may_delhi12.jpg",
   "/photo_showcase/may_delhi13.jpg",
   "/photo_showcase/may_delhi14.jpg",
@@ -87,7 +88,7 @@ const images = [
   "/photo_showcase/may_delhi16.jpg",
   "/photo_showcase/may_delhi17.jpg",
   "/photo_showcase/may_delhi18.jpg",
-  "/photo_showcase/may_delhi19.jpg",
+  "/photo_showcase/may_delhi19.jpeg",
   "/photo_showcase/may_delhi20.jpg",
   "/photo_showcase/may_delhi21.jpg",
   "/photo_showcase/may_delhi22.jpg",
@@ -196,11 +197,12 @@ export default function Photo() {
 
       {/* Centered heading and description */}
       <div className="flex flex-col items-center text-center max-w-2xl mx-auto px-4 pt-20 pb-10 gap-4">
-        <h1 className="text-6xl font-bold tracking-tight py-10">Picture Showcase</h1>
+        <h1 className="text-6xl font-bold tracking-tight py-10">
+          Picture Showcase
+        </h1>
         <p className="text-xl text-gray-300">
           A personal gallery of my favorite captures — moments frozen in time
-          through my lens.
-          Photography is my creative escape and a way to see
+          through my lens. Photography is my creative escape and a way to see
           beauty in the everyday.
         </p>
       </div>
@@ -215,10 +217,12 @@ export default function Photo() {
               />
             ))
           : shuffledImages.map((src, index) => (
-              <img
+              <Image
                 key={index}
                 src={src}
                 alt={`image-${index}`}
+                width={400}
+                height={240}
                 onClick={() => openImage(index)}
                 className="cursor-pointer object-cover w-full h-60 rounded hover:opacity-80 transition"
               />
