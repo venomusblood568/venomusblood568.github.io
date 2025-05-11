@@ -193,7 +193,7 @@ export default function Photo() {
   const FrozenCount = ({ length }: { length: number }) => {
     const [count, setCount] = useState(0);
     const animationRef = useRef<number>(0);
-    const startTime = useRef<number>(0);
+    const startTime = useRef<number | undefined>(0);
     const duration = 10000;
 
     useEffect(() => {
@@ -271,7 +271,7 @@ export default function Photo() {
           className="fixed bottom-6 right-6 bg-black/80 text-white p-3 rounded-full shadow-xl hover:bg-black transition-all"
           onClick={scrollToTop}
         >
-          <UpperIcon className="w-6 h-6" />
+          <UpperIcon/>
         </button>
       )}
 
@@ -288,7 +288,7 @@ export default function Photo() {
               navigateImage("prev");
             }}
           >
-            <LeftIcon className="w-6 h-6" />
+            <LeftIcon/>
           </button>
 
           <img
@@ -305,7 +305,7 @@ export default function Photo() {
               navigateImage("next");
             }}
           >
-            <RightIcon className="w-6 h-6" />
+            <RightIcon />
           </button>
         </div>
       )}
