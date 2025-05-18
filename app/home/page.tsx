@@ -1,6 +1,13 @@
+import { useState } from "react";
 import Header from "../components/header";
 
 export default function HomePage() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -28,7 +35,15 @@ export default function HomePage() {
             in the Department of Electronics and Communication. Over time, I’ve
             developed a stronger passion for software development and computer
             science. Now, I spend my days (and nights) building cool things—with
-            my trusty coffee mug always by my side.
+            my trusty coffee mug always by my side. Explore my complete list of
+            <a
+              href="/project"
+              className="font-semibold text-green-300 hover:text-green-400 transition-colors"
+            >
+              {" "}
+              projects
+            </a>{" "}
+            here.
           </p>
           <br />
           <div className="text-white text-lg leading-relaxed whitespace-pre-line font-mono">
@@ -75,7 +90,102 @@ export default function HomePage() {
             find me diving into manhwa, manga, or novels.
           </p>
           <br />
-          
+          <div className="leading-relaxed text-white whitespace-pre-line">
+            <p>
+              During my time in college, I’ve had the opportunity to work at
+              multiple places:
+            </p>
+
+            <div className="text-white">
+              {/* BEL */}
+              <div className="mt-4 cursor-pointer" onClick={() => toggle(0)}>
+                <div className="flex items-start space-x-2">
+                  <span className="text-green-300 mt-1">▸</span>
+                  <p className="font-semibold underline text-xl text-green-300">
+                    Bharat Electronics Limited, Bangalore, India
+                  </p>
+                </div>
+                {openIndex === 0 && (
+                  <div className="ml-6 mt-2">
+                    <p className="italic">
+                      Mil-Com Intern (Aug 2023 – Sep 2023)
+                    </p>
+                    <ul className="list-disc list-inside mt-1 space-y-1">
+                      <li>
+                        <span className="font-medium">
+                          Military Communications:
+                        </span>{" "}
+                        Engineered a streamlined workflow in military
+                        communications, optimizing the process from idea
+                        generation to production through systematic part
+                        sourcing, simulation analysis, and internal approvals —
+                        reducing time-to-market by 30%.
+                      </li>
+                      <li>
+                        <span className="font-medium">Military Radar:</span>{" "}
+                        Observed the development of secure, interoperable
+                        defense communication systems, including radios and
+                        encryption tools. Focused on innovation, rigorous
+                        testing, cybersecurity, and modernization to enhance
+                        military operations.
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              {/* DIRO */}
+              <div className="mt-4 cursor-pointer" onClick={() => toggle(1)}>
+                <div className="flex items-start space-x-2">
+                  <span className="text-green-300 mt-1">▸</span>
+                  <p className="font-semibold underline text-xl text-green-300">
+                    DIRO, Vellore, India
+                  </p>
+                </div>
+                {openIndex === 1 && (
+                  <div className="ml-6 mt-2">
+                    <p className="italic">
+                      Research and Development Intern (Feb 2023 – Mar 2023)
+                    </p>
+                    <ul className="list-disc list-inside mt-1 space-y-1">
+                      <li>
+                        <span className="font-medium">Research:</span> Conducted
+                        in-depth analysis of vehicle types, assessed performance
+                        and cost-effectiveness, and explored advanced sensor
+                        integrations. Analyzed rating systems of Ola, Uber, and
+                        Rapido.
+                      </li>
+                      <li>
+                        <span className="font-medium">
+                          Notion Implementation:
+                        </span>{" "}
+                        Led transition from Google Docs to Notion, designing a
+                        streamlined workspace and improving collaboration and
+                        workflow efficiency.
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="leading-relaxed text-white whitespace-pre-line">
+              <br />
+              <p>...and there’s a lot more on the horizon.</p>
+            </div>
+            <div className="leading-relaxed text-white whitespace-pre-line">
+              <br />
+              <p>
+                I recently moved to Delhi, if you are around, please reach out
+                and let’s have some coffee or work together.
+              </p>
+              <br />
+              <hr className="w-40 mx-auto text-gray-500" />
+              <br />
+              Find me on
+              
+            </div>
+          </div>
         </div>
       </div>
     </div>
