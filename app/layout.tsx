@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Gourav Jha",
   description: "Gourav's Portfolio",
-  icons: "/user.svg",
+  icons: "/icons8-oggy-96.svg",
 };
 
 

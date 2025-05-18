@@ -40,6 +40,7 @@ export default function Header() {
   return (
     <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl px-6 py-3 rounded-full shadow-xl backdrop-blur-lg bg-black border border-tertiary flex justify-between items-center animate-fade-in-up">
       {/* Logo */}
+      
       <Link
         href="/"
         className="text-lightPurple text-xl font-semibold tracking-widest"

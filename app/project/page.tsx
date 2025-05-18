@@ -8,7 +8,7 @@ export default function Project() {
         <h1 className="text-6xl font-bold tracking-tight opacity-80">
           Projects
         </h1>
-        <p className="text-xl text-gray-500">
+        <p className="text-xl text-gray-300">
           A collection of projects I&apos;sve created or currently maintain.
         </p>
         <hr className="w-24 border-t-2 border-gray-600" />
@@ -19,7 +19,7 @@ export default function Project() {
       </h1>
       <div className="flex flex-wrap justify-center gap-2 px-12 py-6">
         {/* 1st card */}
-        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
           <div>
             <h2 className="text-xl font-semibold">Fine</h2>
             <p className="text-sm">Cooking something cool.....</p>
@@ -50,7 +50,7 @@ export default function Project() {
       </h1>
       <div className="flex flex-wrap justify-center gap-2 px-12 py-6">
         {/* card 1*/}
-        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
           <div>
             <h2 className="text-xl font-semibold">Neuron</h2>
             <p className="text-sm">
@@ -77,7 +77,7 @@ export default function Project() {
           </div>
         </div>
         {/* card 2 */}
-        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
           <div>
             <h2 className="text-xl font-semibold">Hue</h2>
             <p className="text-sm">
@@ -109,7 +109,7 @@ export default function Project() {
       </h1>
       <div className="flex flex-wrap justify-center gap-2 px-12 py-6">
         {/* card 1*/}
-        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
           <div>
             <h2 className="text-xl font-semibold">Link Vault</h2>
             <p className="text-sm">
@@ -129,7 +129,7 @@ export default function Project() {
           </div>
         </div>
         {/* card 2 */}
-        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
           <div>
             <h2 className="text-xl font-semibold">Hyper Flow</h2>
             <p className="text-sm">
@@ -149,7 +149,7 @@ export default function Project() {
           </div>
         </div>
         {/* card 3 */}
-        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-500 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
           <div>
             <h2 className="text-xl font-semibold">GitaVerses</h2>
             <p className="text-sm">
