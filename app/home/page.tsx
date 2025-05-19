@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 import Header from "../components/header";
-
+import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 export default function HomePage() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -184,7 +184,37 @@ export default function HomePage() {
               <hr className="w-40 mx-auto text-gray-500" />
               <br />
               Find me on
+              <br />
               
+              <div className="flex flex-row gap-5">
+                <a
+                  href="https://github.com/venomusblood568"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline flex items-center gap-2 hover:text-green-400 cursor-pointer"
+                >
+                  <FaGithub size={20} />
+                  Github
+                </a>
+                <a
+                  href="mailto:gouravanand0354@gamil.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline flex flex-center gap-2 hover:text-green-400 cursor-pointer"
+                >
+                  <FaEnvelope size={20} />
+                  Email
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/gourav-anand-jha/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline flex flex-center gap-2 hover:text-green-400 cursor-pointer"
+                >
+                  <FaLinkedin size={20} />
+                  Linkedin
+                </a>
+              </div>
             </div>
           </div>
         </div>
