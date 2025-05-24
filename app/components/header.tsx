@@ -40,7 +40,7 @@ export default function Header() {
   return (
     <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-6xl px-6 py-3 rounded-full shadow-xl backdrop-blur-lg bg-black border border-tertiary flex justify-between items-center animate-fade-in-up">
       {/* Logo */}
-      
+
       <Link
         href="/"
         className="text-lightPurple text-xl font-semibold tracking-widest"
@@ -52,25 +52,43 @@ export default function Header() {
       <div className="flex items-center gap-4">
         {/* Social Icons */}
         <div className="flex items-center gap-3">
-          <a
-            href="https://www.linkedin.com/in/gourav-anand-jha/"
-            target="_blank"
-            aria-label="LinkedIn"
-            rel="noopener noreferrer"
-          >
-            <Linkedin />
-          </a>
-          <a
-            href="https://github.com/venomusblood568"
-            target="_blank"
-            aria-label="GitHub"
-            rel="noopener noreferrer"
-          >
-            <GithubIcon />
-          </a>
-          <a href="mailto:gouravanand0354@gamil.com" aria-label="Email">
-            <Gmail />
-          </a>
+          <div className="group relative flex flex-col items-center">
+            <a
+              href="https://www.linkedin.com/in/gourav-anand-jha/"
+              target="_blank"
+              aria-label="LinkedIn"
+              rel="noopener noreferrer"
+            >
+              <Linkedin />
+            </a>
+            <span className="absolute top-12 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-md text-lightPurple text-sm px-3 py-1 rounded-md shadow-md opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out pointer-events-none z-50">
+              LinkedIn
+              <span className="absolute top-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white/30 backdrop-blur-md rotate-45 z-[-1]" />
+            </span>
+          </div>
+          <div className="group relative flex flex-col items-center">
+            <a
+              href="https://github.com/venomusblood568"
+              target="_blank"
+              aria-label="GitHub"
+              rel="noopener noreferrer"
+            >
+              <GithubIcon />
+              <span className="absolute top-12 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-md text-lightPurple text-sm px-3 py-1 rounded-md shadow-md opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out pointer-events-none z-50">
+                Github
+                <span className="absolute top-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white/30 backdrop-blur-md rotate-45 z-[-1]" />
+              </span>
+            </a>
+          </div>
+          <div className="group relative flex flex-col items-center">
+            <a href="mailto:gouravanand0354@gamil.com" aria-label="Email">
+              <Gmail />
+              <span className="absolute top-12 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-md text-lightPurple text-sm px-3 py-1 rounded-md shadow-md opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out pointer-events-none z-50">
+                Gmail
+                <span className="absolute top-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white/30 backdrop-blur-md rotate-45 z-[-1]" />
+              </span>
+            </a>
+          </div>
         </div>
 
         {/* Divider */}
@@ -78,21 +96,26 @@ export default function Header() {
 
         {/* Navigation Icons */}
         <div className="flex items-center gap-3">
-          <Link href="/resume" aria-label="Resume">
-            <ResumeIcon />
-          </Link>
-          <Link href="/project" aria-label="Projects">
-            <ProjectIcon />
-          </Link>
-          <Link href="/design" aria-label="Designs">
-            <DesignIcon />
-          </Link>
-          <Link href="/picshow" aria-label="Photos">
-            <PhotoIcon />
-          </Link>
-          <Link href="/blog" aria-label="Blog">
-            <BlogIcon />
-          </Link>
+          {[
+            { href: "/resume", label: "Resume", icon: <ResumeIcon /> },
+            { href: "/project", label: "Project", icon: <ProjectIcon /> },
+            { href: "/design", label: "Design", icon: <DesignIcon /> },
+            { href: "/picshow", label: "Clicks", icon: <PhotoIcon /> },
+            { href: "/blog", label: "Blog", icon: <BlogIcon /> },
+          ].map(({ href, label, icon }) => (
+            <Link
+              href={href}
+              key={href}
+              aria-label={label}
+              className="group relative flex items-center"
+            >
+              {icon}
+              <span className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-md text-lightPurple text-sm px-3 py-1 rounded-md shadow-md opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out pointer-events-none z-50">
+                {label}
+                <span className="absolute top-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white/30 backdrop-blur-md rotate-45 z-[-1]" />
+              </span>
+            </Link>
+          ))}
         </div>
 
         {/* Divider */}

@@ -52,23 +52,23 @@ export default function HomePage() {
             <br />
             <div className="grid grid-cols-2 gap-x-10 gap-y-2 text-white text-lg font-mono">
               <div className="flex items-center space-x-2">
-                <span className="text-green-300">▸</span>
+                <span className="text-green-400">▸</span>
                 <span>TypeScript</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-green-300">▸</span>
+                <span className="text-green-400">▸</span>
                 <span>Python</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-green-300">▸</span>
+                <span className="text-green-400">▸</span>
                 <span>React.js</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-green-300">▸</span>
+                <span className="text-green-400">▸</span>
                 <span>Java</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="text-green-300">▸</span>
+                <span className="text-green-400">▸</span>
                 <span>JavaScript</span>
               </div>
             </div>
@@ -81,7 +81,7 @@ export default function HomePage() {
               href="https://anilist.co/user/ElysianEchos/"
               target="_blank"
               rel="noopener noreferrer"
-              className=" font-semibold text-green-300 hover:text-green-400 transition-colors"
+              className=" font-semibold text-green-400 hover:text-green-300 transition-colors"
             >
               anime
             </a>{" "}
@@ -101,8 +101,8 @@ export default function HomePage() {
               {/* BEL */}
               <div className="mt-4 cursor-pointer" onClick={() => toggle(0)}>
                 <div className="flex items-start space-x-2">
-                  <span className="text-green-300 mt-1">▸</span>
-                  <p className="font-semibold underline text-xl text-green-300">
+                  <span className="text-green-400 mt-1">▸</span>
+                  <p className="font-semibold underline text-xl text-green-400">
                     Bharat Electronics Limited, Bangalore, India
                   </p>
                 </div>
@@ -138,8 +138,8 @@ export default function HomePage() {
               {/* DIRO */}
               <div className="mt-4 cursor-pointer" onClick={() => toggle(1)}>
                 <div className="flex items-start space-x-2">
-                  <span className="text-green-300 mt-1">▸</span>
-                  <p className="font-semibold underline text-xl text-green-300">
+                  <span className="text-green-400 mt-1">▸</span>
+                  <p className="font-semibold underline text-xl text-green-400">
                     DIRO, Vellore, India
                   </p>
                 </div>
