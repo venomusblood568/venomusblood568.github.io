@@ -216,6 +216,31 @@ export default function Project() {
           </div>
         </div>
       </div>
+      <h1 className="text-8xl font-bold tracking-tight py-4 px-10 opacity-20 text-outline">
+        Learning Project
+      </h1>
+      <div className="flex flex-wrap  justify-center gap-2 px-12 py-6">
+        {/* card 1*/}
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+          <div>
+            <h2 className="text-xl font-semibold">Paytm Clone</h2>
+            <p className="text-sm">
+              A simple full-stack Paytm clone with features like user
+              authentication, wallet balance tracking, and money transfer.
+            </p>
+            <div className="mt-2 flex gap-4 text-sm">
+              <a
+                href="https://github.com/venomusblood568/paytm-clone"
+                className="hover:underline hover:scale-110"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
