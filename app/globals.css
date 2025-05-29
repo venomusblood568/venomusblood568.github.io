@@ -16,7 +16,7 @@
 .dark-theme {
   --background: black;
   --foreground: gray;
-  --dot-color: gray; 
+  --dot-color:  #302f2f; 
 }
 
 body {
@@ -58,4 +58,7 @@ body {
 @keyframes blink {
   0%, 100% { border-color: transparent }
   50% { border-color: white }
+}
+.slow-pulse {
+  animation-duration: 4s; /* slower than default 2s */
 }
