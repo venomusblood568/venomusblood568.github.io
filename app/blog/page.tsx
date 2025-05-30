@@ -1,4 +1,6 @@
 import Header from "../components/header";
+import Link from "next/link";
+import { slugify } from "../lib/slugify";
 
 type Post = {
   title: string;
@@ -15,7 +17,7 @@ const posts: Post[] = [
     year: 2025,
   },
   {
-    title: "DRAG & REZISE CANVAS",
+    title: "DRAG & RESIZE CANVAS",
     date: "Apr 12, 2025",
     readTime: "5 min",
     year: 2025,
@@ -24,6 +26,7 @@ const posts: Post[] = [
 
 export default function Blog() {
   const year = posts[0]?.year ?? new Date().getFullYear();
+
   return (
     <div className="min-h-screen text-gray-500 px-6 py-12 font-sans">
       <Header />
@@ -38,23 +41,26 @@ export default function Blog() {
         <p className="text-gray-400 text-xs tracking-wide mb-10 select-none">
           <span>dev logs ✦ ideas ✦ reflections</span>
         </p>
-        <h1 className="text-[100px] text-outline sm:text-[240px] font-bold  text-outline-bold opacity-10 absolute top-70 px-72 sm:left-10 text-white pointer-events-none select-none z-0">
+        <h1 className="text-[100px] text-outline sm:text-[240px] font-bold text-outline-bold opacity-10 absolute top-70 px-72 sm:left-10 text-white pointer-events-none select-none z-0">
           {year}
         </h1>
         <ul className="space-y-4 text-gray-400 py-28">
-          {posts.map((post, idx) => (
-            <li
-              key={idx}
-              className="flex flex-col sm:flex-row gap-10  sm:items-center hover:text-white rounded-xl  transition-all duration-300 cursor-pointer"
-            >
-              <div className="text-lg font-medium hover:text-white /">
-                {post.title}
-              </div>
-              <time className="text-sm  hover:text-white ">
-                {post.date} · {post.readTime}
-              </time>
-            </li>
-          ))}
+          {posts.map((post, idx) => {
+            const slug = slugify(post.title);
+            return (
+              <li key={idx} className="rounded-xl transition-all duration-300">
+                <Link
+                  href={`/blog/${slug}`}
+                  className="flex flex-col sm:flex-row gap-10 sm:items-center hover:text-white cursor-pointer"
+                >
+                  <div className="text-lg font-medium">{post.title}</div>
+                  <time className="text-sm">
+                    {post.date} · {post.readTime}
+                  </time>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
