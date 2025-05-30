@@ -5,58 +5,25 @@ type Post = {
   date: string;
   readTime: string;
   year: number;
-  lang: string;
 };
 
 const posts: Post[] = [
   {
-    title: "Categorize Your Dependencies",
-    date: "Apr 28",
-    readTime: "8min",
+    title: "Want to escape reality read this",
+    date: "May 28, 2025",
+    readTime: "2 min",
     year: 2025,
-    lang: "EN",
+  },
+  {
+    title: "DRAG & REZISE CANVAS",
+    date: "Apr 12, 2025",
+    readTime: "5 min",
+    year: 2025,
   },
 ];
 
-function getMonthYear(post: Post): string {
-  const [month] = post.date.split(" ");
-  return `${month} ${post.year}`;
-}
-
 export default function Blog() {
-  const groupedByMonthYear = posts.reduce<Record<string, Post[]>>(
-    (acc, post) => {
-      const key = getMonthYear(post);
-      if (!acc[key]) acc[key] = [];
-      acc[key].push(post);
-      return acc;
-    },
-    {}
-  );
-
-  const monthOrder: Record<string, number> = {
-    Jan: 1,
-    Feb: 2,
-    Mar: 3,
-    Apr: 4,
-    May: 5,
-    Jun: 6,
-    Jul: 7,
-    Aug: 8,
-    Sep: 9,
-    Oct: 10,
-    Nov: 11,
-    Dec: 12,
-  };
-
-  const sortedKeys = Object.keys(groupedByMonthYear).sort((a, b) => {
-    const [aMonth, aYear] = a.split(" ");
-    const [bMonth, bYear] = b.split(" ");
-    const aVal = Number(aYear) * 100 + monthOrder[aMonth];
-    const bVal = Number(bYear) * 100 + monthOrder[bMonth];
-    return bVal - aVal;
-  });
-
+  const year = posts[0]?.year ?? new Date().getFullYear();
   return (
     <div className="min-h-screen text-gray-500 px-6 py-12 font-sans">
       <Header />
@@ -71,32 +38,24 @@ export default function Blog() {
         <p className="text-gray-400 text-xs tracking-wide mb-10 select-none">
           <span>dev logs ✦ ideas ✦ reflections</span>
         </p>
-
-        {sortedKeys.map((key) => (
-          <section
-            key={key}
-            className="mb-12 border-b border-gray-700 pb-8 last:border-none"
-          >
-            <h2 className="text-2xl font-bold text-white/80 mb-6 tracking-wide border-b border-white/10 pb-2 animate-pulse slow-pulse">
-              {key}
-            </h2>
-            <ul className="space-y-4">
-              {groupedByMonthYear[key].map((post, idx) => (
-                <li
-                  key={idx}
-                  className="flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-white/5 hover:shadow-md hover:text-white rounded-xl px-5 py-4 transition-all duration-300 cursor-pointer backdrop-blur-sm"
-                >
-                  <div className="text-lg font-medium text-white/90">
-                    {post.title}
-                  </div>
-                  <time className="text-sm text-gray-400 whitespace-nowrap">
-                    {post.date} · {post.readTime}
-                  </time>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+        <h1 className="text-[100px] text-outline sm:text-[240px] font-bold  text-outline-bold opacity-10 absolute top-70 px-72 sm:left-10 text-white pointer-events-none select-none z-0">
+          {year}
+        </h1>
+        <ul className="space-y-4 text-gray-400 py-28">
+          {posts.map((post, idx) => (
+            <li
+              key={idx}
+              className="flex flex-col sm:flex-row gap-10  sm:items-center hover:text-white rounded-xl  transition-all duration-300 cursor-pointer"
+            >
+              <div className="text-lg font-medium hover:text-white /">
+                {post.title}
+              </div>
+              <time className="text-sm  hover:text-white ">
+                {post.date} · {post.readTime}
+              </time>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

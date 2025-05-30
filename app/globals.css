@@ -33,6 +33,11 @@ body {
   text-stroke: 1.5px white;         
 }
 
+.text-outline-bold {
+  color: transparent;
+  -webkit-text-stroke: 3px white;
+  text-stroke: 3px white;    
+}
 .typewriter {
   display: inline-block;
   overflow: hidden;
