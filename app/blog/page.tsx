@@ -17,9 +17,9 @@ const posts: Post[] = [
     year: 2025,
   },
   {
-    title: "DRAG & RESIZE CANVAS",
-    date: "Apr 12, 2025",
-    readTime: "5 min",
+    title: "Transactions in Mongoose",
+    date: "Jun 2, 2025",
+    readTime: "3 min",
     year: 2025,
   },
 ];

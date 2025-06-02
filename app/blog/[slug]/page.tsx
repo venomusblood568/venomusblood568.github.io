@@ -32,7 +32,7 @@ export default async function BlogPost(props: any) {
           <h1 className="text-3xl font-semibold text-red-500">
             404 - Not Found
           </h1>
-          <p className="text-gray-500 mt-2">Blog post does not exist.</p>
+          <p className="text-gray-500 mt-2">Still writing with a cup of coffee</p>
           <Link
             href="/blog"
             className="text-gray-700 hover:text-gray-400 font-mono"
