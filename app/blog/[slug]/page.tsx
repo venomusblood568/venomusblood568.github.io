@@ -37,6 +37,7 @@ export default async function BlogPost(props: any) {
             href="/blog"
             className="text-gray-700 hover:text-gray-400 font-mono"
           >
+            <hr />  
             {">"} cd ..
           </Link>
         </div>
