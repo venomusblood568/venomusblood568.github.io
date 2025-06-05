@@ -131,6 +131,34 @@ export default function Project() {
             </div>
           </div>
         </div>
+        {/* card 3 */}
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+          <div>
+            <h2 className="text-xl font-semibold">VoltPoint</h2>
+            <p className="text-sm">
+              VoltPoint is a web app to manage EV chargers with login, CRUD, and
+              map view.
+            </p>
+            <div className="mt-2 flex gap-4 text-sm">
+              <a
+                href="https://github.com/venomusblood568/VoltPoint"
+                className="hover:underline hover:scale-105"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; GitHub
+              </a>
+              <a
+                href="https://voltpoint-duck.vercel.app/"
+                className="hover:underline hover:scale-105"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; Live Demo
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
       <h1 className="text-8xl font-bold tracking-tight py-4 px-10 opacity-20 text-outline">
         Chrome Extension
