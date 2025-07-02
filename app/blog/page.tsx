@@ -22,6 +22,12 @@ const posts: Post[] = [
     readTime: "3 min",
     year: 2025,
   },
+  {
+    title: "CORS under the hood",
+    date: "July 2, 2025",
+    readTime: "3 min",
+    year: 2025,
+  },
 ];
 
 export default function Blog() {
