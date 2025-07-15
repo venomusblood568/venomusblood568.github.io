@@ -164,6 +164,51 @@ export default function Project() {
         </div>
       </div>
       <h1 className="text-8xl font-bold tracking-tight py-4 px-10 opacity-20 text-outline">
+        Python Projects
+      </h1>
+      <div className="flex flex-wrap justify-center gap-2 px-12 py-6">
+        {/* card 1*/}
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+          <div>
+            <h2 className="text-xl font-semibold">OceanWatch</h2>
+            <p className="text-sm">
+              Revolutionising Ocean Waste Management with YOLOv8
+            </p>
+            <div className="mt-2 flex gap-4 text-sm">
+              <a
+                href="https://github.com/venomusblood568/OceanWatch"
+                className="hover:underline hover:scale-110"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+        {/* card 2 */}
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+          <div>
+            <h2 className="text-xl font-semibold">Rusher</h2>
+            <p className="text-sm">
+              Rusher platformer game created using Python &
+              Pygame library. The game features a movement & collision detection
+              with platforms &  traps.
+            </p>
+            <div className="mt-2 flex gap-4 text-sm">
+              <a
+                href="https://github.com/venomusblood568/Project5/tree/main/Rusher"
+                className="hover:underline hover:scale-105"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h1 className="text-8xl font-bold tracking-tight py-4 px-10 opacity-20 text-outline">
         Chrome Extension
       </h1>
       <div className="flex flex-wrap justify-center gap-2 px-12 py-6">
