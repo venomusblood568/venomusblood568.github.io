@@ -12,10 +12,10 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <div className="flex items-start justify-start min-h-screen px-4 py-52 sm:px-10 md:px-20 lg:px-40  lg:py-52">
+      <div className="flex items-center justify-center min-h-screen px-4 py-52 sm:px-10 md:px-20 lg:px-40 lg:py-52">
         <div className="w-full max-w-4xl font-mono px-4 sm:px-6 md:px-8 lg:pl-16">
           <h1 className="text-4xl text-white mb-6">
-            <span className="typewriter">Hi, Gourav here</span>
+            <span className="typewriter text-5xl">Gourav Anand</span>
           </h1>
           <p className="leading-relaxed text-white  whitespace-pre-line">
             I build cool software, document what I learn, and dive into the
@@ -226,16 +226,16 @@ export default function HomePage() {
                 and let’s have some coffee or work together.
               </p>
               <br />
-              <hr className="w-40 mx-auto text-gray-500" />
+              <hr className="w-40 mx-auto text-gray-500 " />
               <br />
-              Find me on
+              <span className="leading-relaxed ">Find me on</span>
               <br />
               <div className="flex flex-row gap-5">
                 <a
                   href="https://github.com/venomusblood568"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline flex items-center gap-2 hover:text-green-400 cursor-pointer"
+                  className="underline flex items-center gap-2 hover:text-green-400 cursor-pointer "
                 >
                   <FaGithub size={20} />
                   Github
@@ -244,7 +244,7 @@ export default function HomePage() {
                   href="mailto:gouravanand0354@gamil.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline flex flex-center gap-2 hover:text-green-400 cursor-pointer"
+                  className="underline flex flex-center gap-2 hover:text-green-400 cursor-pointer "
                 >
                   <FaEnvelope size={20} />
                   Email
