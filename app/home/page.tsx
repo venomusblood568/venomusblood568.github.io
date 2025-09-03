@@ -98,6 +98,51 @@ export default function HomePage() {
             </p>
 
             <div className="text-white">
+              {/* Timbre */}
+              <div className="mt-4 cursor-pointer" onClick={() => toggle(0)}>
+                <div className="flex items-start space-x-2">
+                  <span className="text-green-400 mt-1">▸</span>
+                  <p className="font-semibold underline text-xl text-green-400 flex items-center gap-2">
+                    Timbre, Bangalore, India
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span className="text-sm italic text-green-300">
+                      (Latest)
+                    </span>
+                  </p>
+                </div>
+                {openIndex === 0 && (
+                  <div className="ml-6 mt-2">
+                    <p className="italic">
+                      Frontend developer Intern (Jul 2025 – Aug 2023)
+                    </p>
+                    <ul className="list-disc list-inside mt-1 space-y-1">
+                      <li>
+                        <span className="font-medium">
+                          Landing Page design:
+                        </span>{" "}
+                        Designed and launched the company’s landing page with a
+                        focus on responsive layouts, modern UI, and brand
+                        consistency, ensuring a smooth and engaging user
+                        experience across devices.
+                      </li>
+                      <li>
+                        <span className="font-medium">
+                          Integrations, SEO & Performance Optimization:
+                        </span>{" "}
+                        Implemented and managed heatmaps, scarcity elements, and
+                        conversion tracking to gather actionable user insights.
+                        Optimized SEO (100) and site performance with mobile:
+                        80+ and desktop: 90+, enhancing speed, visibility, and
+                        overall engagement.
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+
               {/* BEL */}
               <div className="mt-4 cursor-pointer" onClick={() => toggle(0)}>
                 <div className="flex items-start space-x-2">
@@ -185,7 +230,6 @@ export default function HomePage() {
               <br />
               Find me on
               <br />
-              
               <div className="flex flex-row gap-5">
                 <a
                   href="https://github.com/venomusblood568"

@@ -19,16 +19,22 @@ export default function Project() {
       </h1>
       <div className="flex flex-wrap justify-center gap-2 px-12 py-6">
         {/* 1st card */}
-        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+        <div className="relative max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+          {/* Latest badge */}
+          <span className="absolute top-3 right-3 bg-green-700 text-white text-xs font-semibold px-2 py-1 rounded-full uppercase tracking-wide">
+            Latest
+          </span>
+
           <div>
-            <h2 className="text-xl font-semibold">Fine</h2>
+            <h2 className="text-xl font-semibold">Hound</h2>
             <p className="text-sm">
-              Track your money, accounts, and stocks with ease. A smart personal
-              finance tool to manage it all.
+              lean, developer-friendly monitoring platform that automatically
+              checks websites/APIs, provides insights, and alerts owners in
+              real-time.
             </p>
             <div className="mt-2 flex gap-4 text-sm">
               <a
-                href="sss"
+                href="https://github.com/venomusblood568/hound"
                 className="hover:underline hover:scale-105"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -36,7 +42,7 @@ export default function Project() {
                 &gt; GitHub
               </a>
               <a
-                href="https://fine-duck.vercel.app/"
+                href="#"
                 className="hover:underline hover:scale-105"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -134,7 +140,7 @@ export default function Project() {
             </div>
           </div>
         </div>
-        {/* card 3 */}
+        {/* card 4 */}
         <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
           <div>
             <h2 className="text-xl font-semibold">VoltPoint</h2>
@@ -153,6 +159,34 @@ export default function Project() {
               </a>
               <a
                 href="https://voltpoint-duck.vercel.app/"
+                className="hover:underline hover:scale-105"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; Live Demo
+              </a>
+            </div>
+          </div>
+        </div>
+        {/* card 5 */}
+        <div className="max-w-sm p-6 m-2 px-10 rounded-2xl flex items-center gap-2 text-gray-300 hover:cursor-pointer hover:opacity-50 hover:bg-gray-600 hover:text-white transition duration-200">
+          <div>
+            <h2 className="text-xl font-semibold">Fine</h2>
+            <p className="text-sm">
+              Track your money, accounts, and stocks with ease. A smart personal
+              finance tool to manage it all.
+            </p>
+            <div className="mt-2 flex gap-4 text-sm">
+              <a
+                href="https://github.com/venomusblood568/fine"
+                className="hover:underline hover:scale-105"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &gt; GitHub
+              </a>
+              <a
+                href="https://fine-duck.vercel.app/"
                 className="hover:underline hover:scale-105"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -191,9 +225,9 @@ export default function Project() {
           <div>
             <h2 className="text-xl font-semibold">Rusher</h2>
             <p className="text-sm">
-              Rusher platformer game created using Python &
-              Pygame library. The game features a movement & collision detection
-              with platforms &  traps.
+              Rusher platformer game created using Python & Pygame library. The
+              game features a movement & collision detection with platforms &
+              traps.
             </p>
             <div className="mt-2 flex gap-4 text-sm">
               <a
