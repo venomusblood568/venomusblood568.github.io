@@ -223,12 +223,17 @@ export default function HomePage() {
                     </p>
 
                     <p className="text-gray-300 leading-relaxed text-sm sm:text-base mb-4">
-                      This paper proposes a novel optimization framework that
-                      improves post-handover link stability in 5G and emerging
-                      6G networks. By analyzing mobility patterns and
-                      dynamically adjusting network parameters, the approach
-                      reduces signal degradation and improves Quality of Service
-                      (QoS) during high-speed user transitions.
+                      This work explores the use of Proximal Policy Optimization
+                      (PPO) for managing NextG networks, focusing on stabilizing
+                      latency and signal strength. The proposed PPO framework
+                      dynamically adjusts network parameters to optimize traffic
+                      control, ensuring efficient data transmission while
+                      maintaining power and latency limits. A PPO-based
+                      algorithm for Post Handover Management is introduced to
+                      optimize reference signal received power (RSRP) and
+                      latency, demonstrating a scalable, self-adaptive approach
+                      to enhancing autonomous network performance in
+                      next-generation wireless systems.
                     </p>
 
                     <div className="flex flex-wrap gap-4">
