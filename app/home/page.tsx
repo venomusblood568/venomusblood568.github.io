@@ -1,7 +1,8 @@
-"use client"
+"use client";
 import { useState } from "react";
 import Header from "../components/header";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+
 export default function HomePage() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -17,19 +18,20 @@ export default function HomePage() {
           <h1 className="text-4xl text-white mb-6">
             <span className="typewriter text-5xl">Gourav Anand</span>
           </h1>
-          <p className="leading-relaxed text-white  whitespace-pre-line">
+
+          <p className="leading-relaxed text-white whitespace-pre-line">
             I build cool software, document what I learn, and dive into the
             latest in tech. I&apos;m a software guy at heart—driven to
             contribute to the tech universe.
           </p>
           <br />
-          <p className="leading-relaxed text-white  whitespace-pre-line">
+          <p className="leading-relaxed text-white whitespace-pre-line">
             I completed my B.Tech from{" "}
             <a
               href="https://vit.ac.in"
               target="_blank"
               rel="noopener noreferrer"
-              className=" font-semibold text-green-300 hover:text-green-400 transition-colors"
+              className="font-semibold text-green-300 hover:text-green-400 transition-colors"
             >
               VIT
             </a>{" "}
@@ -46,42 +48,31 @@ export default function HomePage() {
             </a>{" "}
             here.
           </p>
+
           <br />
           <div className="text-white text-lg leading-relaxed whitespace-pre-line font-mono">
             Here are some of the technologies I&apos;ve been working with:
             <br />
             <div className="grid grid-cols-2 gap-x-10 gap-y-2 text-white text-lg font-mono">
-              <div className="flex items-center space-x-2">
-                <span className="text-green-400">▸</span>
-                <span>TypeScript</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-400">▸</span>
-                <span>Python</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-400">▸</span>
-                <span>React.js</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-400">▸</span>
-                <span>Java</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-400">▸</span>
-                <span>JavaScript</span>
-              </div>
+              {["TypeScript", "Python", "React.js", "Java", "JavaScript"].map(
+                (tech, i) => (
+                  <div key={i} className="flex items-center space-x-2">
+                    <span className="text-green-400">▸</span>
+                    <span>{tech}</span>
+                  </div>
+                )
+              )}
             </div>
             <br />
           </div>
 
-          <p className="leading-relaxed text-white  whitespace-pre-line">
+          <p className="leading-relaxed text-white whitespace-pre-line">
             Outside of building things, I love spending time watching{" "}
             <a
               href="https://anilist.co/user/ElysianEchos/"
               target="_blank"
               rel="noopener noreferrer"
-              className=" font-semibold text-green-400 hover:text-green-300 transition-colors"
+              className="font-semibold text-green-400 hover:text-green-300 transition-colors"
             >
               anime
             </a>{" "}
@@ -90,20 +81,21 @@ export default function HomePage() {
             I&apos;m on the move or stumble upon a great story, you’ll often
             find me diving into manhwa, manga, or novels.
           </p>
+
           <br />
           <div className="leading-relaxed text-white whitespace-pre-line">
             <p>
-              During my time in college, I’ve had the opportunity to work at
-              multiple places:
+              During my time so far, I’ve had the opportunity to work at
+              multiple places.
             </p>
 
             <div className="text-white">
-              {/* Timbre */}
+              {/* Unity Internet */}
               <div className="mt-4 cursor-pointer" onClick={() => toggle(0)}>
                 <div className="flex items-start space-x-2">
                   <span className="text-green-400 mt-1">▸</span>
                   <p className="font-semibold underline text-xl text-green-400 flex items-center gap-2">
-                    Timbre, Bangalore, India
+                    Unity Internet, Bangalore, India
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -116,7 +108,24 @@ export default function HomePage() {
                 {openIndex === 0 && (
                   <div className="ml-6 mt-2">
                     <p className="italic">
-                      Frontend developer Intern (Jul 2025 – Aug 2023)
+                      Full-Time SDE II (Sep 2025 – Present)
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Timbre */}
+              <div className="mt-4 cursor-pointer" onClick={() => toggle(1)}>
+                <div className="flex items-start space-x-2">
+                  <span className="text-green-400 mt-1">▸</span>
+                  <p className="font-semibold underline text-xl text-green-400">
+                    Timbre, Bangalore, India
+                  </p>
+                </div>
+                {openIndex === 1 && (
+                  <div className="ml-6 mt-2">
+                    <p className="italic">
+                      Frontend Developer Intern (Jul 2025 – Aug 2025)
                     </p>
                     <ul className="list-disc list-inside mt-1 space-y-1">
                       <li>
@@ -125,18 +134,15 @@ export default function HomePage() {
                         </span>{" "}
                         Designed and launched the company’s landing page with a
                         focus on responsive layouts, modern UI, and brand
-                        consistency, ensuring a smooth and engaging user
-                        experience across devices.
+                        consistency.
                       </li>
                       <li>
                         <span className="font-medium">
                           Integrations, SEO & Performance Optimization:
                         </span>{" "}
-                        Implemented and managed heatmaps, scarcity elements, and
-                        conversion tracking to gather actionable user insights.
-                        Optimized SEO (100) and site performance with mobile:
-                        80+ and desktop: 90+, enhancing speed, visibility, and
-                        overall engagement.
+                        Implemented heatmaps, conversion tracking, and optimized
+                        SEO (100) with site performance scores of 80+ mobile and
+                        90+ desktop.
                       </li>
                     </ul>
                   </div>
@@ -144,14 +150,14 @@ export default function HomePage() {
               </div>
 
               {/* BEL */}
-              <div className="mt-4 cursor-pointer" onClick={() => toggle(0)}>
+              <div className="mt-4 cursor-pointer" onClick={() => toggle(2)}>
                 <div className="flex items-start space-x-2">
                   <span className="text-green-400 mt-1">▸</span>
                   <p className="font-semibold underline text-xl text-green-400">
                     Bharat Electronics Limited, Bangalore, India
                   </p>
                 </div>
-                {openIndex === 0 && (
+                {openIndex === 2 && (
                   <div className="ml-6 mt-2">
                     <p className="italic">
                       Mil-Com Intern (Aug 2023 – Sep 2023)
@@ -161,19 +167,13 @@ export default function HomePage() {
                         <span className="font-medium">
                           Military Communications:
                         </span>{" "}
-                        Engineered a streamlined workflow in military
-                        communications, optimizing the process from idea
-                        generation to production through systematic part
-                        sourcing, simulation analysis, and internal approvals —
-                        reducing time-to-market by 30%.
+                        Streamlined communication workflows, reducing
+                        time-to-market by 30%.
                       </li>
                       <li>
                         <span className="font-medium">Military Radar:</span>{" "}
-                        Observed the development of secure, interoperable
-                        defense communication systems, including radios and
-                        encryption tools. Focused on innovation, rigorous
-                        testing, cybersecurity, and modernization to enhance
-                        military operations.
+                        Observed development of secure, interoperable defense
+                        communication systems.
                       </li>
                     </ul>
                   </div>
@@ -181,33 +181,29 @@ export default function HomePage() {
               </div>
 
               {/* DIRO */}
-              <div className="mt-4 cursor-pointer" onClick={() => toggle(1)}>
+              <div className="mt-4 cursor-pointer" onClick={() => toggle(3)}>
                 <div className="flex items-start space-x-2">
                   <span className="text-green-400 mt-1">▸</span>
                   <p className="font-semibold underline text-xl text-green-400">
                     DIRO, Vellore, India
                   </p>
                 </div>
-                {openIndex === 1 && (
+                {openIndex === 3 && (
                   <div className="ml-6 mt-2">
                     <p className="italic">
-                      Research and Development Intern (Feb 2023 – Mar 2023)
+                      Research & Development Intern (Feb 2023 – Mar 2023)
                     </p>
                     <ul className="list-disc list-inside mt-1 space-y-1">
                       <li>
                         <span className="font-medium">Research:</span> Conducted
-                        in-depth analysis of vehicle types, assessed performance
-                        and cost-effectiveness, and explored advanced sensor
-                        integrations. Analyzed rating systems of Ola, Uber, and
-                        Rapido.
+                        analysis of vehicle types, performance, and cost.
                       </li>
                       <li>
                         <span className="font-medium">
                           Notion Implementation:
                         </span>{" "}
-                        Led transition from Google Docs to Notion, designing a
-                        streamlined workspace and improving collaboration and
-                        workflow efficiency.
+                        Transitioned team from Google Docs to Notion for better
+                        collaboration.
                       </li>
                     </ul>
                   </div>
@@ -219,45 +215,74 @@ export default function HomePage() {
               <br />
               <p>...and there’s a lot more on the horizon.</p>
             </div>
-            <div className="leading-relaxed text-white whitespace-pre-line">
-              <br />
-              <p>
-                I recently moved to Delhi, if you are around, please reach out
-                and let’s have some coffee or work together.
+
+            {/* Contact Section */}
+            <div className="leading-relaxed text-white whitespace-pre-line mt-10">
+              <p className="text-center">
+                I recently moved to Delhi — if you’re around, feel free to reach
+                out for coffee or collaboration.
               </p>
+
               <br />
-              <hr className="w-40 mx-auto text-gray-500 " />
+              <hr className="w-40 mx-auto border-gray-600" />
               <br />
-              <span className="leading-relaxed ">Find me on</span>
-              <br />
-              <div className="flex flex-row gap-5">
-                <a
-                  href="https://github.com/venomusblood568"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline flex items-center gap-2 hover:text-green-400 cursor-pointer "
-                >
-                  <FaGithub size={20} />
-                  Github
-                </a>
-                <a
-                  href="mailto:gouravanand0354@gamil.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline flex flex-center gap-2 hover:text-green-400 cursor-pointer "
-                >
-                  <FaEnvelope size={20} />
-                  Email
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/gourav-anand-jha/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline flex flex-center gap-2 hover:text-green-400 cursor-pointer"
-                >
-                  <FaLinkedin size={20} />
-                  Linkedin
-                </a>
+
+              <div className="text-center">
+                <p className="text-gray-300 mb-4 tracking-wide uppercase text-sm">
+                  Find Me On
+                </p>
+
+                <div className="flex justify-center gap-8 mb-6">
+                  <a
+                    href="https://github.com/venomusblood568"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center gap-2 group transition-transform hover:scale-105"
+                  >
+                    <FaGithub
+                      size={28}
+                      className="text-white group-hover:text-green-400 transition-colors"
+                    />
+                    <span className="text-sm text-gray-300 group-hover:text-green-400 transition-colors">
+                      GitHub
+                    </span>
+                  </a>
+
+                  <a
+                    href="mailto:gouravanand0354@gmail.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center gap-2 group transition-transform hover:scale-105"
+                  >
+                    <FaEnvelope
+                      size={28}
+                      className="text-white group-hover:text-green-400 transition-colors"
+                    />
+                    <span className="text-sm text-gray-300 group-hover:text-green-400 transition-colors">
+                      Email
+                    </span>
+                  </a>
+
+                  <a
+                    href="https://www.linkedin.com/in/gourav-anand-jha/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col items-center gap-2 group transition-transform hover:scale-105"
+                  >
+                    <FaLinkedin
+                      size={28}
+                      className="text-white group-hover:text-green-400 transition-colors"
+                    />
+                    <span className="text-sm text-gray-300 group-hover:text-green-400 transition-colors">
+                      LinkedIn
+                    </span>
+                  </a>
+                </div>
+
+                {/* Version Info */}
+                <p className="text-xs text-gray-500">
+                  © {new Date().getFullYear()} Gourav Anand — v1.0.0
+                </p>
               </div>
             </div>
           </div>
