@@ -15,6 +15,7 @@ export default function HomePage() {
       <Header />
       <div className="flex items-center justify-center min-h-screen px-4 py-52 sm:px-10 md:px-20 lg:px-40 lg:py-52">
         <div className="w-full max-w-4xl font-mono px-4 sm:px-6 md:px-8 lg:pl-16">
+          {/* === Intro Section === */}
           <h1 className="text-4xl text-white mb-6">
             <span className="typewriter text-5xl">Gourav Anand</span>
           </h1>
@@ -50,6 +51,7 @@ export default function HomePage() {
           </p>
 
           <br />
+          {/* === Technologies Section === */}
           <div className="text-white text-lg leading-relaxed whitespace-pre-line font-mono">
             Here are some of the technologies I&apos;ve been working with:
             <br />
@@ -66,6 +68,7 @@ export default function HomePage() {
             <br />
           </div>
 
+          {/* === Personal Interests === */}
           <p className="leading-relaxed text-white whitespace-pre-line">
             Outside of building things, I love spending time watching{" "}
             <a
@@ -83,10 +86,10 @@ export default function HomePage() {
           </p>
 
           <br />
+          {/* === Work Experience === */}
           <div className="leading-relaxed text-white whitespace-pre-line">
             <p>
-              During my time so far, I’ve had the opportunity to work at
-              multiple places.
+              Over time, I’ve had the opportunity to work at multiple places:
             </p>
 
             <div className="text-white">
@@ -95,20 +98,21 @@ export default function HomePage() {
                 <div className="flex items-start space-x-2">
                   <span className="text-green-400 mt-1">▸</span>
                   <p className="font-semibold underline text-xl text-green-400 flex items-center gap-2">
-                    Unity Internet, Bangalore, India
+                    Unity Internet, Bangalore
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                     </span>
                     <span className="text-sm italic text-green-300">
-                      (Latest)
+                      (Current)
                     </span>
                   </p>
                 </div>
                 {openIndex === 0 && (
                   <div className="ml-6 mt-2">
                     <p className="italic">
-                      Full-Time SDE II (Sep 2025 – Present)
+                      Full-Time Software Development Engineer II (Sep 2025 –
+                      Present)
                     </p>
                   </div>
                 )}
@@ -119,7 +123,7 @@ export default function HomePage() {
                 <div className="flex items-start space-x-2">
                   <span className="text-green-400 mt-1">▸</span>
                   <p className="font-semibold underline text-xl text-green-400">
-                    Timbre, Bangalore, India
+                    Timbre, Bangalore
                   </p>
                 </div>
                 {openIndex === 1 && (
@@ -130,19 +134,15 @@ export default function HomePage() {
                     <ul className="list-disc list-inside mt-1 space-y-1">
                       <li>
                         <span className="font-medium">
-                          Landing Page design:
+                          Landing Page Design:
                         </span>{" "}
-                        Designed and launched the company’s landing page with a
-                        focus on responsive layouts, modern UI, and brand
-                        consistency.
+                        Built responsive landing pages with modern UI/UX and
+                        consistent branding.
                       </li>
                       <li>
-                        <span className="font-medium">
-                          Integrations, SEO & Performance Optimization:
-                        </span>{" "}
-                        Implemented heatmaps, conversion tracking, and optimized
-                        SEO (100) with site performance scores of 80+ mobile and
-                        90+ desktop.
+                        <span className="font-medium">Performance:</span>{" "}
+                        Improved SEO (100) and boosted Core Web Vitals with
+                        Lighthouse scores of 90+.
                       </li>
                     </ul>
                   </div>
@@ -154,7 +154,7 @@ export default function HomePage() {
                 <div className="flex items-start space-x-2">
                   <span className="text-green-400 mt-1">▸</span>
                   <p className="font-semibold underline text-xl text-green-400">
-                    Bharat Electronics Limited, Bangalore, India
+                    Bharat Electronics Limited (BEL), Bangalore
                   </p>
                 </div>
                 {openIndex === 2 && (
@@ -164,16 +164,12 @@ export default function HomePage() {
                     </p>
                     <ul className="list-disc list-inside mt-1 space-y-1">
                       <li>
-                        <span className="font-medium">
-                          Military Communications:
-                        </span>{" "}
-                        Streamlined communication workflows, reducing
-                        time-to-market by 30%.
+                        Assisted in developing secure communication systems for
+                        defense applications.
                       </li>
                       <li>
-                        <span className="font-medium">Military Radar:</span>{" "}
-                        Observed development of secure, interoperable defense
-                        communication systems.
+                        Improved documentation workflow and optimized testing
+                        cycle efficiency by 30%.
                       </li>
                     </ul>
                   </div>
@@ -185,7 +181,7 @@ export default function HomePage() {
                 <div className="flex items-start space-x-2">
                   <span className="text-green-400 mt-1">▸</span>
                   <p className="font-semibold underline text-xl text-green-400">
-                    DIRO, Vellore, India
+                    DIRO, Vellore
                   </p>
                 </div>
                 {openIndex === 3 && (
@@ -195,28 +191,73 @@ export default function HomePage() {
                     </p>
                     <ul className="list-disc list-inside mt-1 space-y-1">
                       <li>
-                        <span className="font-medium">Research:</span> Conducted
-                        analysis of vehicle types, performance, and cost.
+                        Conducted analysis of vehicle performance and cost for
+                        sustainable mobility.
                       </li>
                       <li>
-                        <span className="font-medium">
-                          Notion Implementation:
-                        </span>{" "}
-                        Transitioned team from Google Docs to Notion for better
-                        collaboration.
+                        Migrated documentation workflows from Google Docs to
+                        Notion for better collaboration.
                       </li>
                     </ul>
                   </div>
                 )}
               </div>
+
+              {/* === Research Paper (Foldable, same spacing) === */}
+              <div className="mt-4 cursor-pointer" onClick={() => toggle(4)}>
+                <div className="flex items-start space-x-2">
+                  <span className="text-emerald-400 mt-1">▸</span>
+                  <p className="font-semibold underline text-xl text-emerald-400">
+                    Published Research Paper
+                  </p>
+                </div>
+
+                {openIndex === 4 && (
+                  <div className="ml-6 mt-2 border-l-2 border-emerald-400 pl-4">
+                    <h3 className="text-xl font-semibold text-white mb-1">
+                      Autonomous NextG Network Control Using Proximal Policy
+                      Optimization
+                    </h3>
+                    <p className="text-sm text-gray-400 italic mb-2">
+                      Published in IEEE Xplore, 2025
+                    </p>
+
+                    <p className="text-gray-300 leading-relaxed text-sm sm:text-base mb-4">
+                      This paper proposes a novel optimization framework that
+                      improves post-handover link stability in 5G and emerging
+                      6G networks. By analyzing mobility patterns and
+                      dynamically adjusting network parameters, the approach
+                      reduces signal degradation and improves Quality of Service
+                      (QoS) during high-speed user transitions.
+                    </p>
+
+                    <div className="flex flex-wrap gap-4">
+                      <a
+                        href="/researchPaper"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg transition-colors"
+                      >
+                        Read Paper
+                      </a>
+                      <a
+                        href="https://ieeexplore.ieee.org/document/11136080"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 border border-emerald-500 text-emerald-400 hover:bg-emerald-500/10 rounded-lg text-sm font-semibold transition-colors"
+                      >
+                        View Online
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="leading-relaxed text-white whitespace-pre-line">
-              <br />
+            <div className="leading-relaxed text-white whitespace-pre-line mt-6">
               <p>...and there’s a lot more on the horizon.</p>
             </div>
 
-            {/* Contact Section */}
+            {/* === Contact Section === */}
             <div className="leading-relaxed text-white whitespace-pre-line mt-10">
               <p className="text-center">
                 I recently moved to Delhi — if you’re around, feel free to reach
@@ -281,7 +322,7 @@ export default function HomePage() {
 
                 {/* Version Info */}
                 <p className="text-xs text-gray-500">
-                  © {new Date().getFullYear()} Gourav Anand — v1.0.0
+                  © {new Date().getFullYear()} Gourav Anand — v1.1.0
                 </p>
               </div>
             </div>
