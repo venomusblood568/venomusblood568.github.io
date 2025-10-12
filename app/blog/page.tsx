@@ -28,6 +28,12 @@ const posts: Post[] = [
     readTime: "3 min",
     year: 2025,
   },
+  {
+    title: "Microservices: What?",
+    date: "Oct 12, 2025",
+    readTime: "3 min",
+    year: 2025,
+  },
 ];
 
 export default function Blog() {

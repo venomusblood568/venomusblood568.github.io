@@ -326,7 +326,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Version Info */}
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-300 ">
                   © {new Date().getFullYear()} Gourav Anand — v1.1.0
                 </p>
               </div>
