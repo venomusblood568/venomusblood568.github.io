@@ -1,0 +1,16 @@
+name: test yml file
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # outputs: "Hello from my first workflow!" -> this is wrong because output is used for passing data not printing
+    steps:
+      - name: Print a message
+        # run: "Hello from my first workflow!" -> this wont print casue its a shell command and shell command needs echo for printing stuffs
+        run: echo "Hello from my first workflow!"
+
