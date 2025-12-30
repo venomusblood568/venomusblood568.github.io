@@ -34,10 +34,19 @@ const posts: Post[] = [
     readTime: "3 min",
     year: 2025,
   },
+  {
+    title: "Simply createPortal",
+    date: "Dec 30, 2025",
+    readTime: "3 min",
+    year: 2025,
+  },
 ];
 
 export default function Blog() {
   const year = posts[0]?.year ?? new Date().getFullYear();
+  const sortedPosts = [...posts].sort((a,b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime()
+  })
 
   return (
     <div className="min-h-screen text-gray-500 px-6 py-12 font-sans">
@@ -57,15 +66,22 @@ export default function Blog() {
           {year}
         </h1>
         <ul className="space-y-4 text-gray-400 py-28">
-          {posts.map((post, idx) => {
+          {sortedPosts.map((post, idx) => {
             const slug = slugify(post.title);
+              const isLatest = idx === 0;
+  
             return (
               <li key={idx} className="rounded-xl transition-all duration-300">
                 <Link
                   href={`/blog/${slug}`}
                   className="flex flex-col sm:flex-row gap-10 sm:items-center hover:text-white cursor-pointer"
                 >
-                  <div className="text-lg font-medium">{post.title}</div>
+                  <div className="flex items-center gap-3">
+                    {isLatest && (
+                      <span className="text-white-500 animate-pulse">✦</span>
+                    )}
+                    <div className="text-lg font-medium">{post.title}</div>
+                  </div>
                   <time className="text-sm">
                     {post.date} · {post.readTime}
                   </time>
