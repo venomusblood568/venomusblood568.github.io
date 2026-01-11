@@ -43,10 +43,22 @@ const posts: Post[] = [
 ];
 
 export default function Blog() {
-  const year = posts[0]?.year ?? new Date().getFullYear();
-  const sortedPosts = [...posts].sort((a,b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime()
-  })
+  const sortedPosts = [...posts].sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
+  // Group posts by year
+  const postsByYear = sortedPosts.reduce((acc, post) => {
+    if (!acc[post.year]) {
+      acc[post.year] = [];
+    }
+    acc[post.year].push(post);
+    return acc;
+  }, {} as Record<number, Post[]>);
+
+  const years = Object.keys(postsByYear)
+    .map(Number)
+    .sort((a, b) => b - a);
 
   return (
     <div className="min-h-screen text-gray-500 px-6 py-12 font-sans">
@@ -62,34 +74,44 @@ export default function Blog() {
         <p className="text-gray-400 text-xs tracking-wide mb-10 select-none">
           <span>dev logs ✦ ideas ✦ reflections</span>
         </p>
-        <h1 className="text-[100px] text-outline sm:text-[240px] font-bold text-outline-bold opacity-10 absolute top-70 px-72 sm:left-10 text-white pointer-events-none select-none z-0">
-          {year}
-        </h1>
-        <ul className="space-y-4 text-gray-400 py-28">
-          {sortedPosts.map((post, idx) => {
-            const slug = slugify(post.title);
-              const isLatest = idx === 0;
-  
-            return (
-              <li key={idx} className="rounded-xl transition-all duration-300">
-                <Link
-                  href={`/blog/${slug}`}
-                  className="flex flex-col sm:flex-row gap-10 sm:items-center hover:text-white cursor-pointer"
-                >
-                  <div className="flex items-center gap-3">
-                    {isLatest && (
-                      <span className="text-white-500 animate-pulse">✦</span>
-                    )}
-                    <div className="text-lg font-medium">{post.title}</div>
-                  </div>
-                  <time className="text-sm">
-                    {post.date} · {post.readTime}
-                  </time>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+
+        {years.map((year) => (
+          <div key={year} className="relative mb-40">
+            <h1 className="text-[100px] sm:text-[240px] font-bold text-outline-bold opacity-10 absolute top-0 sm:left-10 text-white pointer-events-none select-none z-0">
+              {year}
+            </h1>
+            <ul className="space-y-4 text-gray-400 relative z-10 pt-28">
+              {postsByYear[year].map((post, idx) => {
+                const slug = slugify(post.title);
+                const isLatest = year === years[0] && idx === 0;
+
+                return (
+                  <li
+                    key={idx}
+                    className="rounded-xl transition-all duration-300"
+                  >
+                    <Link
+                      href={`/blog/${slug}`}
+                      className="flex flex-col sm:flex-row gap-10 sm:items-center hover:text-white cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3">
+                        {isLatest && (
+                          <span className="text-white-500 animate-pulse">
+                            ✦
+                          </span>
+                        )}
+                        <div className="text-lg font-medium">{post.title}</div>
+                      </div>
+                      <time className="text-sm">
+                        {post.date} · {post.readTime}
+                      </time>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   );
