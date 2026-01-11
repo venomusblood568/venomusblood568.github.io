@@ -54,12 +54,25 @@ export default function Design() {
     setCurrentImgIndex(index);
     setSelectedImg(images[index]);
   };
-
+  
   const closeImage = () => {
     setCurrentImgIndex(null);
     setSelectedImg(null);
   };
 
+  useEffect(() => {
+    if (currentImgIndex === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") nextImg();
+      if (e.key === "ArrowLeft") prevImg();
+      if (e.key === "Escape") closeImage();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentImgIndex]);
+  
   const nextImg = () => {
     if (currentImgIndex !== null) {
       const newIndex = (currentImgIndex + 1) % images.length;
