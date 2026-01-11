@@ -171,7 +171,20 @@ export default function Photo() {
   const openImage = (index: number) => {
     setCurrentImgIndex(index);
     setSelectedImg(shuffledImages[index]);
+    
   };
+
+  //Keyboard naviagtion
+  useEffect(() => {
+    if(currentImgIndex === null) return;
+    const handleKey = (e : KeyboardEvent) => {
+      if(e.key === "ArrowRight") navigateImage("next");
+      if(e.key === "ArrowLeft") navigateImage("prev");
+      if(e.key === "Escape") closeImage(); 
+    }
+    window.addEventListener("keydown",handleKey);
+    return () => window.removeEventListener("keydown",handleKey);
+  },[currentImgIndex]);
 
   const closeImage = () => {
     setCurrentImgIndex(null);
