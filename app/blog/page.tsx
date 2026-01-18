@@ -40,6 +40,12 @@ const posts: Post[] = [
     readTime: "3 min",
     year: 2025,
   },
+  {
+    title: "When Analytics Miss a User",
+    date: "Jan 18, 2026",
+    readTime: "3 min",
+    year: 2026,
+  },
 ];
 
 export default function Blog() {
