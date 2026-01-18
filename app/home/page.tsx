@@ -111,7 +111,7 @@ export default function HomePage() {
                 {openIndex === 0 && (
                   <div className="ml-6 mt-2">
                     <p className="italic">
-                      Full-Time Software Development Engineer II (Sep 2025 –
+                      Full-Time Software Development Engineer (SDE) (Sep 2025 –
                       Present)
                     </p>
                   </div>
