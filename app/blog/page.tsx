@@ -35,7 +35,7 @@ const posts: Post[] = [
     year: 2025,
   },
   {
-    title: "Simply createPortal",
+    title: "Simply create portal",
     date: "Dec 30, 2025",
     readTime: "3 min",
     year: 2025,
