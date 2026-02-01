@@ -20,7 +20,7 @@ OS (macOS, Windows, etc.)
 browser family (Chrome, Safari, Chromium)
 Nothing fancy.
 
-Become a member
+
 After checking a few options, I came across an npm package called bowser. Setup was fairly easy and the parsed output was much cleaner compared to raw user-agent data.
 
 It’s still not perfect, and it won’t magically track everything. But for our use case, it filled a blind spot.

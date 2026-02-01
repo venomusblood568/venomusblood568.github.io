@@ -1,7 +1,11 @@
-export function ResumeIcon() {
+interface IconProps {
+  className?: string;
+}
+
+export function ResumeIcon({ className = "" }: IconProps) {
   return (
     <svg
-      className="w-[30px] h-[30px] text-gray-800 dark:text-gray-400 hover:text-white"
+      className={`w-[30px] h-[30px] ${className}`}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
