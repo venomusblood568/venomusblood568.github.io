@@ -46,6 +46,12 @@ const posts: Post[] = [
     readTime: "3 min",
     year: 2026,
   },
+  {
+    title: "Intro to Headless UI Architecture",
+    date: "Jan 24, 2026",
+    readTime: "3 min",
+    year: 2026,
+  },
 ];
 
 export default function Blog() {
