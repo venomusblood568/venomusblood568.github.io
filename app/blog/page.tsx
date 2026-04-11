@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
 import Header from "../components/header";
 import Link from "next/link";
 import { slugify } from "../lib/slugify";
@@ -48,77 +51,209 @@ const posts: Post[] = [
   },
 ];
 
-export default function Blog() {
-  const sortedPosts = [...posts].sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+function useInView(threshold = 0.15) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
 
-  // Group posts by year
-  const postsByYear = sortedPosts.reduce((acc, post) => {
-    if (!acc[post.year]) {
-      acc[post.year] = [];
-    }
-    acc[post.year].push(post);
-    return acc;
-  }, {} as Record<number, Post[]>);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          obs.disconnect();
+        }
+      },
+      { threshold },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+
+  return { ref, inView };
+}
+
+function FadeSection({
+  children,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+}) {
+  const { ref, inView } = useInView();
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: `${delay}ms` }}
+      className={`transition-all duration-700 ${
+        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      }`}
+    >
+      {children}
+    </div>
+  );
+}
+
+export default function Blog() {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    const update = () => {
+      setIsDark(html.classList.contains("dark"));
+      document.body.style.backgroundColor = html.classList.contains("dark")
+        ? "#0a0a0a"
+        : "#f9fafb";
+    };
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(html, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
+  const accent = isDark ? "#4ade80" : "#16a34a";
+  const bg = isDark ? "#0a0a0a" : "#f9fafb";
+  const divider = isDark ? "#1f2937" : "#e5e7eb";
+  const textPri = isDark ? "#f0f0f0" : "#111827";
+  const textMid = isDark ? "#9ca3af" : "#6b7280";
+  const textDim = isDark ? "#374151" : "#9ca3af";
+
+  const sortedPosts = [...posts].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+
+  const postsByYear = sortedPosts.reduce(
+    (acc, post) => {
+      if (!acc[post.year]) acc[post.year] = [];
+      acc[post.year].push(post);
+      return acc;
+    },
+    {} as Record<number, Post[]>,
+  );
 
   const years = Object.keys(postsByYear)
     .map(Number)
     .sort((a, b) => b - a);
 
   return (
-    <div className="min-h-screen text-gray-500 px-6 py-12 font-sans">
+    <div
+      className="min-h-screen flex flex-col transition-colors duration-300"
+      style={{ backgroundColor: bg }}
+    >
       <Header />
-      <div className="max-w-3xl mx-auto pt-30">
-        <h1 className="text-8xl font-bold tracking-tight opacity-10 text-outline animate-pulse slow-pulse">
-          BLOG
-        </h1>
 
-        <p className="uppercase text-gray-400 tracking-wide mb-2 text-sm sm:text-base">
-          I write with a cup of coffee ☕
-        </p>
-        <p className="text-gray-400 text-xs tracking-wide mb-10 select-none">
-          <span>dev logs ✦ ideas ✦ reflections</span>
-        </p>
+      <main className="flex justify-center px-4 pt-36 pb-24 sm:px-10 md:px-16 lg:px-32">
+        <div className="w-full max-w-3xl font-mono">
+          {/* Hero */}
+          <section className="mb-16">
+            <p
+              className="text-sm mb-4 opacity-0 animate-[fadeup_0.4s_ease_0.2s_forwards]"
+              style={{ color: accent }}
+            >
+              $ ls ./blog
+            </p>
 
-        {years.map((year) => (
-          <div key={year} className="relative mb-40">
-            <h1 className="text-[100px] sm:text-[240px] font-bold text-outline-bold opacity-10 absolute top-0 sm:left-10 text-white pointer-events-none select-none z-0">
-              {year}
+            <h1
+              className="text-4xl sm:text-5xl font-normal mb-4 leading-tight opacity-0 animate-[fadeup_0.5s_ease_0.5s_forwards]"
+              style={{ color: textPri, opacity: 0.08, letterSpacing: "-2px" }}
+            >
+              BLOG
             </h1>
-            <ul className="space-y-4 text-gray-400 relative z-10 pt-28">
-              {postsByYear[year].map((post, idx) => {
-                const slug = slugify(post.title);
-                const isLatest = year === years[0] && idx === 0;
 
-                return (
-                  <li
-                    key={idx}
-                    className="rounded-xl transition-all duration-300"
-                  >
-                    <Link
-                      href={`/blog/${slug}`}
-                      className="flex flex-col sm:flex-row gap-10 sm:items-center hover:text-white cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        {isLatest && (
-                          <span className="text-white-500 animate-pulse">
-                            ✦
+            <p
+              className="text-sm mb-1 opacity-0 animate-[fadeup_0.5s_ease_0.8s_forwards]"
+              style={{ color: accent }}
+            >
+              I write with a cup of coffee ☕
+            </p>
+            <p
+              className="text-xs tracking-widest opacity-0 animate-[fadeup_0.5s_ease_1s_forwards]"
+              style={{ color: textDim }}
+            >
+              dev logs ✦ ideas ✦ reflections
+            </p>
+          </section>
+
+          <div
+            style={{ borderTop: `1px solid ${divider}`, marginBottom: "3rem" }}
+          />
+
+          {/* Posts by year */}
+          {years.map((year, yi) => (
+            <FadeSection key={year} delay={yi * 80}>
+              <section className="mb-16">
+                <p
+                  className="text-[10px] tracking-[0.25em] mb-6"
+                  style={{ color: accent }}
+                >
+                  {`// ${year}`}
+                </p>
+
+                <ul className="flex flex-col">
+                  {postsByYear[year].map((post, idx) => {
+                    const slug = slugify(post.title);
+                    const isLatest = yi === 0 && idx === 0;
+
+                    return (
+                      <li
+                        key={idx}
+                        style={{
+                          borderBottom: `1px solid ${isDark ? "#111" : "#f3f4f6"}`,
+                        }}
+                      >
+                        <Link
+                          href={`/blog/${slug}`}
+                          className="flex items-baseline gap-3 py-3 group"
+                        >
+                          <span
+                            className={`text-xs flex-shrink-0 transition-colors duration-150 ${
+                              isLatest ? "animate-pulse" : ""
+                            }`}
+                            style={{ color: accent }}
+                          >
+                            {isLatest ? "✦" : "▸"}
                           </span>
-                        )}
-                        <div className="text-lg font-medium">{post.title}</div>
-                      </div>
-                      <time className="text-sm">
-                        {post.date} · {post.readTime}
-                      </time>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-      </div>
+                          <span
+                            className="text-sm flex-1 transition-colors duration-150"
+                            style={{ color: textMid }}
+                          >
+                            <span
+                              className="group-hover:text-[var(--accent)] transition-colors duration-150"
+                              style={{ color: isDark ? "#d1d5db" : "#374151" }}
+                            >
+                              {post.title}
+                            </span>
+                          </span>
+                          <time
+                            className="text-xs flex-shrink-0 whitespace-nowrap"
+                            style={{ color: textDim }}
+                          >
+                            {post.date} · {post.readTime}
+                          </time>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+
+              <div
+                style={{
+                  borderTop: `1px solid ${divider}`,
+                  marginBottom: "3rem",
+                }}
+              />
+            </FadeSection>
+          ))}
+
+          <FadeSection>
+            <p className="text-xs" style={{ color: textDim }}>
+              ...more posts incoming.
+            </p>
+          </FadeSection>
+        </div>
+      </main>
     </div>
   );
 }

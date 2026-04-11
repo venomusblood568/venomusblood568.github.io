@@ -5,6 +5,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 import Link from "next/link";
+import Header from "../../components/header";
 
 export async function generateStaticParams() {
   const postsDirectory = path.join(process.cwd(), "content");
@@ -21,58 +22,83 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPost(props: any) {
-  // Use type assertion to bypass TypeScript checking
   const slug = (props.params as any).slug;
   const fullPath = path.join(process.cwd(), "content", `${slug}.md`);
 
+  // ── 404 ──────────────────────────────────────────────────────────────────
   if (!fs.existsSync(fullPath)) {
     return (
-      <div className="min-h-screen bg-black text-gray-300 px-4 py-12">
-        <div className="max-w-2xl mx-auto text-center mt-20">
-          <h1 className="text-3xl font-semibold text-red-500">
-            404 - Not Found
-          </h1>
-          <p className="text-gray-500 mt-2">Still writing with a cup of coffee</p>
-          <Link
-            href="/blog"
-            className="text-gray-700 hover:text-gray-400 font-mono"
-          >
-            <br />  
-            {">"} cd ..
-          </Link>
+      <div className="blog-page min-h-screen flex flex-col font-mono">
+        <Header />
+        <div className="flex justify-center px-4 pt-36 pb-24 sm:px-10 md:px-16 lg:px-32">
+          <div className="w-full max-w-3xl">
+            <p className="blog-accent text-sm mb-8">$ cat ./blog/{slug}.md</p>
+            <div className="blog-card rounded-lg p-8 text-center">
+              <p className="blog-ghost-num text-6xl font-normal mb-4">404</p>
+              <p className="blog-meta text-sm mb-4">
+                Post not found — still writing with a cup of coffee.
+              </p>
+              <Link
+                href="/blog"
+                className="blog-accent text-xs transition-opacity hover:opacity-75"
+              >
+                &gt; cd ..
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
+  // ── Load post ─────────────────────────────────────────────────────────────
   try {
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data, content } = matter(fileContents);
     const processedContent = await remark().use(html).process(content);
 
     return (
-      <div className="min-h-screen bg-black text-gray-300 px-4 py-8 pt-40">
-        <main className="max-w-2xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-            {data.title}
-          </h1>
-          <p className="text-sm text-gray-500 mb-6">
-            {data.date} · {data.readTime}
-          </p>
+      <div className="blog-page min-h-screen flex flex-col font-mono transition-colors duration-300">
+        <Header />
 
-          <span className="animate-slide-up">
-            <div
-              className="prose prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: processedContent.toString() }}
-            />
-          </span>
+        <main className="flex justify-center px-4 pt-36 pb-24 sm:px-10 md:px-16 lg:px-32">
+          <div className="w-full max-w-3xl">
+            {/* Breadcrumb */}
+            <p className="blog-accent text-sm mb-6">$ cat ./blog/{slug}.md</p>
 
-          <div className="mt-10 text-sm">
+            {/* Back link */}
             <Link
               href="/blog"
-              className="text-gray-700 hover:text-gray-400 font-mono"
+              className="blog-back text-xs mb-10 inline-block transition-opacity duration-150 hover:opacity-75"
             >
-              {">"} cd ..
+              &gt; cd ..
+            </Link>
+
+            {/* Title */}
+            <h1 className="blog-title text-3xl sm:text-4xl font-normal leading-snug mt-8 mb-3">
+              {data.title}
+            </h1>
+
+            <p className="blog-meta text-xs mb-10">
+              {data.date} · {data.readTime}
+            </p>
+
+            <div className="blog-divider mb-10" />
+
+            {/* Prose */}
+            <div
+              className="blog-prose text-sm leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: processedContent.toString() }}
+            />
+
+            <div className="blog-divider mt-12 mb-8" />
+
+            {/* Footer back */}
+            <Link
+              href="/blog"
+              className="blog-back text-xs transition-opacity duration-150 hover:opacity-75"
+            >
+              &gt; cd ..
             </Link>
           </div>
         </main>
@@ -81,18 +107,22 @@ export default async function BlogPost(props: any) {
   } catch (err) {
     console.error(`Error loading blog post: ${fullPath}`, err);
     return (
-      <div className="min-h-screen bg-black text-gray-300 px-4 py-12">
-        <div className="max-w-2xl mx-auto text-center mt-20">
-          <h1 className="text-3xl font-semibold text-yellow-500">
-            Error Loading Post
-          </h1>
-          <p className="text-gray-500 mt-2">Something went wrong.</p>
-          <Link
-            href="/blog"
-            className="text-gray-700 hover:text-gray-400 font-mono"
-          >
-            {">"} cd ..
-          </Link>
+      <div className="blog-page min-h-screen flex flex-col font-mono">
+        <Header />
+        <div className="flex justify-center px-4 pt-36 pb-24 sm:px-10 md:px-16 lg:px-32">
+          <div className="w-full max-w-3xl">
+            <div className="blog-card rounded-lg p-8 text-center">
+              <p className="blog-meta text-sm mb-4">
+                Something went wrong loading this post.
+              </p>
+              <Link
+                href="/blog"
+                className="blog-accent text-xs transition-opacity hover:opacity-75"
+              >
+                &gt; cd ..
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     );
