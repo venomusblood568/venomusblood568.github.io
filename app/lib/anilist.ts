@@ -50,14 +50,52 @@ export interface AniListData {
   activities: ActivityEntry[];
 }
 
+// ─── RAW API SHAPES ────────────────────────────────
+
+interface RawMedia {
+  id: number;
+  title?: {
+    english?: string;
+    romaji?: string;
+    native?: string;
+  };
+  coverImage?: {
+    large?: string;
+    medium?: string;
+  };
+  averageScore?: number;
+  episodes?: number;
+  format?: string;
+  genres?: string[];
+}
+
+interface RawEntry {
+  score: number;
+  status: string;
+  media: RawMedia;
+}
+
+interface RawList {
+  entries: RawEntry[];
+}
+
+interface RawActivity {
+  status?: string;
+  progress?: number | null;
+  media?: {
+    title: { romaji: string };
+    coverImage: { medium: string };
+  };
+}
+
 // ─── NORMALIZER ─────────────────────────────────────
 
-function normalizeAnime(media: any): Anime {
+function normalizeAnime(media: RawMedia): Anime {
   return {
     id: media.id,
     title: media.title?.english || media.title?.romaji || "Unknown",
     nativeTitle: media.title?.native,
-    cover: media.coverImage?.large,
+    cover: media.coverImage?.large ?? "",
     score: media.averageScore,
     episodes: media.episodes,
     format: media.format,
@@ -138,8 +176,8 @@ async function getAnimeList(username: string): Promise<AnimeEntry[]> {
   if (!json?.data?.MediaListCollection) return [];
 
   return (
-    json.data.MediaListCollection.lists?.flatMap((list: any) =>
-      list.entries.map((e: any) => ({
+    json.data.MediaListCollection.lists?.flatMap((list: RawList) =>
+      list.entries.map((e: RawEntry) => ({
         score: e.score,
         status: e.status,
         anime: normalizeAnime(e.media),
@@ -174,7 +212,9 @@ async function getActivities(userId: number): Promise<ActivityEntry[]> {
   });
 
   const json = await res.json();
-  return json?.data?.Page?.activities?.filter((a: any) => a.media) || [];
+  return (
+    json?.data?.Page?.activities?.filter((a: RawActivity) => a.media) || []
+  );
 }
 
 // ─── MAIN EXPORT ───────────────────────────────────
