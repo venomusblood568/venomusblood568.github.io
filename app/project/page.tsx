@@ -12,16 +12,16 @@ type Project = {
   active?: boolean;
 };
 
-const WIP: Project[] = [
-  {
-    title: "Hound",
-    desc: "Lean, developer-friendly monitoring platform that automatically checks websites/APIs, provides insights, and alerts owners in real-time.",
-    github: "https://github.com/venomusblood568/hound",
-    live: "#",
-    badge: "LATEST",
-    active: true,
-  },
-];
+// const WIP: Project[] = [
+//   {
+//     title: "Hound",
+//     desc: "Lean, developer-friendly monitoring platform that automatically checks websites/APIs, provides insights, and alerts owners in real-time.",
+//     github: "https://github.com/venomusblood568/hound",
+//     live: "#",
+//     badge: "LATEST",
+//     active: true,
+//   },
+// ];
 
 const WEBSITES: Project[] = [
   {
@@ -359,7 +359,7 @@ export default function Projects() {
             style={{ borderTop: `1px solid ${divider}`, marginBottom: "3rem" }}
           />
 
-          <Section label="// WIP" projects={WIP} {...sharedProps} />
+          {/* <Section label="// WIP" projects={WIP} {...sharedProps} /> */}
           <Section label="// WEBSITES" projects={WEBSITES} {...sharedProps} />
           <Section label="// PYTHON" projects={PYTHON} {...sharedProps} grid />
           <Section
