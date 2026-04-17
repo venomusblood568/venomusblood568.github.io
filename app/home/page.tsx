@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "../components/header";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import GitHubGraph from "../components/GitHubGraph";
 
 const TECHS = [
   "TypeScript",
@@ -517,7 +518,21 @@ export default function HomePage() {
               </div>
             </section>
           </FadeSection>
-
+          <FadeSection>
+            <section className="mb-12">
+              <p
+                className="text-[10px] tracking-[0.25em] mb-4"
+                style={{ color: accent }}
+              >
+                {"// CONTRIBUTIONS"}
+              </p>
+              <GitHubGraph
+                username="venomusblood568"
+                isDark={isDark}
+                accent={accent}
+              />
+            </section>
+          </FadeSection>
           <div
             className="mb-12"
             style={{ borderTop: `1px solid ${divider}` }}
