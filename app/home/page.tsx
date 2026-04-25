@@ -65,6 +65,8 @@ const EXPERIENCES = [
   },
 ];
 
+const sectionLabel = (name: string) => `// ${name}`;
+
 function useTypewriter(text: string, speed = 80, startDelay = 400) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
@@ -171,7 +173,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-300">
-      {/* ✅ HexBackground restored — fixed: removed broken JSX comment that caused build error */}
       <HexBackground accentColor={accent} isDark={isDark} />
 
       <div className="relative" style={{ zIndex: 1 }}>
@@ -269,7 +270,7 @@ export default function HomePage() {
                   className="text-[10px] tracking-[0.25em] mb-4"
                   style={{ color: accent }}
                 >
-                  {"// TECHNOLOGIES"}
+                  {sectionLabel("TECHNOLOGIES")}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {TECHS.map((tech) => (
@@ -301,7 +302,7 @@ export default function HomePage() {
                   className="text-[10px] tracking-[0.25em] mb-4"
                   style={{ color: accent }}
                 >
-                  {"// ABOUT"}
+                  {sectionLabel("ABOUT")}
                 </p>
                 <p
                   className="text-sm leading-relaxed"
@@ -337,7 +338,7 @@ export default function HomePage() {
                   className="text-[10px] tracking-[0.25em] mb-8"
                   style={{ color: accent }}
                 >
-                  {"// EXPERIENCE"}
+                  {sectionLabel("EXPERIENCE")}
                 </p>
 
                 <div className="flex flex-col">
@@ -469,7 +470,7 @@ export default function HomePage() {
                   className="text-[10px] tracking-[0.25em] mb-4"
                   style={{ color: accent }}
                 >
-                  {"// RESEARCH"}
+                  {sectionLabel("RESEARCH")}
                 </p>
 
                 <div
