@@ -530,37 +530,45 @@ export default function HomePage() {
                     </a>
                   </div>
                 </div>
-              </div>
-            </section>
-          </FadeSection>
-          <FadeSection>
-            <section className="mb-12">
-              <p
-                className="text-[10px] tracking-[0.25em] mb-4"
-                style={{ color: accent }}
-              >
-                {"// CONTRIBUTIONS"}
-              </p>
-              <GitHubGraph
-                username="venomusblood568"
-                isDark={isDark}
-                accent={accent}
-              />
-            </section>
-          </FadeSection>
-          <div
-            className="mb-12"
-            style={{ borderTop: `1px solid ${divider}` }}
-          />
+              </section>
+            </FadeSection>
 
-          <FadeSection>
-            <section className="text-center">
-              <p className="text-sm mb-1" style={{ color: "#9ca3af" }}>
-                Recently moved to Delhi —
-              </p>
-              <p className="text-sm mb-8" style={{ color: textMid }}>
-                feel free to reach out for coffee or collaboration.
-              </p>
+            <div
+              className="mb-12"
+              style={{ borderTop: `1px solid ${divider}` }}
+            />
+
+            {/* ── CONTRIBUTIONS ── */}
+            <FadeSection>
+              <section className="mb-12">
+                <p
+                  className="text-[10px] tracking-[0.25em] mb-4"
+                  style={{ color: accent }}
+                >
+                  {sectionLabel("CONTRIBUTIONS")}
+                </p>
+                <GitHubGraph
+                  username="venomusblood568"
+                  isDark={isDark}
+                  accent={accent}
+                />
+              </section>
+            </FadeSection>
+
+            <div
+              className="mb-12"
+              style={{ borderTop: `1px solid ${divider}` }}
+            />
+
+            {/* ── CONTACT ── */}
+            <FadeSection>
+              <section className="text-center">
+                <p className="text-sm mb-1" style={{ color: "#9ca3af" }}>
+                  Recently moved to Delhi —
+                </p>
+                <p className="text-sm mb-8" style={{ color: textMid }}>
+                  feel free to reach out for coffee or collaboration.
+                </p>
 
                 <hr
                   className="w-10 mx-auto mb-8"
