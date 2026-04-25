@@ -1,6 +1,7 @@
 "use client";
 
 import { Geist, Geist_Mono } from "next/font/google";
+import HexBackground from "../app/components/Hexbackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,8 +19,12 @@ export default function ClientBody({
   children: React.ReactNode;
 }) {
   return (
-    <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      {children}
-    </body>
+    <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      {/* Background */}
+      <HexBackground isDark={true} accentColor="#4ade80" />
+
+      {/* Content */}
+      <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
+    </div>
   );
 }
