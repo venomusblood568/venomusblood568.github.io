@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Header from "../components/header";
-// import HexBackground from "../components/Hexbackground";
+import HexBackground from "../components/Hexbackground";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import GitHubGraph from "../components/GitHubGraph";
 
@@ -165,21 +165,16 @@ export default function HomePage() {
   };
 
   const accent = isDark ? "#4ade80" : "#16a34a";
-  // const bg = isDark ? "#0a0a0a" : "#f9fafb";
   const divider = isDark ? "#1f2937" : "#e5e7eb";
   const textPri = isDark ? "#f0f0f0" : "#111827";
   const textMid = isDark ? "#9ca3af" : "#6b7280";
   const dotLine = isDark ? "#1f2937" : "#e5e7eb";
 
   return (
-    <div
-      className="min-h-screen flex flex-col transition-colors duration-300"
-      // style={{ backgroundColor: bg }}
-    >
-      {/* Hex background — fixed, behind everything, z-index 0 */}
-      {/* <HexBackground accentColor={accent} isDark={isDark} /> */}
+    <div className="min-h-screen flex flex-col transition-colors duration-300">
+      {/* ✅ HexBackground restored — fixed: removed broken JSX comment that caused build error */}
+      <HexBackground accentColor={accent} isDark={isDark} />
 
-      {/* All page content sits above the canvas */}
       <div className="relative" style={{ zIndex: 1 }}>
         <Header />
 
