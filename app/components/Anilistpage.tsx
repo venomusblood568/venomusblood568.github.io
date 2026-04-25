@@ -374,7 +374,7 @@ export default function AniListPage({ data }: { data: AniListData }) {
   const st = user.statistics.anime;
 
   const accent = isDark ? "#4ade80" : "#16a34a";
-  const bg = isDark ? "#0a0a0a" : "#f9fafb";
+  // const bg = isDark ? "#0a0a0a" : "#f9fafb";
   const divider = isDark ? "#1f2937" : "#e5e7eb";
   const textPri = isDark ? "#f0f0f0" : "#111827";
   const textMid = isDark ? "#9ca3af" : "#6b7280";
@@ -400,7 +400,6 @@ export default function AniListPage({ data }: { data: AniListData }) {
   return (
     <div
       className="min-h-screen flex flex-col transition-colors duration-300 font-mono"
-      style={{ backgroundColor: bg }}
     >
       <Header />
 

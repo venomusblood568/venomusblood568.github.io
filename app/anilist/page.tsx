@@ -1,5 +1,3 @@
-// app/anime/page.tsx
-
 import { getFullAniListData } from "../lib/anilist";
 import AniListPage from "../components/Anilistpage";
 
@@ -15,8 +13,8 @@ export default async function Page() {
   } catch {
     return (
       <main
-        className="min-h-screen flex items-center justify-center font-mono"
-        style={{ backgroundColor: "#0a0a0a", color: "#9ca3af" }}
+        className="min-h-screen flex items-center justify-center relative z-10 font-mono"
+        style={{ color: "#9ca3af" }}
       >
         <p style={{ color: "#4ade80" }}>✗ failed to load AniList data</p>
       </main>
