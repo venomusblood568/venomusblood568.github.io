@@ -1,86 +1,490 @@
 @import "tailwindcss";
 
+/* ── Smooth theme transitions ── */
+*, *::before, *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+}
+
+/* ── Scrollbar ── */
 :root {
-  --primary: #2b2d42;
-  --secondary: #41644A;
-  --tertiary: #edf2f4;
-  --background: #41644A;
-  --foreground: #000000;
-  --dot-color: white;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: 'Geist Sans', Arial, Helvetica, sans-serif;
-  --font-mono: 'Geist Mono', monospace;
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
 }
 
-.dark-theme {
-  --background: black;
-  --foreground: gray;
-  --dot-color:  #302f2f; 
-}
+/* Light scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #f9fafb; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
 
-body {
-  background: var(--background);
-  background-image: radial-gradient(var(--dot-color) 1px, transparent 0.8px); /* Updated */
-  background-size: 50px 50px;
-  color: var(--color-white);
-  font-family: var(--font-sans);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-.text-outline {
-  color: transparent;
-  -webkit-text-stroke: 1.5px white; 
-  text-stroke: 1.5px white;         
-}
+/* Dark scrollbar */
+html.dark ::-webkit-scrollbar-track { background: #0a0a0a; }
+html.dark ::-webkit-scrollbar-thumb { background: #2a2a2a; }
 
-.text-outline-bold {
-  color: transparent;
-  -webkit-text-stroke: 3px white;
-  text-stroke: 3px white;    
-}
-.typewriter {
-  display: inline-block;
-  overflow: hidden;
-  border-right: 2px solid white;
-  white-space: nowrap;
-  letter-spacing: -0.05em; /* Compensate for font spacing */
-  animation: 
-    typingLoop 8s steps(15, end) infinite,
-    blink 1.2s steps(1) infinite; /* Crisper cursor */
-}
-
-@keyframes typingLoop {
-  0%, 100% { 
-    width: 0;
-    opacity: 0; /* Hide during reset */
-  }
-  10%, 90% { 
-    width: 15ch; /* Use ch units for exact character count */
-    opacity: 1; 
-  }
-}
-
+/* ── Typewriter cursor blink ── */
 @keyframes blink {
-  0%, 100% { border-color: transparent }
-  50% { border-color: white }
+  0%, 100% { border-color: inherit; }
+  50%       { border-color: transparent; }
+}
+
+/* ── Fade-up on load ── */
+@keyframes fadeup {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* ─────────────────────────────────────────────
+   Add these rules to your existing globals.css
+   ───────────────────────────────────────────── */
+
+/* ── Slow pulse for blog ✦ icon ── */
+@keyframes slow-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
 }
 .slow-pulse {
-  animation-duration: 4s; /* slower than default 2s */
-}
-@keyframes slideUpFade {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  animation: slow-pulse 2.5s ease-in-out infinite;
 }
 
-.animate-slide-up {
-  animation: slideUpFade 0.6s ease-out both;
+/* ── Blog post prose styles ──────────────────────────────────── */
+
+.blog-prose p {
+  margin-bottom: 1.25rem;
 }
-.prose p {
-  margin-bottom: 1.5rem; /* more gap */
+
+/* h2 → terminal comment style matching // SECTION headers */
+.blog-prose h2 {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: #4ade80;
+  font-weight: 400;
+  margin: 2.5rem 0 0.875rem;
+  text-transform: uppercase;
+}
+html:not(.dark) .blog-prose h2 {
+  color: #16a34a;
+}
+
+/* h3 → slightly larger, muted green */
+.blog-prose h3 {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: #6b7280;
+  font-weight: 400;
+  margin: 1.75rem 0 0.625rem;
+}
+html:not(.dark) .blog-prose h3 {
+  color: #374151;
+}
+
+/* inline code */
+.blog-prose code {
+  background: #111;
+  border: 1px solid #1f2937;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #4ade80;
+  font-family: 'Courier New', Courier, monospace;
+}
+html:not(.dark) .blog-prose code {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #16a34a;
+}
+
+/* code blocks */
+.blog-prose pre {
+  background: #111;
+  border: 1px solid #1f2937;
+  padding: 16px 20px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+html:not(.dark) .blog-prose pre {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+}
+.blog-prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #d1d5db;
+  font-size: 12px;
+}
+html:not(.dark) .blog-prose pre code {
+  color: #374151;
+}
+
+/* links */
+.blog-prose a {
+  color: #4ade80;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+html:not(.dark) .blog-prose a {
+  color: #16a34a;
+}
+.blog-prose a:hover {
+  opacity: 0.75;
+}
+
+/* unordered list → ▸ bullets matching experience section */
+.blog-prose ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.25rem;
+}
+.blog-prose ul li {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 6px;
+}
+.blog-prose ul li::before {
+  content: '▸';
+  color: #4ade80;
+  position: absolute;
+  left: 0;
+  font-size: 10px;
+  top: 2px;
+}
+html:not(.dark) .blog-prose ul li::before {
+  color: #16a34a;
+}
+
+/* ordered list */
+.blog-prose ol {
+  padding-left: 20px;
+  margin-bottom: 1.25rem;
+  counter-reset: ol-counter;
+  list-style: none;
+}
+.blog-prose ol li {
+  counter-increment: ol-counter;
+  position: relative;
+  padding-left: 4px;
+  margin-bottom: 6px;
+}
+.blog-prose ol li::before {
+  content: counter(ol-counter) ".";
+  color: #4ade80;
+  position: absolute;
+  left: -20px;
+  font-size: 11px;
+}
+html:not(.dark) .blog-prose ol li::before {
+  color: #16a34a;
+}
+
+/* blockquote → left accent border */
+.blog-prose blockquote {
+  border-left: 2px solid #1f2937;
+  padding-left: 16px;
+  font-style: italic;
+  margin: 1.5rem 0;
+  color: #6b7280;
+}
+html:not(.dark) .blog-prose blockquote {
+  border-color: #d1d5db;
+  color: #9ca3af;
+}
+
+/* horizontal rule */
+.blog-prose hr {
+  border: none;
+  border-top: 1px solid #1f2937;
+  margin: 2rem 0;
+}
+html:not(.dark) .blog-prose hr {
+  border-color: #e5e7eb;
+}
+
+/* strong / bold */
+.blog-prose strong {
+  color: #e5e7eb;
+  font-weight: 500;
+}
+html:not(.dark) .blog-prose strong {
+  color: #111827;
+}
+
+/* em / italic */
+.blog-prose em {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Paste everything below into your existing globals.css
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Slow pulse for blog ✦ icon ── */
+@keyframes slow-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+.slow-pulse {
+  animation: slow-pulse 2.5s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BLOG POST PAGE — structural tokens
+   Light mode = default, dark mode = html.dark override
+   ══════════════════════════════════════════════════════════════ */
+
+/* Page background */
+.blog-page {
+  background-color: #f9fafb;
+}
+html.dark .blog-page {
+  background-color: #0a0a0a;
+}
+
+/* Green accent (breadcrumb, active links) */
+.blog-accent {
+  color: #16a34a;
+}
+html.dark .blog-accent {
+  color: #4ade80;
+}
+
+/* Back link — dim, not invisible */
+.blog-back {
+  color: #6b7280;
+}
+html.dark .blog-back {
+  color: #374151;
+}
+
+/* Post title */
+.blog-title {
+  color: #111827;
+}
+html.dark .blog-title {
+  color: #f0f0f0;
+}
+
+/* Date / meta line */
+.blog-meta {
+  color: #6b7280;
+}
+html.dark .blog-meta {
+  color: #4b5563;
+}
+
+/* Horizontal rule */
+.blog-divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+html.dark .blog-divider {
+  border-top-color: #1f2937;
+}
+
+/* Error / 404 card */
+.blog-card {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+html.dark .blog-card {
+  border-color: #1f2937;
+  background: #111;
+}
+
+/* Ghost 404 number */
+.blog-ghost-num {
+  color: #111827;
+  opacity: 0.06;
+  letter-spacing: -4px;
+}
+html.dark .blog-ghost-num {
+  color: #f0f0f0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BLOG PROSE — rendered markdown styles
+   ══════════════════════════════════════════════════════════════ */
+
+/* Base prose text */
+.blog-prose {
+  color: #374151;
+}
+html.dark .blog-prose {
+  color: #9ca3af;
+}
+
+.blog-prose p {
+  margin-bottom: 1.25rem;
+}
+
+/* h2 — terminal comment style: // SECTION */
+.blog-prose h2 {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  font-weight: 400;
+  margin: 2.5rem 0 0.875rem;
+  text-transform: uppercase;
+  color: #16a34a;
+}
+html.dark .blog-prose h2 {
+  color: #4ade80;
+}
+
+/* h3 — subdued label */
+.blog-prose h3 {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  font-weight: 400;
+  margin: 1.75rem 0 0.625rem;
+  color: #4b5563;
+}
+html.dark .blog-prose h3 {
+  color: #6b7280;
+}
+
+/* Inline code */
+.blog-prose code {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #16a34a;
+  font-family: 'Courier New', Courier, monospace;
+}
+html.dark .blog-prose code {
+  background: #111;
+  border-color: #1f2937;
+  color: #4ade80;
+}
+
+/* Code blocks */
+.blog-prose pre {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 16px 20px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+html.dark .blog-prose pre {
+  background: #111;
+  border-color: #1f2937;
+}
+
+.blog-prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: #374151;
+}
+html.dark .blog-prose pre code {
+  color: #d1d5db;
+}
+
+/* Links */
+.blog-prose a {
+  color: #16a34a;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+html.dark .blog-prose a {
+  color: #4ade80;
+}
+.blog-prose a:hover {
+  opacity: 0.75;
+}
+
+/* Unordered list — ▸ bullets */
+.blog-prose ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.25rem;
+}
+.blog-prose ul li {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 6px;
+}
+.blog-prose ul li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  font-size: 10px;
+  top: 2px;
+  color: #16a34a;
+}
+html.dark .blog-prose ul li::before {
+  color: #4ade80;
+}
+
+/* Ordered list */
+.blog-prose ol {
+  padding-left: 20px;
+  margin-bottom: 1.25rem;
+  counter-reset: ol-counter;
+  list-style: none;
+}
+.blog-prose ol li {
+  counter-increment: ol-counter;
+  position: relative;
+  padding-left: 4px;
+  margin-bottom: 6px;
+}
+.blog-prose ol li::before {
+  content: counter(ol-counter) ".";
+  position: absolute;
+  left: -20px;
+  font-size: 11px;
+  color: #16a34a;
+}
+html.dark .blog-prose ol li::before {
+  color: #4ade80;
+}
+
+/* Blockquote */
+.blog-prose blockquote {
+  border-left: 2px solid #d1d5db;
+  padding-left: 16px;
+  font-style: italic;
+  margin: 1.5rem 0;
+  color: #9ca3af;
+}
+html.dark .blog-prose blockquote {
+  border-left-color: #1f2937;
+  color: #6b7280;
+}
+
+/* Horizontal rule inside prose */
+.blog-prose hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 2rem 0;
+}
+html.dark .blog-prose hr {
+  border-top-color: #1f2937;
+}
+
+/* Bold */
+.blog-prose strong {
+  font-weight: 500;
+  color: #111827;
+}
+html.dark .blog-prose strong {
+  color: #e5e7eb;
+}
+
+/* Italic */
+.blog-prose em {
+  font-style: italic;
+  color: #6b7280;
+}
+html.dark .blog-prose em {
+  color: #9ca3af;
 }
