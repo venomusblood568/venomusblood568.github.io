@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Header from "../components/header";
 import Link from "next/link";
 import { slugify } from "../lib/slugify";
+import HexBackground from "../components/Hexbackground";
 
 type Post = {
   title: string;
@@ -141,6 +142,9 @@ export default function Blog() {
       className="min-h-screen flex flex-col transition-colors duration-300"
       style={{ backgroundColor: bg }}
     >
+      {/* ✅ HexBackground — fixed: position:fixed so it sits behind everything */}
+      <HexBackground accentColor={accent} isDark={isDark} />
+
       <Header />
 
       <main className="flex justify-center px-4 pt-36 pb-24 sm:px-10 md:px-16 lg:px-32">
@@ -154,9 +158,11 @@ export default function Blog() {
               $ ls ./blog
             </p>
 
+            {/* ✅ Fixed: removed conflicting inline opacity:0.08 that was
+                overriding the animation and keeping the h1 nearly invisible */}
             <h1
               className="text-4xl sm:text-5xl font-normal mb-4 leading-tight opacity-0 animate-[fadeup_0.5s_ease_0.5s_forwards]"
-              style={{ color: textPri, opacity: 0.08, letterSpacing: "-2px" }}
+              style={{ color: textPri, letterSpacing: "-2px" }}
             >
               BLOG
             </h1>

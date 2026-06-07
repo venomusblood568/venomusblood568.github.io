@@ -10,18 +10,8 @@ type Project = {
   live?: string;
   badge?: string;
   active?: boolean;
+  span?: "wide" | "tall" | "normal";
 };
-
-// const WIP: Project[] = [
-//   {
-//     title: "Hound",
-//     desc: "Lean, developer-friendly monitoring platform that automatically checks websites/APIs, provides insights, and alerts owners in real-time.",
-//     github: "https://github.com/venomusblood568/hound",
-//     live: "#",
-//     badge: "LATEST",
-//     active: true,
-//   },
-// ];
 
 const WEBSITES: Project[] = [
   {
@@ -29,6 +19,9 @@ const WEBSITES: Project[] = [
     desc: "Space to store and organize thoughts, inspiration and knowledge.",
     github: "https://github.com/venomusblood568/Neuron-front-end",
     live: "https://neuron-duck.vercel.app/",
+    badge: "FEATURED",
+    active: true,
+    span: "wide",
   },
   {
     title: "Hue",
@@ -71,9 +64,22 @@ const PYTHON: Project[] = [
 
 const EXTENSIONS: Project[] = [
   {
+    title: "Dash",
+    desc: "Keyboard-first browser launcher for instant navigation.",
+    github: "https://github.com/venomusblood568/dash",
+    badge: "FEATURED",
+    active: true,
+    span: "wide",
+  },
+  {
     title: "Link Vault",
     desc: "Save and organize all your links for later visits.",
     github: "https://github.com/venomusblood568/linkvault",
+  },
+  {
+    title: "Infohub",
+    desc: "Save and reuse frequently typed text snippets.",
+    github: "https://github.com/venomusblood568/Infohub",
   },
   {
     title: "Hyper Flow",
@@ -85,11 +91,6 @@ const EXTENSIONS: Project[] = [
     desc: "Random Bhagavad Gita verse with one click — daily spiritual insight.",
     github: "https://github.com/venomusblood568/Project5/tree/main/GitaVerses",
   },
-  {
-    title: "Infohub",
-    desc: "Save and reuse frequently typed text snippets.",
-    github: "https://github.com/venomusblood568/Infohub",
-  },
 ];
 
 const LEARNING: Project[] = [
@@ -97,6 +98,7 @@ const LEARNING: Project[] = [
     title: "Paytm Clone",
     desc: "Full-stack clone with user auth, wallet balance tracking, and money transfer.",
     github: "https://github.com/venomusblood568/paytm-clone",
+    span: "wide",
   },
 ];
 
@@ -133,7 +135,9 @@ function FadeSection({
     <div
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+      className={`transition-all duration-700 ${
+        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      }`}
     >
       {children}
     </div>
@@ -144,74 +148,153 @@ function ProjectCard({
   project,
   isDark,
   accent,
+  accentBg,
+  accentBorder,
   textMid,
   textDim,
+  featured = false,
 }: {
   project: Project;
   isDark: boolean;
   accent: string;
+  accentBg: string;
+  accentBorder: string;
   textMid: string;
   textDim: string;
+  featured?: boolean;
 }) {
+  const [hovered, setHovered] = useState(false);
+
   return (
     <div
-      className="rounded-lg p-5 transition-all duration-150 group"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        border: `1px solid ${isDark ? "#1a1a1a" : "#e5e7eb"}`,
-        background: isDark ? "#111" : "#fff",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = isDark
-          ? "#2a2a2a"
-          : "#d1d5db";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = isDark
-          ? "#1a1a1a"
-          : "#e5e7eb";
+        gridColumn: project.span === "wide" ? "span 2" : "span 1",
+        background: featured
+          ? isDark
+            ? "#0a1a0f"
+            : "#f0fdf4"
+          : isDark
+            ? "#111"
+            : "#fff",
+        border: `1px solid ${
+          hovered
+            ? featured
+              ? accentBorder
+              : isDark
+                ? "#2a2a2a"
+                : "#d1d5db"
+            : featured
+              ? accentBorder
+              : isDark
+                ? "#1a1a1a"
+                : "#e5e7eb"
+        }`,
+        borderRadius: "12px",
+        padding: "1.1rem 1.25rem",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        minHeight: "130px",
+        transition: "border-color 0.15s, transform 0.15s",
+        transform: hovered ? "translateY(-1px)" : "none",
+        cursor: "default",
       }}
     >
-      {/* Header */}
-      <div className="flex items-center gap-2.5 mb-2 flex-wrap">
-        <span
-          className="text-sm font-medium transition-colors duration-150 group-hover:opacity-80"
-          style={{ color: isDark ? "#e5e7eb" : "#1f2937" }}
+      {/* Top */}
+      <div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            flexWrap: "wrap",
+            marginBottom: "6px",
+          }}
         >
-          {project.title}
-        </span>
-
-        {project.badge && (
           <span
-            className="text-[9px] tracking-[0.15em] px-2 py-0.5 rounded-full"
             style={{
-              background: isDark ? "#052e16" : "#f0fdf4",
-              border: `1px solid ${isDark ? "#14532d" : "#bbf7d0"}`,
-              color: accent,
+              fontSize: "13px",
+              fontWeight: 500,
+              color: isDark ? "#e5e7eb" : "#111827",
             }}
           >
-            {project.badge}
+            {project.title}
           </span>
-        )}
 
-        {project.active && (
-          <span className="relative flex h-2 w-2 ml-0.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-          </span>
-        )}
+          {project.badge && (
+            <span
+              style={{
+                fontSize: "9px",
+                letterSpacing: "0.12em",
+                padding: "2px 8px",
+                borderRadius: "99px",
+                background: accentBg,
+                border: `1px solid ${accentBorder}`,
+                color: accent,
+              }}
+            >
+              {project.badge}
+            </span>
+          )}
+
+          {project.active && (
+            <span
+              style={{
+                position: "relative",
+                display: "inline-flex",
+                width: 8,
+                height: 8,
+              }}
+            >
+              <span
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  borderRadius: "50%",
+                  background: "#4ade80",
+                  opacity: 0.75,
+                  animation: "ping 1.5s cubic-bezier(0,0,0.2,1) infinite",
+                }}
+              />
+              <span
+                style={{
+                  position: "relative",
+                  borderRadius: "50%",
+                  width: 8,
+                  height: 8,
+                  background: "#22c55e",
+                }}
+              />
+            </span>
+          )}
+        </div>
+
+        <p
+          style={{
+            fontSize: "12px",
+            lineHeight: 1.6,
+            color: textMid,
+            marginBottom: "12px",
+          }}
+        >
+          {project.desc}
+        </p>
       </div>
 
-      <p className="text-xs leading-relaxed mb-4" style={{ color: textMid }}>
-        {project.desc}
-      </p>
-
-      <div className="flex gap-4">
+      {/* Links */}
+      <div style={{ display: "flex", gap: "16px" }}>
         <a
           href={project.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs transition-colors duration-150 hover:opacity-100"
-          style={{ color: textDim }}
+          style={{
+            fontSize: "11px",
+            color: textDim,
+            textDecoration: "none",
+            transition: "color 0.15s",
+          }}
           onMouseEnter={(e) =>
             ((e.currentTarget as HTMLAnchorElement).style.color = accent)
           }
@@ -226,8 +309,12 @@ function ProjectCard({
             href={project.live}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs transition-colors duration-150"
-            style={{ color: textDim }}
+            style={{
+              fontSize: "11px",
+              color: textDim,
+              textDecoration: "none",
+              transition: "color 0.15s",
+            }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLAnchorElement).style.color = accent)
             }
@@ -243,55 +330,72 @@ function ProjectCard({
   );
 }
 
-function Section({
+function BentoSection({
   label,
   projects,
   isDark,
   accent,
+  accentBg,
+  accentBorder,
   textMid,
   textDim,
   divider,
-  grid = false,
 }: {
   label: string;
   projects: Project[];
   isDark: boolean;
   accent: string;
+  accentBg: string;
+  accentBorder: string;
   textMid: string;
   textDim: string;
   divider: string;
-  grid?: boolean;
 }) {
+  const sharedProps = {
+    isDark,
+    accent,
+    accentBg,
+    accentBorder,
+    textMid,
+    textDim,
+  };
+
   return (
     <FadeSection>
-      <section className="mb-12">
+      <section style={{ marginBottom: "2.5rem" }}>
         <p
-          className="text-[10px] tracking-[0.25em] mb-5"
-          style={{ color: accent }}
+          style={{
+            fontSize: "10px",
+            letterSpacing: "0.25em",
+            color: accent,
+            marginBottom: "1rem",
+          }}
         >
           {label}
         </p>
-        <div
-          className={
-            grid
-              ? "grid grid-cols-1 sm:grid-cols-2 gap-3"
-              : "flex flex-col gap-3"
-          }
-        >
-          {projects.map((p) => (
+
+        {/*
+          Bento grid: 2 columns on desktop, 1 column on mobile.
+          "wide" cards span 2 cols on desktop, always full width on mobile.
+          We use a CSS class + a <style> tag injected once.
+        */}
+        <div className="bento-grid">
+          {projects.map((p, i) => (
             <ProjectCard
               key={p.title}
               project={p}
-              isDark={isDark}
-              accent={accent}
-              textMid={textMid}
-              textDim={textDim}
+              featured={i === 0 && p.span === "wide"}
+              {...sharedProps}
             />
           ))}
         </div>
       </section>
+
       <div
-        style={{ borderTop: `1px solid ${divider}`, marginBottom: "3rem" }}
+        style={{
+          borderTop: `1px solid ${divider}`,
+          marginBottom: "2.5rem",
+        }}
       />
     </FadeSection>
   );
@@ -315,40 +419,93 @@ export default function Projects() {
   }, []);
 
   const accent = isDark ? "#4ade80" : "#16a34a";
-  const bg = isDark ? "#0a0a0a" : "#f9fafb";
+  const accentBg = isDark ? "#052e16" : "#f0fdf4";
+  const accentBorder = isDark ? "#14532d" : "#bbf7d0";
   const divider = isDark ? "#1f2937" : "#e5e7eb";
   const textPri = isDark ? "#f0f0f0" : "#111827";
   const textMid = isDark ? "#9ca3af" : "#6b7280";
-  const textDim = isDark ? "#374151" : "#9ca3af";
+  const textDim = isDark ? "#4b5563" : "#9ca3af";
 
-  const sharedProps = { isDark, accent, textMid, textDim, divider };
+  const sharedProps = {
+    isDark,
+    accent,
+    accentBg,
+    accentBorder,
+    textMid,
+    textDim,
+    divider,
+  };
 
   return (
-    <div
-      className="min-h-screen flex flex-col transition-colors duration-300"
-      style={{ backgroundColor: bg }}
-    >
+    <div className="min-h-screen flex flex-col transition-colors duration-300">
+      {/* Bento grid responsive styles */}
+      <style>{`
+        @keyframes ping {
+          75%, 100% { transform: scale(2); opacity: 0; }
+        }
+        @keyframes fadeup {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 2-col bento on sm+ screens */
+        .bento-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+        }
+
+        /* On mobile (< 480px): single column, wide cards fill full width */
+        @media (max-width: 479px) {
+          .bento-grid {
+            grid-template-columns: 1fr;
+          }
+          /* Override inline gridColumn: span 2 */
+          .bento-grid > * {
+            grid-column: span 1 !important;
+          }
+        }
+      `}</style>
+
       <Header />
 
       <main className="flex justify-center px-4 pt-36 pb-24 sm:px-10 md:px-16 lg:px-32">
         <div className="w-full max-w-3xl font-mono">
           {/* Hero */}
-          <section className="mb-16">
+          <section style={{ marginBottom: "3.5rem" }}>
             <p
-              className="text-sm mb-4 opacity-0 animate-[fadeup_0.4s_ease_0.2s_forwards]"
-              style={{ color: accent }}
+              style={{
+                fontSize: "13px",
+                color: accent,
+                marginBottom: "1rem",
+                opacity: 0,
+                animation: "fadeup 0.4s ease 0.2s forwards",
+              }}
             >
               $ ls ./projects
             </p>
             <h1
-              className="text-4xl sm:text-5xl font-normal leading-tight mb-4 opacity-0 animate-[fadeup_0.5s_ease_0.5s_forwards]"
-              style={{ color: textPri }}
+              style={{
+                fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                fontWeight: 400,
+                lineHeight: 1.15,
+                color: textPri,
+                marginBottom: "1rem",
+                opacity: 0,
+                animation: "fadeup 0.5s ease 0.5s forwards",
+              }}
             >
               Projects
             </h1>
             <p
-              className="text-sm leading-relaxed max-w-lg opacity-0 animate-[fadeup_0.5s_ease_0.8s_forwards]"
-              style={{ color: textMid }}
+              style={{
+                fontSize: "13px",
+                lineHeight: 1.7,
+                maxWidth: "440px",
+                color: textMid,
+                opacity: 0,
+                animation: "fadeup 0.5s ease 0.8s forwards",
+              }}
             >
               A collection of things I&apos;ve built or currently maintain —
               across web, Python, and browser tools.
@@ -356,22 +513,31 @@ export default function Projects() {
           </section>
 
           <div
-            style={{ borderTop: `1px solid ${divider}`, marginBottom: "3rem" }}
+            style={{
+              borderTop: `1px solid ${divider}`,
+              marginBottom: "2.5rem",
+            }}
           />
 
-          {/* <Section label="// WIP" projects={WIP} {...sharedProps} /> */}
-          <Section label="// WEBSITES" projects={WEBSITES} {...sharedProps} />
-          <Section label="// PYTHON" projects={PYTHON} {...sharedProps} grid />
-          <Section
+          <BentoSection
+            label="// WEBSITES"
+            projects={WEBSITES}
+            {...sharedProps}
+          />
+          <BentoSection label="// PYTHON" projects={PYTHON} {...sharedProps} />
+          <BentoSection
             label="// CHROME EXTENSIONS"
             projects={EXTENSIONS}
             {...sharedProps}
-            grid
           />
-          <Section label="// LEARNING" projects={LEARNING} {...sharedProps} />
+          <BentoSection
+            label="// LEARNING"
+            projects={LEARNING}
+            {...sharedProps}
+          />
 
           <FadeSection>
-            <p className="text-xs" style={{ color: textDim }}>
+            <p style={{ fontSize: "12px", color: textDim }}>
               ...and there&apos;s a lot more on the horizon.
             </p>
           </FadeSection>
