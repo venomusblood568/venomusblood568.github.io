@@ -1,7 +1,7 @@
 // app/components/Anilistpage.tsx
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import Header from "./header";
 import { AniListData, AnimeEntry } from "../lib/anilist";
@@ -41,9 +41,7 @@ function FadeSection({
     <div
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ${
-        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-      }`}
+      className={`transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
     >
       {children}
     </div>
@@ -51,6 +49,14 @@ function FadeSection({
 }
 
 // ─── constants ───────────────────────────────────────────────────────────────
+
+const STATUS_ORDER = [
+  "CURRENT",
+  "COMPLETED",
+  "PLANNING",
+  "PAUSED",
+  "DROPPED",
+] as const;
 
 const STATUS_COLOR: Record<string, string> = {
   COMPLETED: "#3b82f6",
@@ -68,13 +74,20 @@ const STATUS_LABEL: Record<string, string> = {
   PLANNING: "Planning",
 };
 
-const STATUS_BADGE: Record<string, string> = {
-  COMPLETED: "text-blue-400 bg-blue-950 border-blue-900",
-  CURRENT: "text-green-400 bg-green-950 border-green-900",
-  PAUSED: "text-yellow-400 bg-yellow-950 border-yellow-900",
-  DROPPED: "text-red-400 bg-red-950 border-red-900",
-  PLANNING: "text-purple-400 bg-purple-950 border-purple-900",
+const STATUS_BADGE_STYLE: Record<string, React.CSSProperties> = {
+  COMPLETED: {
+    color: "#60a5fa",
+    background: "#172554",
+    borderColor: "#1e3a8a",
+  },
+  CURRENT: { color: "#4ade80", background: "#052e16", borderColor: "#14532d" },
+  PAUSED: { color: "#fbbf24", background: "#1c1400", borderColor: "#78350f" },
+  DROPPED: { color: "#f87171", background: "#1c0707", borderColor: "#7f1d1d" },
+  PLANNING: { color: "#c084fc", background: "#1a0533", borderColor: "#581c87" },
 };
+
+const CARD_W = 88; // px — single source of truth for card width
+const CARD_H = 132; // px — 2:3 ratio
 
 // ─── StatCard ────────────────────────────────────────────────────────────────
 
@@ -98,7 +111,6 @@ function StatCard({
   const textPri = isDark ? "#f0f0f0" : "#111827";
   const textMid = isDark ? "#9ca3af" : "#6b7280";
   const barBg = isDark ? "#1f2937" : "#e5e7eb";
-
   return (
     <div
       className="rounded-lg p-4 relative"
@@ -130,224 +142,708 @@ function StatCard({
   );
 }
 
-// ─── tooltip alignment helper ─────────────────────────────────────────────────
+// ─── Mobile bottom sheet ──────────────────────────────────────────────────────
 
-type TooltipAlign = "left" | "center" | "right";
+function BottomSheet({
+  entry,
+  onClose,
+}: {
+  entry: AnimeEntry | null;
+  onClose: () => void;
+}) {
+  const [visible, setVisible] = useState(false);
 
-function getTooltipAlign(
-  el: HTMLDivElement | null,
-  tooltipWidth = 210,
-): TooltipAlign {
-  if (!el || typeof window === "undefined") return "center";
-  const rect = el.getBoundingClientRect();
-  const cardCenterX = rect.left + rect.width / 2;
-  const half = tooltipWidth / 2;
+  useEffect(() => {
+    if (entry) {
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => setVisible(true)),
+      );
+    } else {
+      setVisible(false);
+    }
+  }, [entry]);
 
-  if (cardCenterX - half < 8) return "left"; // near left edge
-  if (cardCenterX + half > window.innerWidth - 8) return "right"; // near right edge
-  return "center";
+  useEffect(() => {
+    document.body.style.overflow = entry ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [entry]);
+
+  if (!entry) return null;
+
+  const { anime, score, status } = entry;
+  const statusColor = STATUS_COLOR[status] ?? "#8b5cf6";
+  const badgeStyle = STATUS_BADGE_STYLE[status] ?? {};
+  const displayScore = score > 0 ? score : null;
+
+  function handleClose() {
+    setVisible(false);
+    setTimeout(onClose, 300);
+  }
+
+  return (
+    <>
+      {/* backdrop */}
+      <div
+        onClick={handleClose}
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 40,
+          background: "rgba(0,0,0,0.6)",
+          opacity: visible ? 1 : 0,
+          transition: "opacity 0.3s ease",
+        }}
+      />
+
+      {/* sheet */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          background: "#111",
+          borderRadius: "18px 18px 0 0",
+          borderTop: `1px solid ${statusColor}44`,
+          transform: visible ? "translateY(0)" : "translateY(100%)",
+          transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)",
+          maxHeight: "85vh",
+          overflowY: "auto",
+        }}
+      >
+        {/* drag handle */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "12px 0 6px",
+          }}
+        >
+          <div
+            style={{
+              width: 36,
+              height: 4,
+              borderRadius: 2,
+              background: "#2a2a2a",
+            }}
+          />
+        </div>
+
+        <div style={{ display: "flex", gap: 16, padding: "8px 20px 36px" }}>
+          {/* cover art */}
+          <div
+            style={{
+              width: 96,
+              height: 144,
+              borderRadius: 10,
+              overflow: "hidden",
+              flexShrink: 0,
+              border: `1px solid ${statusColor}55`,
+              position: "relative",
+            }}
+          >
+            {anime.cover && (
+              <Image
+                src={anime.cover}
+                alt={anime.title}
+                fill
+                sizes="96px"
+                className="object-cover"
+              />
+            )}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: 3,
+                background: statusColor,
+              }}
+            />
+          </div>
+
+          {/* info */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p
+              style={{
+                fontSize: 15,
+                fontWeight: 500,
+                color: "#f0f0f0",
+                lineHeight: 1.3,
+                marginBottom: 2,
+              }}
+            >
+              {anime.title}
+            </p>
+            {anime.nativeTitle && (
+              <p style={{ fontSize: 11, color: "#555", marginBottom: 10 }}>
+                {anime.nativeTitle}
+              </p>
+            )}
+
+            <span
+              style={{
+                display: "inline-block",
+                fontSize: 10,
+                padding: "2px 10px",
+                borderRadius: 99,
+                border: "1px solid",
+                marginBottom: 10,
+                ...badgeStyle,
+              }}
+            >
+              {STATUS_LABEL[status] ?? status}
+            </span>
+
+            {anime.genres.length > 0 && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: 4,
+                  flexWrap: "wrap",
+                  marginBottom: 10,
+                }}
+              >
+                {anime.genres.slice(0, 3).map((g) => (
+                  <span
+                    key={g}
+                    style={{
+                      fontSize: 10,
+                      color: "#666",
+                      border: "1px solid #252525",
+                      padding: "1px 6px",
+                      borderRadius: 4,
+                    }}
+                  >
+                    {g}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {displayScore !== null ? (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  marginBottom: 6,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 26,
+                    fontWeight: 500,
+                    color: statusColor,
+                    lineHeight: 1,
+                  }}
+                >
+                  {displayScore}
+                </span>
+                <div>
+                  <div style={{ fontSize: 10, color: "#555" }}>/ 10</div>
+                  {anime.episodes && (
+                    <div style={{ fontSize: 10, color: "#555" }}>
+                      {anime.episodes} eps
+                    </div>
+                  )}
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                    height: 2,
+                    background: "#222",
+                    borderRadius: 2,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      height: "100%",
+                      width: `${displayScore * 10}%`,
+                      background: statusColor,
+                      borderRadius: 2,
+                    }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div style={{ marginBottom: 6 }}>
+                <p style={{ fontSize: 11, color: "#555", fontStyle: "italic" }}>
+                  not started
+                </p>
+                {anime.episodes && (
+                  <p style={{ fontSize: 10, color: "#444", marginTop: 2 }}>
+                    {anime.episodes} eps
+                  </p>
+                )}
+              </div>
+            )}
+
+            {anime.format && (
+              <p style={{ fontSize: 10, color: "#444" }}>
+                {anime.format.replace(/_/g, " ")}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
-function tooltipPositionStyle(align: TooltipAlign): React.CSSProperties {
-  switch (align) {
-    case "left":
-      return { left: 0 };
-    case "right":
-      return { right: 0 };
-    default:
-      return { left: "50%", transform: "translateX(-50%)" };
-  }
+// ─── CardBack — the flipped face shown on PC click ───────────────────────────
+
+function CardBack({ entry }: { entry: AnimeEntry }) {
+  const { anime, score, status } = entry;
+  const statusColor = STATUS_COLOR[status] ?? "#8b5cf6";
+  const displayScore = score > 0 ? score : null;
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        background: "#0f0f0f",
+        border: `1px solid ${statusColor}55`,
+        borderRadius: 8,
+        // flip the back face so it reads correctly when rotated
+        transform: "rotateY(180deg)",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+        position: "absolute",
+        inset: 0,
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+      }}
+    >
+      {/* top status bar */}
+      <div
+        style={{
+          height: 3,
+          background: statusColor,
+          flexShrink: 0,
+        }}
+      />
+
+      <div
+        style={{
+          flex: 1,
+          padding: "7px 8px 7px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          overflow: "hidden",
+          minHeight: 0,
+        }}
+      >
+        <div>
+          {/* title */}
+          <p
+            style={{
+              fontSize: 9,
+              fontWeight: 500,
+              color: "#e0e0e0",
+              lineHeight: 1.3,
+              marginBottom: 2,
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
+            {anime.title}
+          </p>
+
+          {/* native title */}
+          {anime.nativeTitle && (
+            <p
+              style={{
+                fontSize: 8,
+                color: "#2e2e2e",
+                marginBottom: 6,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {anime.nativeTitle}
+            </p>
+          )}
+
+          {/* divider */}
+          <div
+            style={{ height: 0.5, background: "#1c1c1c", marginBottom: 6 }}
+          />
+
+          {/* status dot + label */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+              marginBottom: 6,
+            }}
+          >
+            <span
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                background: statusColor,
+                flexShrink: 0,
+                display: "inline-block",
+              }}
+            />
+            <span
+              style={{
+                fontSize: 8,
+                letterSpacing: "0.1em",
+                color: statusColor,
+                textTransform: "uppercase",
+              }}
+            >
+              {STATUS_LABEL[status] ?? status}
+            </span>
+          </div>
+
+          {/* score */}
+          {displayScore !== null ? (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: 4,
+                  marginBottom: 4,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 500,
+                    color: statusColor,
+                    lineHeight: 1,
+                  }}
+                >
+                  {displayScore}
+                </span>
+                <span style={{ fontSize: 8, color: "#3a3a3a" }}>/ 10</span>
+              </div>
+              <div
+                style={{
+                  height: 2,
+                  background: "#1a1a1a",
+                  borderRadius: 2,
+                  overflow: "hidden",
+                  marginBottom: 6,
+                }}
+              >
+                <div
+                  style={{
+                    height: "100%",
+                    width: `${displayScore * 10}%`,
+                    background: statusColor,
+                    borderRadius: 2,
+                  }}
+                />
+              </div>
+            </>
+          ) : (
+            <p
+              style={{
+                fontSize: 8,
+                color: "#444",
+                fontStyle: "italic",
+                marginBottom: 6,
+              }}
+            >
+              not scored
+            </p>
+          )}
+
+          {/* genres */}
+          {anime.genres.length > 0 && (
+            <div style={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+              {anime.genres.slice(0, 3).map((g) => (
+                <span
+                  key={g}
+                  style={{
+                    fontSize: 7,
+                    color: "#3a3a3a",
+                    border: "1px solid #1c1c1c",
+                    padding: "1px 4px",
+                    borderRadius: 3,
+                  }}
+                >
+                  {g}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* episodes + format footer */}
+        <div style={{ marginTop: "auto", paddingTop: 4 }}>
+          {anime.episodes && (
+            <p style={{ fontSize: 8, color: "#333" }}>{anime.episodes} eps</p>
+          )}
+          {anime.format && (
+            <p style={{ fontSize: 7, color: "#252525", marginTop: 1 }}>
+              {anime.format.replace(/_/g, " ")}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ─── AnimeCard ────────────────────────────────────────────────────────────────
 
 function AnimeCard({
   entry,
-  accent,
   isDark,
+  onTap,
+  isTouch,
 }: {
   entry: AnimeEntry;
-  accent: string;
   isDark: boolean;
+  onTap: (entry: AnimeEntry) => void;
+  isTouch: boolean;
 }) {
-  const [hovered, setHovered] = useState(false);
-  const [tapped, setTapped] = useState(false);
-  const [tooltipAlign, setTooltipAlign] = useState<TooltipAlign>("center");
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const [flipped, setFlipped] = useState(false);
 
   const { anime, score, status } = entry;
   const statusColor = STATUS_COLOR[status] ?? "#8b5cf6";
-  const isOpen = hovered || tapped;
-  const border = isOpen ? accent : isDark ? "#2a2a2a" : "#e5e7eb";
+  const displayScore = score > 0 ? score : null;
 
-  // Recalculate tooltip alignment whenever card opens
-  useEffect(() => {
-    if (isOpen) {
-      setTooltipAlign(getTooltipAlign(wrapRef.current));
+  function handleClick() {
+    if (isTouch) {
+      onTap(entry);
+    } else {
+      setFlipped((v) => !v);
     }
-  }, [isOpen]);
-
-  // Close tapped card when touching outside
-  useEffect(() => {
-    if (!tapped) return;
-    const handler = (e: TouchEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
-        setTapped(false);
-      }
-    };
-    document.addEventListener("touchstart", handler);
-    return () => document.removeEventListener("touchstart", handler);
-  }, [tapped]);
+  }
 
   return (
     <div
-      ref={wrapRef}
-      className="relative rounded-lg overflow-visible cursor-pointer"
+      onClick={handleClick}
       style={{
-        aspectRatio: "2/3",
-        border: `1px solid ${border}`,
-        transition: "border-color 0.15s, transform 0.15s",
-        transform: isOpen ? "scale(1.03)" : "scale(1)",
-        background: isDark ? "#111" : "#f3f4f6",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onTouchEnd={(e) => {
-        e.preventDefault();
-        setTapped((v) => !v);
+        width: CARD_W,
+        height: CARD_H,
+        flexShrink: 0,
+        cursor: "pointer",
+        perspective: 700,
       }}
     >
-      {/* Cover image */}
-      {anime.cover && (
-        <Image
-          src={anime.cover}
-          alt={anime.title}
-          fill
-          sizes="120px"
-          className="object-cover rounded-lg"
-        />
-      )}
-
-      {/* User score badge */}
-      {score > 0 && (
-        <div
-          className="absolute bottom-5 right-1 text-[9px] px-1.5 py-0.5 rounded z-10"
-          style={{
-            background: "rgba(0,0,0,0.85)",
-            border: `1px solid ${accent}`,
-            color: accent,
-          }}
-        >
-          {score}
-        </div>
-      )}
-
-      {/* Status bar */}
+      {/* flip container */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[3px] z-10"
-        style={{ background: statusColor }}
-      />
-
-      {/* ── Tooltip / tap card ── */}
-      {isOpen && (
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "relative",
+          transformStyle: "preserve-3d",
+          transition: "transform 0.52s cubic-bezier(0.4, 0, 0.2, 1)",
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+        }}
+      >
+        {/* ── FRONT ── */}
         <div
-          className="absolute z-50 rounded-xl border"
           style={{
-            bottom: "calc(100% + 8px)",
-            ...tooltipPositionStyle(tooltipAlign),
-            width: 210,
-            background: "#141414",
-            borderColor: tapped ? accent : "#2a2a2a",
-            padding: "10px 12px",
-            pointerEvents: "none",
+            position: "absolute",
+            inset: 0,
+            borderRadius: 8,
+            overflow: "hidden",
+            border: `1px solid ${flipped ? statusColor + "44" : isDark ? "#1e1e1e" : "#e5e7eb"}`,
+            transition: "border-color 0.15s",
+            background: isDark ? "#111" : "#f3f4f6",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
           }}
         >
-          {/* Close hint — visible on mobile only */}
-          <p
-            className="text-[9px] text-right mb-1 sm:hidden"
-            style={{ color: "#555" }}
-          >
-            tap again to close
-          </p>
-
-          <p className="text-sm font-medium text-white leading-snug m-0">
-            {anime.title}
-          </p>
-
-          {anime.nativeTitle && (
-            <p className="text-xs m-0 mb-2" style={{ color: "#555" }}>
-              {anime.nativeTitle}
-            </p>
+          {anime.cover && (
+            <Image
+              src={anime.cover}
+              alt={anime.title}
+              fill
+              sizes={`${CARD_W}px`}
+              className="object-cover"
+            />
           )}
 
-          <div
-            style={{ height: "0.5px", background: "#222", margin: "0 0 8px" }}
-          />
-
-          {/* Status badge + genre tags */}
-          <div className="flex flex-wrap gap-1 mb-2">
-            <span
-              className={`text-xs px-2 py-0.5 rounded-full border ${
-                STATUS_BADGE[status] ??
-                "text-gray-400 bg-gray-900 border-gray-800"
-              }`}
+          {/* score badge */}
+          {displayScore !== null && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 18,
+                right: 3,
+                fontSize: 9,
+                padding: "1px 4px",
+                borderRadius: 3,
+                background: "rgba(0,0,0,0.88)",
+                border: `1px solid ${statusColor}`,
+                color: statusColor,
+                zIndex: 2,
+              }}
             >
-              {STATUS_LABEL[status] ?? status}
-            </span>
-            {anime.genres.slice(0, 2).map((g) => (
-              <span
-                key={g}
-                className="text-xs px-2 py-0.5 rounded-full border"
-                style={{
-                  color: "#888",
-                  background: "#1e1e1e",
-                  borderColor: "#2a2a2a",
-                }}
-              >
-                {g}
-              </span>
-            ))}
-          </div>
-
-          {/* Score */}
-          {(score > 0 || (anime.score && anime.score > 0)) && (
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs" style={{ color: "#555" }}>
-                score
-              </span>
-              <span className="text-sm font-medium text-green-400">
-                {score > 0 ? score : (anime.score! / 10).toFixed(1)}
-              </span>
-              <div
-                className="flex-1 rounded-full"
-                style={{ height: 3, background: "#222" }}
-              >
-                <div
-                  className="rounded-full bg-green-400"
-                  style={{
-                    height: 3,
-                    width: `${score > 0 ? score * 10 : anime.score}%`,
-                  }}
-                />
-              </div>
+              {displayScore}
             </div>
           )}
 
-          {/* Format + episode count */}
-          <div className="flex justify-between mt-1">
-            {anime.format && (
-              <span className="text-xs" style={{ color: "#555" }}>
-                {anime.format.replace(/_/g, " ")}
-              </span>
-            )}
-            {anime.episodes && (
-              <span className="text-xs" style={{ color: "#555" }}>
-                {anime.episodes} eps
-              </span>
-            )}
-          </div>
+          {/* status bar */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 3,
+              background: statusColor,
+              zIndex: 2,
+            }}
+          />
+
+          {/* flip hint — subtle indicator on front */}
+          {!flipped && (
+            <div
+              style={{
+                position: "absolute",
+                top: 4,
+                right: 4,
+                width: 14,
+                height: 14,
+                borderRadius: "50%",
+                background: "rgba(0,0,0,0.55)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 3,
+              }}
+            >
+              <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                <path
+                  d="M1 4.5C1 4.5 1.5 2 4 2C6 2 7 3.5 7 3.5M7 3.5L5.5 3M7 3.5L7 2"
+                  stroke={statusColor}
+                  strokeWidth="0.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          )}
         </div>
-      )}
+
+        {/* ── BACK ── */}
+        <CardBack entry={entry} />
+      </div>
+    </div>
+  );
+}
+
+// ─── GalleryGroup ─────────────────────────────────────────────────────────────
+
+function GalleryGroup({
+  status,
+  entries,
+  isDark,
+  defaultOpen,
+  onTap,
+  isTouch,
+}: {
+  status: string;
+  entries: AnimeEntry[];
+  isDark: boolean;
+  defaultOpen: boolean;
+  onTap: (entry: AnimeEntry) => void;
+  isTouch: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  const color = STATUS_COLOR[status] ?? "#8b5cf6";
+  const label = STATUS_LABEL[status] ?? status;
+  const textMid = isDark ? "#9ca3af" : "#6b7280";
+  const borderCol = isDark ? "#1f2937" : "#e5e7eb";
+
+  if (entries.length === 0) return null;
+
+  return (
+    <div className="mb-8">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-2 w-full text-left mb-4"
+        style={{
+          background: "none",
+          border: "none",
+          padding: 0,
+          cursor: "pointer",
+        }}
+      >
+        <span
+          className="inline-block w-2 h-2 rounded-full flex-shrink-0"
+          style={{ background: color }}
+        />
+        <span
+          className="text-[10px] tracking-[0.2em] uppercase"
+          style={{ color }}
+        >
+          {label}
+        </span>
+        <span
+          className="text-[10px] px-2 py-0.5 rounded-full"
+          style={{
+            background: isDark ? "#1a1a1a" : "#f3f4f6",
+            border: `1px solid ${borderCol}`,
+            color: textMid,
+          }}
+        >
+          {entries.length}
+        </span>
+        <span
+          className="ml-auto text-xs transition-transform duration-200"
+          style={{
+            color: textMid,
+            transform: open ? "rotate(0deg)" : "rotate(-90deg)",
+            display: "inline-block",
+          }}
+        >
+          ▾
+        </span>
+      </button>
+
+      <div
+        style={{
+          overflow: open ? "visible" : "hidden",
+          maxHeight: open ? "none" : 0,
+          opacity: open ? 1 : 0,
+          transition: "opacity 0.25s",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 8,
+          }}
+        >
+          {entries.map((entry) => (
+            <AnimeCard
+              key={entry.anime.id}
+              entry={entry}
+              isDark={isDark}
+              onTap={onTap}
+              isTouch={isTouch}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6" style={{ borderTop: `1px solid ${borderCol}` }} />
     </div>
   );
 }
@@ -356,6 +852,16 @@ function AnimeCard({
 
 export default function AniListPage({ data }: { data: AniListData }) {
   const [isDark, setIsDark] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
+  const [sheetEntry, setSheetEntry] = useState<AnimeEntry | null>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    setIsTouch(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsTouch(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -374,7 +880,6 @@ export default function AniListPage({ data }: { data: AniListData }) {
   const st = user.statistics.anime;
 
   const accent = isDark ? "#4ade80" : "#16a34a";
-  // const bg = isDark ? "#0a0a0a" : "#f9fafb";
   const divider = isDark ? "#1f2937" : "#e5e7eb";
   const textPri = isDark ? "#f0f0f0" : "#111827";
   const textMid = isDark ? "#9ca3af" : "#6b7280";
@@ -393,19 +898,28 @@ export default function AniListPage({ data }: { data: AniListData }) {
     return true;
   });
 
+  const grouped = STATUS_ORDER.map((status) => ({
+    status,
+    entries: uniqueAnime.filter((e) => e.status === status),
+  }));
+
   const completed = animeList.filter((e) => e.status === "COMPLETED").length;
   const watching = animeList.filter((e) => e.status === "CURRENT").length;
   const planning = animeList.filter((e) => e.status === "PLANNING").length;
 
+  const handleTap = useCallback(
+    (entry: AnimeEntry) => setSheetEntry(entry),
+    [],
+  );
+  const handleClose = useCallback(() => setSheetEntry(null), []);
+
   return (
-    <div
-      className="min-h-screen flex flex-col transition-colors duration-300 font-mono"
-    >
+    <div className="min-h-screen flex flex-col transition-colors duration-300 font-mono">
       <Header />
 
       <main className="flex justify-center px-4 pt-36 pb-24 sm:px-10 md:px-16 lg:px-32">
         <div className="w-full max-w-3xl">
-          {/* ── Hero ─────────────────────────────────────────── */}
+          {/* ── Hero ── */}
           <section className="mb-16">
             <p
               className="text-sm mb-5 opacity-0 animate-[fadeup_0.4s_ease_0.2s_forwards]"
@@ -413,7 +927,6 @@ export default function AniListPage({ data }: { data: AniListData }) {
             >
               $ ls ./anime
             </p>
-
             <div className="flex items-center gap-5 mb-6 opacity-0 animate-[fadeup_0.5s_ease_0.5s_forwards]">
               <div className="relative flex-shrink-0">
                 <Image
@@ -429,7 +942,6 @@ export default function AniListPage({ data }: { data: AniListData }) {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
                 </span>
               </div>
-
               <div>
                 <h1
                   className="text-3xl sm:text-4xl font-normal leading-tight"
@@ -442,7 +954,6 @@ export default function AniListPage({ data }: { data: AniListData }) {
                 </p>
               </div>
             </div>
-
             <p
               className="text-sm leading-relaxed max-w-lg opacity-0 animate-[fadeup_0.5s_ease_0.8s_forwards]"
               style={{ color: textMid }}
@@ -468,7 +979,7 @@ export default function AniListPage({ data }: { data: AniListData }) {
             className="mb-12"
           />
 
-          {/* ── Stats ────────────────────────────────────────── */}
+          {/* ── Stats ── */}
           <FadeSection>
             <section className="mb-12">
               <p
@@ -491,7 +1002,6 @@ export default function AniListPage({ data }: { data: AniListData }) {
                   barPct={(hoursWatched / 5000) * 100}
                   accent={accent}
                   isDark={isDark}
-                  
                 />
                 <StatCard
                   value={st.meanScore || "—"}
@@ -527,7 +1037,7 @@ export default function AniListPage({ data }: { data: AniListData }) {
             className="mb-12"
           />
 
-          {/* ── Genre Overview ───────────────────────────────── */}
+          {/* ── Genre Overview ── */}
           <FadeSection delay={50}>
             <section className="mb-12">
               <p
@@ -562,62 +1072,42 @@ export default function AniListPage({ data }: { data: AniListData }) {
             className="mb-12"
           />
 
-          {/* ── Cover Gallery ────────────────────────────────── */}
+          {/* ── Cover Gallery ── */}
           <FadeSection delay={80}>
             <section className="mb-12">
               <p
-                className="text-[10px] tracking-[0.25em] mb-5"
+                className="text-[10px] tracking-[0.25em] mb-2"
                 style={{ color: accent }}
               >
                 {"// COVER GALLERY"}
               </p>
-
-              {/* legend */}
-              <div className="flex flex-wrap gap-3 mb-5">
-                {Object.entries(STATUS_LABEL).map(([key, label]) => (
-                  <div key={key} className="flex items-center gap-1.5">
-                    <span
-                      className="inline-block w-2 h-2 rounded-sm flex-shrink-0"
-                      style={{ background: STATUS_COLOR[key] }}
-                    />
-                    <span className="text-[10px]" style={{ color: textMid }}>
-                      {label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* grid */}
-              <div
-                className="grid gap-2"
-                style={{
-                  gridTemplateColumns: "repeat(auto-fill, minmax(88px, 1fr))",
-                }}
-              >
-                {uniqueAnime.map((entry) => (
-                  <AnimeCard
-                    key={entry.anime.id}
-                    entry={entry}
-                    accent={accent}
-                    isDark={isDark}
-                  />
-                ))}
-              </div>
-
-              {/* hint — shows "hover" on desktop, "tap" on mobile */}
-              <p
-                className="text-xs mt-4"
-                style={{ color: isDark ? "#4b5563" : "#9ca3af" }}
-              >
+              <p className="text-xs mb-8" style={{ color: textMid }}>
                 {uniqueAnime.length} titles ·{" "}
-                <span className="hidden sm:inline">hover</span>
-                <span className="sm:hidden">tap</span> for details · colored bar
-                = status
+                <span className="hidden sm:inline">
+                  click to flip for details
+                </span>
+                <span className="sm:hidden">tap for details</span> · click a
+                section to collapse
               </p>
+
+              {grouped.map(({ status, entries }) => (
+                <GalleryGroup
+                  key={status}
+                  status={status}
+                  entries={entries}
+                  isDark={isDark}
+                  defaultOpen={status === "CURRENT" || status === "COMPLETED"}
+                  onTap={handleTap}
+                  isTouch={isTouch}
+                />
+              ))}
             </section>
           </FadeSection>
         </div>
       </main>
+
+      {/* mobile bottom sheet — rendered at root so it overlays everything */}
+      <BottomSheet entry={sheetEntry} onClose={handleClose} />
     </div>
   );
 }
