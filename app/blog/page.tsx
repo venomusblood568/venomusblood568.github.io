@@ -50,6 +50,12 @@ const posts: Post[] = [
     readTime: "3 min",
     year: 2026,
   },
+  {
+    title: "I Was Reopening the Same 7 Websites Every Day",
+    date: "Jun 14, 2026",
+    readTime: "2 min",
+    year: 2026,
+  },
 ];
 
 function useInView(threshold = 0.15) {
