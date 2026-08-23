@@ -33,193 +33,6 @@ html.dark ::-webkit-scrollbar-thumb { background: #2a2a2a; }
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-/* ─────────────────────────────────────────────
-   Add these rules to your existing globals.css
-   ───────────────────────────────────────────── */
-
-/* ── Slow pulse for blog ✦ icon ── */
-@keyframes slow-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
-}
-.slow-pulse {
-  animation: slow-pulse 2.5s ease-in-out infinite;
-}
-
-/* ── Blog post prose styles ──────────────────────────────────── */
-
-.blog-prose p {
-  margin-bottom: 1.25rem;
-}
-
-/* h2 → terminal comment style matching // SECTION headers */
-.blog-prose h2 {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  color: #4ade80;
-  font-weight: 400;
-  margin: 2.5rem 0 0.875rem;
-  text-transform: uppercase;
-}
-html:not(.dark) .blog-prose h2 {
-  color: #16a34a;
-}
-
-/* h3 → slightly larger, muted green */
-.blog-prose h3 {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 12px;
-  letter-spacing: 0.15em;
-  color: #6b7280;
-  font-weight: 400;
-  margin: 1.75rem 0 0.625rem;
-}
-html:not(.dark) .blog-prose h3 {
-  color: #374151;
-}
-
-/* inline code */
-.blog-prose code {
-  background: #111;
-  border: 1px solid #1f2937;
-  padding: 1px 6px;
-  border-radius: 3px;
-  font-size: 12px;
-  color: #4ade80;
-  font-family: 'Courier New', Courier, monospace;
-}
-html:not(.dark) .blog-prose code {
-  background: #f0fdf4;
-  border-color: #bbf7d0;
-  color: #16a34a;
-}
-
-/* code blocks */
-.blog-prose pre {
-  background: #111;
-  border: 1px solid #1f2937;
-  padding: 16px 20px;
-  border-radius: 6px;
-  overflow-x: auto;
-  margin: 1.5rem 0;
-}
-html:not(.dark) .blog-prose pre {
-  background: #f9fafb;
-  border-color: #e5e7eb;
-}
-.blog-prose pre code {
-  background: none;
-  border: none;
-  padding: 0;
-  color: #d1d5db;
-  font-size: 12px;
-}
-html:not(.dark) .blog-prose pre code {
-  color: #374151;
-}
-
-/* links */
-.blog-prose a {
-  color: #4ade80;
-  text-decoration: none;
-  transition: opacity 0.15s;
-}
-html:not(.dark) .blog-prose a {
-  color: #16a34a;
-}
-.blog-prose a:hover {
-  opacity: 0.75;
-}
-
-/* unordered list → ▸ bullets matching experience section */
-.blog-prose ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 1.25rem;
-}
-.blog-prose ul li {
-  padding-left: 20px;
-  position: relative;
-  margin-bottom: 6px;
-}
-.blog-prose ul li::before {
-  content: '▸';
-  color: #4ade80;
-  position: absolute;
-  left: 0;
-  font-size: 10px;
-  top: 2px;
-}
-html:not(.dark) .blog-prose ul li::before {
-  color: #16a34a;
-}
-
-/* ordered list */
-.blog-prose ol {
-  padding-left: 20px;
-  margin-bottom: 1.25rem;
-  counter-reset: ol-counter;
-  list-style: none;
-}
-.blog-prose ol li {
-  counter-increment: ol-counter;
-  position: relative;
-  padding-left: 4px;
-  margin-bottom: 6px;
-}
-.blog-prose ol li::before {
-  content: counter(ol-counter) ".";
-  color: #4ade80;
-  position: absolute;
-  left: -20px;
-  font-size: 11px;
-}
-html:not(.dark) .blog-prose ol li::before {
-  color: #16a34a;
-}
-
-/* blockquote → left accent border */
-.blog-prose blockquote {
-  border-left: 2px solid #1f2937;
-  padding-left: 16px;
-  font-style: italic;
-  margin: 1.5rem 0;
-  color: #6b7280;
-}
-html:not(.dark) .blog-prose blockquote {
-  border-color: #d1d5db;
-  color: #9ca3af;
-}
-
-/* horizontal rule */
-.blog-prose hr {
-  border: none;
-  border-top: 1px solid #1f2937;
-  margin: 2rem 0;
-}
-html:not(.dark) .blog-prose hr {
-  border-color: #e5e7eb;
-}
-
-/* strong / bold */
-.blog-prose strong {
-  color: #e5e7eb;
-  font-weight: 500;
-}
-html:not(.dark) .blog-prose strong {
-  color: #111827;
-}
-
-/* em / italic */
-.blog-prose em {
-  color: #9ca3af;
-  font-style: italic;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   Paste everything below into your existing globals.css
-   ═══════════════════════════════════════════════════════════════ */
 
 /* ── Slow pulse for blog ✦ icon ── */
 @keyframes slow-pulse {
@@ -231,11 +44,35 @@ html:not(.dark) .blog-prose strong {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   BLOG POST PAGE — structural tokens
-   Light mode = default, dark mode = html.dark override
+   --blog-* CSS VARIABLES
+   Actual values every var(--blog-x, fallback) resolves to — in this
+   file and in the TSX components (ReadingProgress, TableOfContents,
+   tag pills). Without this block declared, those rules would always
+   silently fall back to their hardcoded default in both modes.
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --blog-accent: #16a34a;
+  --blog-title: #111827;
+  --blog-tag-border: #bbf7d0;
+  --blog-toc-bg: #ffffff;
+  --blog-toc-border: #e5e7eb;
+  --blog-toc-tick: #e5e7eb;
+  --blog-toc-text: #6b7280;
+}
+html.dark {
+  --blog-accent: #4ade80;
+  --blog-title: #f0f0f0;
+  --blog-tag-border: #1f3d2a;
+  --blog-toc-bg: #0d0f12;
+  --blog-toc-border: #1f2937;
+  --blog-toc-tick: #1f2937;
+  --blog-toc-text: #6b7280;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BLOG PAGE — structural tokens
    ══════════════════════════════════════════════════════════════ */
 
-/* Page background */
 .blog-page {
   background-color: #f9fafb;
 }
@@ -243,7 +80,6 @@ html.dark .blog-page {
   background-color: #0a0a0a;
 }
 
-/* Green accent (breadcrumb, active links) */
 .blog-accent {
   color: #16a34a;
 }
@@ -251,15 +87,22 @@ html.dark .blog-accent {
   color: #4ade80;
 }
 
-/* Back link — dim, not invisible */
+/* Back link — dim resting color, fades to accent green on hover/active.
+   Dark-mode resting color bumped from #374151 to #6b7280: the darker
+   value sat too close to the #0a0a0a page background, so the hover
+   transition to green read as an instant pop instead of a visible fade. */
 .blog-back {
   color: #6b7280;
+  transition: color 200ms ease;
 }
 html.dark .blog-back {
-  color: #374151;
+  color: #6b7280;
+}
+.blog-back:hover,
+.blog-back:active {
+  color: var(--blog-accent);
 }
 
-/* Post title */
 .blog-title {
   color: #111827;
 }
@@ -267,7 +110,6 @@ html.dark .blog-title {
   color: #f0f0f0;
 }
 
-/* Date / meta line */
 .blog-meta {
   color: #6b7280;
 }
@@ -275,7 +117,6 @@ html.dark .blog-meta {
   color: #4b5563;
 }
 
-/* Horizontal rule */
 .blog-divider {
   border: none;
   border-top: 1px solid #e5e7eb;
@@ -284,7 +125,6 @@ html.dark .blog-divider {
   border-top-color: #1f2937;
 }
 
-/* Error / 404 card */
 .blog-card {
   border: 1px solid #e5e7eb;
   background: #ffffff;
@@ -294,7 +134,6 @@ html.dark .blog-card {
   background: #111;
 }
 
-/* Ghost 404 number */
 .blog-ghost-num {
   color: #111827;
   opacity: 0.06;
@@ -304,11 +143,19 @@ html.dark .blog-ghost-num {
   color: #f0f0f0;
 }
 
+.blog-tag-pill {
+  font-size: 10px;
+  color: var(--blog-accent);
+  border: 1px solid var(--blog-tag-border);
+  padding: 3px 9px;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+
 /* ══════════════════════════════════════════════════════════════
    BLOG PROSE — rendered markdown styles
    ══════════════════════════════════════════════════════════════ */
 
-/* Base prose text */
 .blog-prose {
   color: #374151;
 }
@@ -320,31 +167,28 @@ html.dark .blog-prose {
   margin-bottom: 1.25rem;
 }
 
-/* h2 — terminal comment style: // SECTION */
+/* h2 — section heading, larger + light so it anchors each section */
 .blog-prose h2 {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  font-weight: 400;
-  margin: 2.5rem 0 0.875rem;
+  font-size: 20px;
+  color: var(--blog-title);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #16a34a;
-}
-html.dark .blog-prose h2 {
-  color: #4ade80;
+  font-weight: 500;
+  margin: 2.5rem 0 1rem;
 }
 
-/* h3 — subdued label */
+/* h3 — sub-heading, accent colored, smaller than h2 */
 .blog-prose h3 {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 12px;
-  letter-spacing: 0.15em;
-  font-weight: 400;
-  margin: 1.75rem 0 0.625rem;
-  color: #4b5563;
+  font-size: 15px;
+  color: var(--blog-accent);
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  margin: 2rem 0 0.75rem;
 }
-html.dark .blog-prose h3 {
-  color: #6b7280;
+
+.blog-prose h2:first-child,
+.blog-prose h3:first-child {
+  margin-top: 0;
 }
 
 /* Inline code */
@@ -376,7 +220,6 @@ html.dark .blog-prose pre {
   background: #111;
   border-color: #1f2937;
 }
-
 .blog-prose pre code {
   background: none;
   border: none;
@@ -448,17 +291,28 @@ html.dark .blog-prose ol li::before {
   color: #4ade80;
 }
 
-/* Blockquote */
+/* Blockquote — callout style */
 .blog-prose blockquote {
-  border-left: 2px solid #d1d5db;
-  padding-left: 16px;
-  font-style: italic;
-  margin: 1.5rem 0;
-  color: #9ca3af;
+  border-left: 2px solid var(--blog-accent);
+  background: rgba(74, 222, 128, 0.05);
+  padding: 0.85rem 1.1rem;
+  margin: 1.25rem 0;
+  border-radius: 0;
+  font-style: normal;
 }
-html.dark .blog-prose blockquote {
-  border-left-color: #1f2937;
-  color: #6b7280;
+.blog-prose blockquote p {
+  font-size: 13px;
+  color: #d1d5db;
+  margin: 0;
+  line-height: 1.7;
+}
+.blog-prose blockquote::before {
+  content: "// note";
+  display: block;
+  font-size: 10px;
+  color: var(--blog-accent);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
 }
 
 /* Horizontal rule inside prose */
