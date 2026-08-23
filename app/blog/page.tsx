@@ -52,11 +52,46 @@ const posts: Post[] = [
     year: 2026,
   },
   {
+    title: "Intro to Headless UI Architecture",
+    date: "Jan 24, 2026",
+    readTime: "3 min",
+    year: 2026,
+    tags: ["architecture", "frontend", "headless-ui"],
+  },
+  {
+    title: "Headless UI Architecture: One Layer, One Responsibility",
+    date: "Feb 8, 2026",
+    readTime: "4 min",
+    year: 2026,
+    tags: ["architecture", "system-design", "frontend", "react", "typescript"],
+  },
+  {
     title: "I Was Reopening the Same 7 Websites Every Day",
     date: "Jun 14, 2026",
     readTime: "2 min",
     year: 2026,
     tags: ["git", "internals", "devtools"],
+  },
+  {
+    title: "A Random Thought That Removed Four User Steps",
+    date: "Aug 16, 2026",
+    readTime: "2 min",
+    year: 2026,
+    tags: ["product-design", "system-design", "ux", "frontend", "developer"],
+  },
+  {
+    title: "A Problem Deeper Than It Appears",
+    date: "Aug 19, 2026",
+    readTime: "3 min",
+    year: 2026,
+    tags: ["system-design", "product-design", "ux", "architecture"],
+  },
+  {
+    title: "That Looks Sick. Now Make It Work.",
+    date: "Aug 23, 2026",
+    readTime: "4 min",
+    year: 2026,
+    tags: ["ux-design", "product-design", "web-development", "design"],
   },
 ];
 
