@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Header from "../components/header";
 import Link from "next/link";
 import { slugify } from "../lib/slugify";
@@ -11,6 +11,7 @@ type Post = {
   date: string;
   readTime: string;
   year: number;
+  tags?: string[];
 };
 
 const posts: Post[] = [
@@ -55,6 +56,7 @@ const posts: Post[] = [
     date: "Jun 14, 2026",
     readTime: "2 min",
     year: 2026,
+    tags: ["git", "internals", "devtools"],
   },
 ];
 
@@ -104,6 +106,8 @@ function FadeSection({
 
 export default function Blog() {
   const [isDark, setIsDark] = useState(false);
+  const [query, setQuery] = useState("");
+  const [activeTag, setActiveTag] = useState<string | null>(null);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -125,8 +129,27 @@ export default function Blog() {
   const textPri = isDark ? "#f0f0f0" : "#111827";
   const textMid = isDark ? "#9ca3af" : "#6b7280";
   const textDim = isDark ? "#374151" : "#9ca3af";
+  const tagBorder = isDark ? "#1f3d2a" : "#bbf7d0";
+  const inputBorder = isDark ? "#1f2937" : "#e5e7eb";
 
-  const sortedPosts = [...posts].sort(
+  // ✅ All unique tags across posts, for the filter row
+  const allTags = useMemo(() => {
+    const set = new Set<string>();
+    posts.forEach((p) => p.tags?.forEach((t) => set.add(t)));
+    return Array.from(set).sort();
+  }, []);
+
+  // ✅ Filter by title text match (case-insensitive) and/or active tag
+  const filteredPosts = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return posts.filter((post) => {
+      const matchesQuery = q === "" || post.title.toLowerCase().includes(q);
+      const matchesTag = !activeTag || post.tags?.includes(activeTag);
+      return matchesQuery && matchesTag;
+    });
+  }, [query, activeTag]);
+
+  const sortedPosts = [...filteredPosts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
 
@@ -142,6 +165,8 @@ export default function Blog() {
   const years = Object.keys(postsByYear)
     .map(Number)
     .sort((a, b) => b - a);
+
+  const hasActiveFilter = query.trim() !== "" || activeTag !== null;
 
   return (
     <div
@@ -164,8 +189,6 @@ export default function Blog() {
               $ ls ./blog
             </p>
 
-            {/* ✅ Fixed: removed conflicting inline opacity:0.08 that was
-                overriding the animation and keeping the h1 nearly invisible */}
             <h1
               className="text-4xl sm:text-5xl font-normal mb-4 leading-tight opacity-0 animate-[fadeup_0.5s_ease_0.5s_forwards]"
               style={{ color: textPri, letterSpacing: "-2px" }}
@@ -187,11 +210,76 @@ export default function Blog() {
             </p>
           </section>
 
+          {/* ✅ Filter bar: search input + tag pills */}
+          <section className="mb-10">
+            <div
+              className="flex items-center gap-2 px-3 py-2 mb-4 rounded"
+              style={{ border: `1px solid ${inputBorder}` }}
+            >
+              <span className="text-sm flex-shrink-0" style={{ color: accent }}>
+                $ grep
+              </span>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="search posts..."
+                className="text-sm flex-1 bg-transparent outline-none font-mono"
+                style={{ color: textPri }}
+              />
+              {hasActiveFilter && (
+                <button
+                  onClick={() => {
+                    setQuery("");
+                    setActiveTag(null);
+                  }}
+                  className="text-xs flex-shrink-0 transition-opacity duration-150 hover:opacity-70"
+                  style={{ color: textDim }}
+                >
+                  clear ✕
+                </button>
+              )}
+            </div>
+
+            {allTags.length > 0 && (
+              <div className="flex gap-2 flex-wrap">
+                {allTags.map((tag) => {
+                  const isActive = activeTag === tag;
+                  return (
+                    <button
+                      key={tag}
+                      onClick={() => setActiveTag(isActive ? null : tag)}
+                      className="text-[11px] px-2.5 py-1 rounded transition-colors duration-150"
+                      style={{
+                        color: isActive
+                          ? isDark
+                            ? "#0a0a0a"
+                            : "#fff"
+                          : accent,
+                        background: isActive ? accent : "transparent",
+                        border: `1px solid ${isActive ? accent : tagBorder}`,
+                      }}
+                    >
+                      #{tag}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+
           <div
             style={{ borderTop: `1px solid ${divider}`, marginBottom: "3rem" }}
           />
 
           {/* Posts by year */}
+          {years.length === 0 && (
+            <p className="text-sm mb-16" style={{ color: textDim }}>
+              no posts match &quot;{query}&quot;
+              {activeTag ? ` in #${activeTag}` : ""}.
+            </p>
+          )}
+
           {years.map((year, yi) => (
             <FadeSection key={year} delay={yi * 80}>
               <section className="mb-16">
@@ -205,7 +293,7 @@ export default function Blog() {
                 <ul className="flex flex-col">
                   {postsByYear[year].map((post, idx) => {
                     const slug = slugify(post.title);
-                    const isLatest = yi === 0 && idx === 0;
+                    const isLatest = yi === 0 && idx === 0 && !hasActiveFilter;
 
                     return (
                       <li
@@ -216,33 +304,54 @@ export default function Blog() {
                       >
                         <Link
                           href={`/blog/${slug}`}
-                          className="flex items-baseline gap-3 py-3 group"
+                          className="flex flex-col gap-1.5 py-3 group"
                         >
-                          <span
-                            className={`text-xs flex-shrink-0 transition-colors duration-150 ${
-                              isLatest ? "animate-pulse" : ""
-                            }`}
-                            style={{ color: accent }}
-                          >
-                            {isLatest ? "✦" : "▸"}
-                          </span>
-                          <span
-                            className="text-sm flex-1 transition-colors duration-150"
-                            style={{ color: textMid }}
-                          >
+                          <div className="flex items-center gap-3">
                             <span
-                              className="group-hover:text-[var(--accent)] transition-colors duration-150"
-                              style={{ color: isDark ? "#d1d5db" : "#374151" }}
+                              className={`text-xs flex-shrink-0 transition-colors duration-150 ${
+                                isLatest ? "animate-pulse" : ""
+                              }`}
+                              style={{ color: accent }}
                             >
-                              {post.title}
+                              {isLatest ? "✦" : "▸"}
                             </span>
-                          </span>
-                          <time
-                            className="text-xs flex-shrink-0 whitespace-nowrap"
-                            style={{ color: textDim }}
-                          >
-                            {post.date} · {post.readTime}
-                          </time>
+                            <span
+                              className="text-sm flex-1 transition-colors duration-150"
+                              style={{ color: textMid }}
+                            >
+                              <span
+                                className="group-hover:text-[var(--accent)] transition-colors duration-150"
+                                style={{
+                                  color: isDark ? "#d1d5db" : "#374151",
+                                }}
+                              >
+                                {post.title}
+                              </span>
+                            </span>
+                            <time
+                              className="text-xs flex-shrink-0 whitespace-nowrap"
+                              style={{ color: textDim }}
+                            >
+                              {post.date} · {post.readTime}
+                            </time>
+                          </div>
+
+                          {post.tags && post.tags.length > 0 && (
+                            <div className="flex gap-1.5 flex-wrap pl-6">
+                              {post.tags.map((tag) => (
+                                <span
+                                  key={tag}
+                                  className="text-[10px] px-2 py-0.5 rounded"
+                                  style={{
+                                    color: accent,
+                                    border: `1px solid ${tagBorder}`,
+                                  }}
+                                >
+                                  #{tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </Link>
                       </li>
                     );
