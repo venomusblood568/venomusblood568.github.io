@@ -433,13 +433,31 @@ export default function HomePage() {
                                   className="flex items-start gap-2 text-sm"
                                   style={{ color: textMid }}
                                 >
-                                  <span
-                                    className="mt-0.5 shrink-0"
-                                    style={{ color: accent }}
+                                  {/*
+                                    Fixed: was a Unicode "▸" glyph with mt-0.5,
+                                    which never lines up consistently with the
+                                    text baseline across browsers/fonts.
+                                    Replaced with an inline SVG chevron sized
+                                    and offset to sit on the first text line.
+                                  */}
+                                  <svg
+                                    className="shrink-0"
+                                    style={{ marginTop: 6 }}
+                                    width="8"
+                                    height="8"
+                                    viewBox="0 0 8 8"
+                                    fill="none"
+                                    aria-hidden="true"
                                   >
-                                    ▸
-                                  </span>
-                                  {pt}
+                                    <path
+                                      d="M2 1L6 4L2 7"
+                                      stroke={accent}
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                  <span>{pt}</span>
                                 </li>
                               ))}
                             </ul>
