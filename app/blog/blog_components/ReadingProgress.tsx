@@ -93,7 +93,7 @@ export default function ReadingProgress() {
             whiteSpace: "nowrap",
           }}
         >
-          that's it. ✦
+          that&apos;s it. ✦
         </span>
         {/* tail pointing at the dot */}
         <div

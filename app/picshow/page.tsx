@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Header from "../components/header";
 import { UpperIcon } from "../icon/upper";
 import { LeftIcon } from "../icon/left";
@@ -171,37 +171,40 @@ export default function Photo() {
   const openImage = (index: number) => {
     setCurrentImgIndex(index);
     setSelectedImg(shuffledImages[index]);
-    
   };
 
-  //Keyboard naviagtion
-  useEffect(() => {
-    if(currentImgIndex === null) return;
-    const handleKey = (e : KeyboardEvent) => {
-      if(e.key === "ArrowRight") navigateImage("next");
-      if(e.key === "ArrowLeft") navigateImage("prev");
-      if(e.key === "Escape") closeImage(); 
-    }
-    window.addEventListener("keydown",handleKey);
-    return () => window.removeEventListener("keydown",handleKey);
-  },[currentImgIndex]);
-
-  const closeImage = () => {
+  const closeImage = useCallback(() => {
     setCurrentImgIndex(null);
     setSelectedImg(null);
-  };
+  }, []);
 
-  const navigateImage = (direction: "next" | "prev") => {
+  const navigateImage = useCallback(
+    (direction: "next" | "prev") => {
+      if (currentImgIndex === null) return;
+
+      const newIndex =
+        direction === "next"
+          ? (currentImgIndex + 1) % shuffledImages.length
+          : (currentImgIndex - 1 + shuffledImages.length) %
+            shuffledImages.length;
+
+      setCurrentImgIndex(newIndex);
+      setSelectedImg(shuffledImages[newIndex]);
+    },
+    [currentImgIndex, shuffledImages],
+  );
+
+  // Keyboard navigation
+  useEffect(() => {
     if (currentImgIndex === null) return;
-
-    const newIndex =
-      direction === "next"
-        ? (currentImgIndex + 1) % shuffledImages.length
-        : (currentImgIndex - 1 + shuffledImages.length) % shuffledImages.length;
-
-    setCurrentImgIndex(newIndex);
-    setSelectedImg(shuffledImages[newIndex]);
-  };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") navigateImage("next");
+      if (e.key === "ArrowLeft") navigateImage("prev");
+      if (e.key === "Escape") closeImage();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [currentImgIndex, navigateImage, closeImage]);
 
   const FrozenCount = ({ length }: { length: number }) => {
     const [count, setCount] = useState(0);
@@ -284,7 +287,7 @@ export default function Photo() {
           className="fixed bottom-6 right-6 bg-black/80 text-white p-3 rounded-full shadow-xl hover:bg-black transition-all"
           onClick={scrollToTop}
         >
-          <UpperIcon/>
+          <UpperIcon />
         </button>
       )}
 
@@ -301,7 +304,7 @@ export default function Photo() {
               navigateImage("prev");
             }}
           >
-            <LeftIcon/>
+            <LeftIcon />
           </button>
 
           <img
