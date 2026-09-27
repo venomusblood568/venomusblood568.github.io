@@ -64,6 +64,7 @@ export default async function BlogPost({ params }: PageProps) {
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data, content } = matter(fileContents);
     const processedContent = await remark()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .use(remarkSlug as any)
       .use(html)
       .process(content);
