@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ClientBody from "./ClientBody";
+import SiteFooter from "./components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Gourav Anand Jha",
@@ -16,7 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ClientBody>{children}</ClientBody>
+        <ClientBody>
+          {children}
+          <SiteFooter />
+        </ClientBody>
       </body>
     </html>
   );
